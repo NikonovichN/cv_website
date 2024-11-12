@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: const CvAppDarkColorsScheme(),
+        fontFamily: CvAppFonts.robotoFontFamily,
         useMaterial3: true,
       ),
       home: const Scaffold(
