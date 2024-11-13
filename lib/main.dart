@@ -11,16 +11,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
+    return MaterialApp.router(
+      title: 'Mikita Nikanovich',
       theme: ThemeData(
         colorScheme: const CvAppDarkColorsScheme(),
         fontFamily: CvAppFonts.robotoFontFamily,
         useMaterial3: true,
       ),
-      home: const Scaffold(
-        body: Center(child: Text('Test')),
-      ),
+      routerConfig: router,
     );
   }
 }
