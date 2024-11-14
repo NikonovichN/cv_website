@@ -2,21 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'package:go_router/go_router.dart';
 
-import 'package:cv_website/src/features/features.dart';
+import 'paths.dart';
+import 'cv_app_bar.dart';
+import 'state_provider.dart';
+import '../ui_kit/atoms/colors.dart';
+import '../features/features.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
-
-enum RouterPath {
-  welcome("/welcome"),
-  skills("/skills"),
-  experience("/experience"),
-  ;
-
-  const RouterPath(this.path);
-
-  final String path;
-}
 
 final router = GoRouter(
   initialLocation: RouterPath.welcome.path,
@@ -25,7 +18,12 @@ final router = GoRouter(
     ShellRoute(
       navigatorKey: _shellNavigatorKey,
       builder: (context, state, child) {
-        return ScaffoldCvApp(child: child);
+        return GoRouterStateProvider(
+          state: state,
+          child: ScaffoldCvApp(
+            child: child,
+          ),
+        );
       },
       routes: [
         GoRoute(
@@ -59,38 +57,22 @@ class ScaffoldCvApp extends StatelessWidget {
     required this.child,
   });
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const CvAppBar(),
-      body: child,
-    );
-  }
-}
-
-class CvAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CvAppBar({super.key});
-
-  @override
-  Size get preferredSize => const Size(double.infinity, 100);
+  static const _appConstraints = BoxConstraints(maxWidth: 1366.0);
+  static const _appPadding = EdgeInsets.symmetric(horizontal: 40.0);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        TextButton(
-          onPressed: () => context.go(RouterPath.welcome.path),
-          child: const Text('Welcome'),
+    return Container(
+      alignment: Alignment.center,
+      color: CvAppBasicColors.gloomy,
+      padding: _appPadding,
+      child: ConstrainedBox(
+        constraints: _appConstraints,
+        child: Scaffold(
+          appBar: const CvAppBar(),
+          body: child,
         ),
-        TextButton(
-          onPressed: () => context.go(RouterPath.skills.path),
-          child: const Text('Skills'),
-        ),
-        TextButton(
-          onPressed: () => context.go(RouterPath.experience.path),
-          child: const Text('Experience'),
-        ),
-      ],
+      ),
     );
   }
 }
