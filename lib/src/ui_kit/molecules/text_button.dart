@@ -43,6 +43,8 @@ class SvAppTextButton extends StatelessWidget {
       onFocusChange: onFocusChange,
       style: ButtonStyle(
         textStyle: WidgetStateTextStyle.resolveWith(_textStyle),
+        overlayColor: WidgetStateProperty.resolveWith(_overlayColor),
+        foregroundColor: WidgetStateProperty.resolveWith(_foregroundColor),
       ),
       child: child,
     );
@@ -61,5 +63,29 @@ class SvAppTextButton extends StatelessWidget {
     }
 
     return style?.textStyle?.resolve(state) ?? textStyle;
+  }
+
+  Color _overlayColor(Set<WidgetState> state) {
+    if (isActive) {
+      return activeStyle?.overlayColor?.resolve(state) ?? Colors.transparent;
+    }
+
+    if (state.contains(WidgetState.hovered)) {
+      return hoverStyle?.overlayColor?.resolve(state) ?? Colors.transparent;
+    }
+
+    return style?.overlayColor?.resolve(state) ?? Colors.transparent;
+  }
+
+  Color _foregroundColor(Set<WidgetState> state) {
+    if (isActive) {
+      return activeStyle?.foregroundColor?.resolve(state) ?? Colors.transparent;
+    }
+
+    if (state.contains(WidgetState.hovered)) {
+      return hoverStyle?.foregroundColor?.resolve(state) ?? Colors.transparent;
+    }
+
+    return style?.foregroundColor?.resolve(state) ?? Colors.transparent;
   }
 }
