@@ -35,6 +35,9 @@ class $AssetsIconsSvgGen {
   /// File path: assets/icons/svg/gmail.svg
   String get gmail => 'assets/icons/svg/gmail.svg';
 
+  /// File path: assets/icons/svg/heart.svg
+  String get heart => 'assets/icons/svg/heart.svg';
+
   /// File path: assets/icons/svg/linked_in.svg
   String get linkedIn => 'assets/icons/svg/linked_in.svg';
 
@@ -42,7 +45,7 @@ class $AssetsIconsSvgGen {
   String get telegram => 'assets/icons/svg/telegram.svg';
 
   /// List of all assets
-  List<String> get values => [git, gmail, linkedIn, telegram];
+  List<String> get values => [git, gmail, heart, linkedIn, telegram];
 }
 
 class Assets {
