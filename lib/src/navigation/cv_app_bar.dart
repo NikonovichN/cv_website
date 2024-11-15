@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import 'paths.dart';
 import 'state_provider.dart';
-import 'package:cv_website/src/ui_kit/molecules/text_button.dart';
+import '../ui_kit/molecules/molecules.dart';
 
 class CvAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CvAppBar({super.key});
@@ -12,7 +12,7 @@ class CvAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size(double.infinity, 100);
 
-  static const _padding = EdgeInsets.only(top: 60);
+  static const _padding = EdgeInsets.only(top: 40, bottom: 20);
 
   @override
   Widget build(BuildContext context) {
