@@ -41,13 +41,33 @@ class WelcomeScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       const _PhoneText(phone: '+375 (29) 76 71 382'),
                       const SizedBox(height: 8),
                       const _PhoneText(phone: '+375 (44) 73 00 246'),
+                      const SizedBox(height: 20),
                       Row(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          
+                          // TODO: do not forget add real link
+                          CvAppSvgIconButton.primary(
+                            iconPath: Assets.icons.svg.gmail,
+                            onPressed: () {},
+                          ),
+                          CvAppSvgIconButton(
+                            iconPath: Assets.icons.svg.git,
+                            onPressed: () {},
+                          ),
+                          CvAppSvgIconButton.primary(
+                            iconPath: Assets.icons.svg.linkedIn,
+                            onPressed: () {},
+                          ),
+                          CvAppSvgIconButton.primary(
+                            iconPath: Assets.icons.svg.telegram,
+                            onPressed: () {},
+                          ),
                         ],
                       )
                     ],
@@ -74,12 +94,17 @@ class _PhoneText extends StatelessWidget {
 
   const _PhoneText({required this.phone});
 
+  static const _padding = EdgeInsets.only(left: 6.0);
+
   @override
   Widget build(BuildContext context) {
-    return Text(
-      phone,
-      style: CvAppFonts.robotoSmallRegular.copyWith(
-        color: CvAppBasicColors.silverWare,
+    return Padding(
+      padding: _padding,
+      child: Text(
+        phone,
+        style: CvAppFonts.robotoSmallRegular.copyWith(
+          color: CvAppBasicColors.silverWare,
+        ),
       ),
     );
   }
