@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../controller.dart';
 import '../../../../src/src.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -12,80 +13,109 @@ class WelcomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScrollConfiguration(
-      behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: _padding,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                'Welcome!',
-                style: CvAppFonts.header,
-              ),
-              const SizedBox(height: 62.0),
-              const Padding(
-                padding: _descriptionTextPadding,
-                child: Text(
-                  'There are many variations of passages of Lconst orem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',
-                  style: CvAppFonts.robotoRegular,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              const SizedBox(height: 76.0),
-              Assets.images.avatar.image(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const _PhoneText(phone: '+375 (29) 76 71 382'),
-                      const SizedBox(height: 8),
-                      const _PhoneText(phone: '+375 (44) 73 00 246'),
-                      const SizedBox(height: 20),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          // TODO: do not forget add real link
-                          CvAppSvgIconButton.primary(
-                            iconPath: Assets.icons.svg.gmail,
-                            onPressed: () {},
-                          ),
-                          CvAppSvgIconButton(
-                            iconPath: Assets.icons.svg.git,
-                            onPressed: () {},
-                          ),
-                          CvAppSvgIconButton.primary(
-                            iconPath: Assets.icons.svg.linkedIn,
-                            onPressed: () {},
-                          ),
-                          CvAppSvgIconButton.primary(
-                            iconPath: Assets.icons.svg.telegram,
-                            onPressed: () {},
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                  SvgPicture.asset(
-                    Assets.icons.svg.heart,
-                    colorFilter: const ColorFilter.mode(
-                      CvAppBasicColors.buttercup,
-                      BlendMode.srcIn,
+    return StreamBuilder<WelcomeScreenState>(
+        stream: injector(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData || snapshot.data?.error != null) {
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                if (snapshot.data?.error != null)
+                  Text('OOPS, error: ${snapshot.data?.error?.message}'),
+                Center(
+                  child: SizedBox(
+                    width: 180,
+                    child: CvAppButton.primary(
+                      onPressed: injector<WelcomeScreenController>().loadData,
+                      child: const Text('Try again'),
                     ),
                   ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
-    );
+                ),
+              ],
+            );
+          }
+
+          if (snapshot.data!.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          return ScrollConfiguration(
+            behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: _padding,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text(
+                      'Welcome!',
+                      style: CvAppFonts.header,
+                    ),
+                    const SizedBox(height: 62.0),
+                    const Padding(
+                      padding: _descriptionTextPadding,
+                      child: Text(
+                        'There are many variations of passages of Lconst orem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',
+                        style: CvAppFonts.robotoRegular,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    const SizedBox(height: 76.0),
+                    Assets.images.avatar.image(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const _PhoneText(phone: '+375 (29) 76 71 382'),
+                            const SizedBox(height: 8),
+                            const _PhoneText(phone: '+375 (44) 73 00 246'),
+                            const SizedBox(height: 20),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                // TODO: do not forget add real link
+                                CvAppSvgIconButton.primary(
+                                  iconPath: Assets.icons.svg.gmail,
+                                  onPressed: () {},
+                                ),
+                                CvAppSvgIconButton(
+                                  iconPath: Assets.icons.svg.git,
+                                  onPressed: () {},
+                                ),
+                                CvAppSvgIconButton.primary(
+                                  iconPath: Assets.icons.svg.linkedIn,
+                                  onPressed: () {},
+                                ),
+                                CvAppSvgIconButton.primary(
+                                  iconPath: Assets.icons.svg.telegram,
+                                  onPressed: () {},
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                        SvgPicture.asset(
+                          Assets.icons.svg.heart,
+                          colorFilter: const ColorFilter.mode(
+                            CvAppBasicColors.buttercup,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
   }
 }
 

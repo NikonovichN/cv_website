@@ -3,5 +3,6 @@
     "RGBO",
     "Roboto",
     "scrollbars"
-  ]
+  ],
+  "cmake.sourceDirectory": "D:/PROJECTS/Flutter Projects/cv_website/linux"
 }
