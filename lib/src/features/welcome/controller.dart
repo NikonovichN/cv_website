@@ -2,39 +2,45 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 
+import 'dto.dart';
 import 'repository.dart';
-
-class RepositoryError extends Equatable {
-  final String message;
-
-  const RepositoryError({required this.message});
-
-  @override
-  List<Object?> get props => [message];
-}
+import '../../common/errors.dart';
 
 class ScreenData extends Equatable {
-  final String? title;
-  final String? description;
+  final String title;
+  final String description;
+  final String tryAgainLabel;
+  final String phone1;
+  final String phone2;
 
-  const ScreenData({this.title, this.description});
+  const ScreenData({
+    required this.title,
+    required this.description,
+    required this.tryAgainLabel,
+    required this.phone1,
+    required this.phone2,
+  });
 
   @override
-  List<Object?> get props => [title, description];
+  List<Object?> get props => [title, description, tryAgainLabel, phone1, phone2];
 }
 
 class WelcomeScreenState extends Equatable {
   final bool isLoading;
-  final ScreenData? state;
+  final ScreenData? value;
   final RepositoryError? error;
 
-  const WelcomeScreenState({required this.isLoading, this.state, this.error});
+  const WelcomeScreenState({required this.isLoading, this.value, this.error});
 
   @override
-  List<Object?> get props => [isLoading, state, error];
+  List<Object?> get props => [isLoading, value, error];
 
-  WelcomeScreenState copyWith({required bool isLoading, ScreenData? state, RepositoryError? error}) {
-    return WelcomeScreenState(isLoading: isLoading, state: state, error: error);
+  WelcomeScreenState copyWith({
+    required bool isLoading,
+    ScreenData? value,
+    RepositoryError? error,
+  }) {
+    return WelcomeScreenState(isLoading: isLoading, value: value, error: error);
   }
 }
 
@@ -73,12 +79,17 @@ class WelcomeScreenControllerImpl implements WelcomeScreenController {
       return;
     }
 
-    emit(_state.copyWith(isLoading: true, state: null, error: null));
+    emit(_state.copyWith(isLoading: true, value: null, error: null));
 
     try {
-      final state = await _repository.loadData('en');
+      final repositoryData = await _repository.loadData('en');
 
-      emit(_state.copyWith(isLoading: false, state: state));
+      emit(
+        _state.copyWith(
+          isLoading: false,
+          value: repositoryData.toScreenData(),
+        ),
+      );
     } catch (error) {
       emit(_state.copyWith(
         isLoading: false,
@@ -88,4 +99,14 @@ class WelcomeScreenControllerImpl implements WelcomeScreenController {
       ));
     }
   }
+}
+
+extension on WelcomeScreenDTO {
+  ScreenData toScreenData() => ScreenData(
+        description: description,
+        title: title,
+        tryAgainLabel: tryAgainLabel,
+        phone1: phone1,
+        phone2: phone2,
+      );
 }

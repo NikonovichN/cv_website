@@ -1,7 +1,10 @@
 import 'package:firebase_database/firebase_database.dart';
 
+import 'dto.dart';
+import '../../common/errors.dart';
+
 abstract class WelcomeRepository {
-  Future<dynamic> loadData(String language);
+  Future<WelcomeScreenDTO> loadData(String language);
 }
 
 class WelcomeRepositoryImpl implements WelcomeRepository {
@@ -9,10 +12,17 @@ class WelcomeRepositoryImpl implements WelcomeRepository {
 
   const WelcomeRepositoryImpl({required FirebaseDatabase remoteDB}) : _remoteDB = remoteDB;
 
-  @override
-  Future<dynamic> loadData(String language) async {
-    final data = await _remoteDB.ref('welcome_screen').child('/en').get();
+  static const _path = 'welcome-screen';
+  static const _errorEmptyData = 'No data loaded!';
 
-    return Future.value(data);
+  @override
+  Future<WelcomeScreenDTO> loadData(String language) async {
+    final data = await _remoteDB.ref(_path).child('/en').get();
+
+    if (data.exists) {
+      return WelcomeScreenDTO.fromJson(Map<String, dynamic>.from(data.value as Map));
+    }
+
+    throw const RepositoryError(message: '$_path: $_errorEmptyData');
   }
 }

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../controller.dart';
-import '../../../../src/src.dart';
+import 'controller.dart';
+import '../../src.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -16,30 +16,20 @@ class WelcomeScreen extends StatelessWidget {
     return StreamBuilder<WelcomeScreenState>(
         stream: injector(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData || snapshot.data?.error != null) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                if (snapshot.data?.error != null)
-                  Text('OOPS, error: ${snapshot.data?.error?.message}'),
-                Center(
-                  child: SizedBox(
-                    width: 180,
-                    child: CvAppButton.primary(
-                      onPressed: injector<WelcomeScreenController>().loadData,
-                      child: const Text('Try again'),
-                    ),
-                  ),
-                ),
-              ],
+          if (!snapshot.hasData || snapshot.data == null || snapshot.data?.error != null) {
+            return _ErrorState(
+              message: snapshot.data?.error?.message,
+              tryAgainLabel: snapshot.data?.value?.tryAgainLabel,
             );
           }
 
-          if (snapshot.data!.isLoading) {
+          final state = snapshot.data!;
+
+          if (state.isLoading) {
             return const Center(child: CircularProgressIndicator());
           }
+
+          final value = state.value!;
 
           return ScrollConfiguration(
             behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
@@ -50,15 +40,12 @@ class WelcomeScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text(
-                      'Welcome!',
-                      style: CvAppFonts.header,
-                    ),
+                    Text(value.title, style: CvAppFonts.header),
                     const SizedBox(height: 62.0),
-                    const Padding(
+                    Padding(
                       padding: _descriptionTextPadding,
                       child: Text(
-                        'There are many variations of passages of Lconst orem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',
+                        value.description,
                         style: CvAppFonts.robotoRegular,
                         textAlign: TextAlign.center,
                       ),
@@ -73,10 +60,10 @@ class WelcomeScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const _PhoneText(phone: '+375 (29) 76 71 382'),
-                            const SizedBox(height: 8),
-                            const _PhoneText(phone: '+375 (44) 73 00 246'),
-                            const SizedBox(height: 20),
+                            _PhoneText(phone: value.phone1),
+                            const SizedBox(height: 8.0),
+                            _PhoneText(phone: value.phone2),
+                            const SizedBox(height: 20.0),
                             Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -116,6 +103,41 @@ class WelcomeScreen extends StatelessWidget {
             ),
           );
         });
+  }
+}
+
+class _ErrorState extends StatelessWidget {
+  final String? message;
+  final String? tryAgainLabel;
+
+  const _ErrorState({this.message, this.tryAgainLabel});
+
+  static const String _defaultTryAgainLabel = 'Try again!';
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const Spacer(flex: 2),
+        if (message != null) ...[
+          Text(message!, textAlign: TextAlign.center),
+          const SizedBox(height: 40.0),
+        ],
+        Center(
+          child: SizedBox(
+            width: 180,
+            child: CvAppButton.primary(
+              onPressed: injector<WelcomeScreenController>().loadData,
+              child: Text(tryAgainLabel ?? _defaultTryAgainLabel),
+            ),
+          ),
+        ),
+        const Spacer(flex: 3),
+      ],
+    );
   }
 }
 
