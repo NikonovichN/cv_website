@@ -30,7 +30,7 @@ class DependencyInjections {
       CvAppLanguageRepositoryImpl(prefs: injector()),
     );
     injector.registerSingleton<CvAppLanguageController>(
-      CvAppLanguageControllerImpl(repository: injector())..read(),
+      CvAppLanguageControllerImpl(repository: injector()),
     );
   }
 }

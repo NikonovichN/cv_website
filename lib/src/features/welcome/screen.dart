@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'controller.dart';
 import '../../src.dart';
+import 'controller.dart';
+import '../languages/controller.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -114,6 +115,9 @@ class _ErrorState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final welcomeScreenController = injector<WelcomeScreenController>();
+    final languageController = injector<CvAppLanguageController>();
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -128,7 +132,9 @@ class _ErrorState extends StatelessWidget {
           child: SizedBox(
             width: 180,
             child: CvAppButton.primary(
-              onPressed: injector<WelcomeScreenController>().loadData,
+              onPressed: () => welcomeScreenController.loadData(
+                languageController.value.cvAppLanguage.code,
+              ),
               child: Text(tryAgainLabel ?? _defaultTryAgainLabel),
             ),
           ),

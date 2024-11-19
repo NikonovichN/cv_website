@@ -31,10 +31,15 @@ final router = GoRouter(
         GoRoute(
           path: RouterPath.welcome.path,
           pageBuilder: (context, state) {
-            injector<WelcomeScreenController>().loadData();
-
-            return const NoTransitionPage(
-              child: WelcomeScreen(),
+            return NoTransitionPage(
+              child: StreamBuilder<CvAppLanguageState>(
+                stream: injector<CvAppLanguageController>().stream,
+                builder: (context, snapshot) {
+                  injector<WelcomeScreenController>()
+                      .loadData(snapshot.data?.cvAppLanguage.code ?? 'en');
+                  return const WelcomeScreen();
+                },
+              ),
             );
           },
         ),

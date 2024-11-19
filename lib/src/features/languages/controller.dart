@@ -37,7 +37,8 @@ abstract class CvAppLanguageController {
 }
 
 class CvAppLanguageControllerImpl implements CvAppLanguageController {
-  final StreamController<CvAppLanguageState> _controller = StreamController<CvAppLanguageState>();
+  final StreamController<CvAppLanguageState> _controller =
+      StreamController<CvAppLanguageState>.broadcast();
 
   CvAppLanguageState _state = const CvAppLanguageState();
 
