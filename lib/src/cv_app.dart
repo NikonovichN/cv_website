@@ -5,10 +5,12 @@ import 'src.dart';
 class CvApp extends StatelessWidget {
   const CvApp({super.key});
 
+  static const _titleApp = 'Mikita Nikanovich';
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Mikita Nikanovich',
+      title: _titleApp,
       theme: ThemeData(
         colorScheme: const CvAppDarkColorsScheme(),
         fontFamily: CvAppFonts.robotoFontFamily,

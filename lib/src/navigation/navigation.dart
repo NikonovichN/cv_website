@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:go_router/go_router.dart';
 
+import 'package:cv_website/src/di/injections.dart';
+
 import 'paths.dart';
 import 'cv_app_bar.dart';
 import 'state_provider.dart';
@@ -28,9 +30,13 @@ final router = GoRouter(
       routes: [
         GoRoute(
           path: RouterPath.welcome.path,
-          pageBuilder: (context, state) => const NoTransitionPage(
-            child: WelcomeScreen(),
-          ),
+          pageBuilder: (context, state) {
+            injector<WelcomeScreenController>().loadData();
+
+            return const NoTransitionPage(
+              child: WelcomeScreen(),
+            );
+          },
         ),
         GoRoute(
           path: RouterPath.skills.path,

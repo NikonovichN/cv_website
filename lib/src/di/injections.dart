@@ -20,7 +20,7 @@ class DependencyInjections {
 
     injector.registerSingleton<WelcomeRepository>(WelcomeRepositoryImpl(remoteDB: injector()));
     injector.registerSingleton<WelcomeScreenController>(
-      WelcomeScreenControllerImpl(repository: injector())..loadData(),
+      WelcomeScreenControllerImpl(repository: injector()),
     );
     injector.registerSingleton<Stream<WelcomeScreenState>>(
       injector<WelcomeScreenController>().stream,
