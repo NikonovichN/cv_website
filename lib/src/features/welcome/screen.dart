@@ -16,20 +16,18 @@ class WelcomeScreen extends StatelessWidget {
     return StreamBuilder<WelcomeScreenState>(
         stream: injector(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData || snapshot.data == null || snapshot.data?.error != null) {
+          if (!snapshot.hasData || (snapshot.data?.isLoading != null && snapshot.data!.isLoading)) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (snapshot.data?.error != null) {
             return _ErrorState(
               message: snapshot.data?.error?.message,
               tryAgainLabel: snapshot.data?.value?.tryAgainLabel,
             );
           }
 
-          final state = snapshot.data!;
-
-          if (state.isLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          final value = state.value!;
+          final value = snapshot.data!.value!;
 
           return ScrollConfiguration(
             behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
