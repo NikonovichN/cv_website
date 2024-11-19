@@ -40,7 +40,11 @@ class WelcomeScreenState extends Equatable {
     ScreenData? value,
     RepositoryError? error,
   }) {
-    return WelcomeScreenState(isLoading: isLoading, value: value, error: error);
+    return WelcomeScreenState(
+      isLoading: isLoading,
+      value: value ?? this.value,
+      error: error ?? this.error,
+    );
   }
 }
 
