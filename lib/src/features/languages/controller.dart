@@ -5,20 +5,20 @@ import 'package:equatable/equatable.dart';
 import 'repository.dart';
 
 class CvAppLanguage extends Equatable {
+  static const String defaultLanguage = 'en';
+
   final String code;
 
-  const CvAppLanguage({required this.code});
+  const CvAppLanguage({this.code = defaultLanguage});
 
   @override
   List<Object?> get props => [code];
 }
 
 class CvAppLanguageState extends Equatable {
-  static const _defaultAppLanguage = CvAppLanguage(code: 'en');
-
   final CvAppLanguage cvAppLanguage;
 
-  const CvAppLanguageState({this.cvAppLanguage = _defaultAppLanguage});
+  const CvAppLanguageState({this.cvAppLanguage = const CvAppLanguage()});
 
   @override
   List<Object?> get props => [cvAppLanguage];
@@ -46,7 +46,9 @@ class CvAppLanguageControllerImpl implements CvAppLanguageController {
 
   CvAppLanguageControllerImpl({
     required CvAppLanguageRepository repository,
-  }) : _repository = repository;
+  }) : _repository = repository {
+    read();
+  }
 
   @override
   Stream<CvAppLanguageState> get stream => _controller.stream;
@@ -60,13 +62,18 @@ class CvAppLanguageControllerImpl implements CvAppLanguageController {
   }
 
   @override
-  void read() => emit(
-        _state.copyWith(
-          cvAppLanguage: CvAppLanguage(
-            code: _repository.read(),
-          ),
-        ),
-      );
+  void read() {
+    final savedCode = _repository.read();
+    emit(
+      _state.copyWith(
+        cvAppLanguage: savedCode != null
+            ? CvAppLanguage(
+                code: savedCode,
+              )
+            : null,
+      ),
+    );
+  }
 
   @override
   Future<void> save(String languageCode) async {

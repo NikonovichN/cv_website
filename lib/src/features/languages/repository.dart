@@ -1,7 +1,7 @@
 import 'package:cv_website/src/managers/shared_preferences.dart';
 
 abstract class CvAppLanguageRepository {
-  String read();
+  String? read();
   Future<void> save(String language);
 }
 
@@ -11,10 +11,9 @@ class CvAppLanguageRepositoryImpl implements CvAppLanguageRepository {
   const CvAppLanguageRepositoryImpl({required SharedPreferencesManager prefs}) : _prefs = prefs;
 
   static const String _key = 'cv_app_language';
-  static const String _defaultLanguage = 'en';
 
   @override
-  String read() => _prefs.readString(_key) ?? _defaultLanguage;
+  String? read() => _prefs.readString(_key);
 
   @override
   Future<void> save(String language) async {

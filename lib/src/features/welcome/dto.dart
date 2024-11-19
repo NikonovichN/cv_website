@@ -28,7 +28,4 @@ class WelcomeScreenDTO {
   factory WelcomeScreenDTO.fromJson(Map<String, dynamic> json) => _$WelcomeScreenDTOFromJson(json);
 
   Map<String, dynamic> toJson() => _$WelcomeScreenDTOToJson(this);
-
-
-  
 }

@@ -13,7 +13,7 @@ class ChooseLanguage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<CvAppLanguageState>(
-      initialData: const CvAppLanguageState(),
+      initialData: injector<CvAppLanguageController>().value,
       stream: injector<CvAppLanguageController>().stream,
       builder: (context, snapshot) {
         return Row(

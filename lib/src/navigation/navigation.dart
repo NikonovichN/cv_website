@@ -35,8 +35,10 @@ final router = GoRouter(
               child: StreamBuilder<CvAppLanguageState>(
                 stream: injector<CvAppLanguageController>().stream,
                 builder: (context, snapshot) {
-                  injector<WelcomeScreenController>()
-                      .loadData(snapshot.data?.cvAppLanguage.code ?? 'en');
+                  final lang = snapshot.data?.cvAppLanguage.code ??
+                      injector<CvAppLanguageController>().value.cvAppLanguage.code;
+                  injector<WelcomeScreenController>().loadData(lang);
+
                   return const WelcomeScreen();
                 },
               ),
