@@ -25,5 +25,12 @@ class DependencyInjections {
     injector.registerSingleton<Stream<WelcomeScreenState>>(
       injector<WelcomeScreenController>().stream,
     );
+
+    injector.registerSingleton<CvAppLanguageRepository>(
+      CvAppLanguageRepositoryImpl(prefs: injector()),
+    );
+    injector.registerSingleton<CvAppLanguageController>(
+      CvAppLanguageControllerImpl(repository: injector())..read(),
+    );
   }
 }

@@ -30,15 +30,14 @@ class CvAppLanguageState extends Equatable {
 }
 
 abstract class CvAppLanguageController {
-  void load();
+  void read();
   Future<void> save(String languageCode);
   Stream<CvAppLanguageState> get stream;
   CvAppLanguageState get value;
 }
 
 class CvAppLanguageControllerImpl implements CvAppLanguageController {
-  final StreamController<CvAppLanguageState> _controller =
-      StreamController<CvAppLanguageState>.broadcast();
+  final StreamController<CvAppLanguageState> _controller = StreamController<CvAppLanguageState>();
 
   CvAppLanguageState _state = const CvAppLanguageState();
 
@@ -60,17 +59,21 @@ class CvAppLanguageControllerImpl implements CvAppLanguageController {
   }
 
   @override
-  void load() {
-    final data = _repository.load();
-    emit(_state.copyWith(cvAppLanguage: CvAppLanguage(code: data)));
-  }
+  void read() => emit(
+        _state.copyWith(
+          cvAppLanguage: CvAppLanguage(
+            code: _repository.read(),
+          ),
+        ),
+      );
 
   @override
   Future<void> save(String languageCode) async {
     try {
       await _repository.save(languageCode);
+      read();
       // TODO: to think about handle this case
       // ignore: empty_catches
-    } catch (error) {}
+    } catch (_) {}
   }
 }
