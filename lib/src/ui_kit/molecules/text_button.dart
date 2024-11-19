@@ -35,6 +35,17 @@ class SvAppTextButton extends StatelessWidget {
         hoverStyle = menuHoverButtonStyle,
         activeStyle = menuActiveButtonStyle;
 
+  SvAppTextButton.link({
+    super.key,
+    this.onPressed,
+    required this.child,
+    this.onHover,
+    this.onFocusChange,
+    required this.isActive,
+  })  : style = linkButtonStyle,
+        hoverStyle = linkHoverButtonStyle,
+        activeStyle = linkActiveButtonStyle;
+
   @override
   Widget build(BuildContext context) {
     return TextButton(
@@ -42,50 +53,73 @@ class SvAppTextButton extends StatelessWidget {
       onHover: onHover,
       onFocusChange: onFocusChange,
       style: ButtonStyle(
-        textStyle: WidgetStateTextStyle.resolveWith(_textStyle),
+        textStyle: WidgetStateProperty.resolveWith(_textStyle),
         overlayColor: WidgetStateProperty.resolveWith(_overlayColor),
         foregroundColor: WidgetStateProperty.resolveWith(_foregroundColor),
+        padding: WidgetStateProperty.resolveWith(_padding),
+        minimumSize: WidgetStateProperty.resolveWith(_minimumSize),
       ),
       child: child,
     );
   }
 
-  // TODO: to think about better solution with resolver
-  TextStyle _textStyle(Set<WidgetState> state) {
-    TextStyle textStyle = const TextStyle();
-
+  TextStyle? _textStyle(Set<WidgetState> state) {
     if (isActive) {
-      return activeStyle?.textStyle?.resolve(state) ?? textStyle;
+      return activeStyle?.textStyle?.resolve(state);
     }
 
     if (state.contains(WidgetState.hovered)) {
-      return hoverStyle?.textStyle?.resolve(state) ?? textStyle;
+      return hoverStyle?.textStyle?.resolve(state);
     }
 
-    return style?.textStyle?.resolve(state) ?? textStyle;
+    return style?.textStyle?.resolve(state);
   }
 
-  Color _overlayColor(Set<WidgetState> state) {
+  Color? _overlayColor(Set<WidgetState> state) {
     if (isActive) {
-      return activeStyle?.overlayColor?.resolve(state) ?? Colors.transparent;
+      return activeStyle?.overlayColor?.resolve(state);
     }
 
     if (state.contains(WidgetState.hovered)) {
-      return hoverStyle?.overlayColor?.resolve(state) ?? Colors.transparent;
+      return hoverStyle?.overlayColor?.resolve(state);
     }
 
-    return style?.overlayColor?.resolve(state) ?? Colors.transparent;
+    return style?.overlayColor?.resolve(state);
   }
 
-  Color _foregroundColor(Set<WidgetState> state) {
+  Color? _foregroundColor(Set<WidgetState> state) {
     if (isActive) {
-      return activeStyle?.foregroundColor?.resolve(state) ?? Colors.transparent;
+      return activeStyle?.foregroundColor?.resolve(state);
     }
 
     if (state.contains(WidgetState.hovered)) {
-      return hoverStyle?.foregroundColor?.resolve(state) ?? Colors.transparent;
+      return hoverStyle?.foregroundColor?.resolve(state);
     }
 
-    return style?.foregroundColor?.resolve(state) ?? Colors.transparent;
+    return style?.foregroundColor?.resolve(state);
+  }
+
+  EdgeInsetsGeometry? _padding(Set<WidgetState> state) {
+    if (isActive) {
+      return activeStyle?.padding?.resolve(state);
+    }
+
+    if (state.contains(WidgetState.hovered)) {
+      return hoverStyle?.padding?.resolve(state);
+    }
+
+    return style?.padding?.resolve(state);
+  }
+
+  Size? _minimumSize(Set<WidgetState> state) {
+    if (isActive) {
+      return activeStyle?.minimumSize?.resolve(state);
+    }
+
+    if (state.contains(WidgetState.hovered)) {
+      return hoverStyle?.minimumSize?.resolve(state);
+    }
+
+    return style?.minimumSize?.resolve(state);
   }
 }
