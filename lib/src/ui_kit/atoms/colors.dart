@@ -11,6 +11,12 @@ class CvAppBasicColors {
   static const greenLight = Color.fromRGBO(178, 199, 137, 1.0);
   static const softGrey = Color.fromRGBO(221, 222, 222, 1.0);
   static const acid = Color.fromRGBO(175, 206, 17, 1.0);
+
+  static const buttonBackgroundPrimaryEnabled = buttercup;
+  static const buttonBackgroundPrimaryPressed = buttercupLight;
+  static const buttonBackgroundDisabled = silverWare;
+  static const buttonLabelPrimary = gloomy;
+  static const buttonLabelDisabled = buttercupLight;
 }
 
 class CvAppDarkColorsScheme extends ColorScheme {

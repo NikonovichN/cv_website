@@ -1,24 +1,15 @@
 import 'package:flutter/material.dart';
 
+import 'package:firebase_core/firebase_core.dart';
+
 import 'src/src.dart';
+import 'src/cv_app.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+import 'firebase_options.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+void main() async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await DependencyInjections.registerDependencies();
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'Mikita Nikanovich',
-      theme: ThemeData(
-        colorScheme: const CvAppDarkColorsScheme(),
-        fontFamily: CvAppFonts.robotoFontFamily,
-        useMaterial3: true,
-      ),
-      routerConfig: router,
-    );
-  }
+  runApp(const CvApp());
 }

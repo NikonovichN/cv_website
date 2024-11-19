@@ -38,4 +38,10 @@ class CvAppFonts {
     fontFamily: oswaldFontFamily,
     fontWeight: FontWeight.bold,
   );
+
+  static const TextStyle primaryButton = TextStyle(
+    fontSize: 16,
+    fontFamily: oswaldFontFamily,
+    fontWeight: FontWeight.w400,
+  );
 }
