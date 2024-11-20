@@ -13,24 +13,41 @@ class DependencyInjections {
   const DependencyInjections._();
 
   static Future<void> registerDependencies() async {
+    /// Stuff
     injector.registerSingleton<FirebaseDatabase>(initializeFirebaseDatabase());
     injector.registerSingleton<SharedPreferencesManager>(
       SharedPreferencesManagerImpl(prefs: await SharedPreferences.getInstance()),
     );
 
+    /// Repositories
+    injector.registerSingleton<MenuRepository>(MenuRepositoryImpl(remoteDB: injector()));
     injector.registerSingleton<WelcomeRepository>(WelcomeRepositoryImpl(remoteDB: injector()));
+    injector.registerSingleton<CvAppLanguageRepository>(
+      CvAppLanguageRepositoryImpl(prefs: injector()),
+    );
+
+    /// Controllers
+    injector
+        .registerSingleton<CvAppMenuController>(CvAppMenuControllerImpl(repository: injector()));
     injector.registerSingleton<WelcomeScreenController>(
       WelcomeScreenControllerImpl(repository: injector()),
+    );
+    injector.registerSingleton<CvAppLanguageController>(
+      CvAppLanguageControllerImpl(repository: injector()),
+    );
+
+    /// Other
+    injector.registerSingleton<Stream<CvAppLanguageState>>(
+      injector<CvAppLanguageController>().stream,
+    );
+    injector.registerSingleton<CvAppLanguageState>(
+      injector<CvAppLanguageController>().value,
     );
     injector.registerSingleton<Stream<WelcomeScreenState>>(
       injector<WelcomeScreenController>().stream,
     );
-
-    injector.registerSingleton<CvAppLanguageRepository>(
-      CvAppLanguageRepositoryImpl(prefs: injector()),
-    );
-    injector.registerSingleton<CvAppLanguageController>(
-      CvAppLanguageControllerImpl(repository: injector()),
+    injector.registerSingleton<Stream<CvAppMenuState>>(
+      injector<CvAppMenuController>().stream,
     );
   }
 }

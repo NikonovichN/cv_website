@@ -6,3 +6,6 @@ export 'welcome/repository.dart';
 export 'languages/repository.dart';
 export 'languages/controller.dart';
 export 'languages/widget.dart';
+export 'menu/controller.dart';
+export 'menu/repository.dart';
+export 'menu/cv_app_bar.dart';

@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:go_router/go_router.dart';
 
-import 'package:cv_website/src/di/injections.dart';
-
 import 'paths.dart';
-import 'cv_app_bar.dart';
 import 'state_provider.dart';
-import '../ui_kit/atoms/colors.dart';
+import '../cv_app_scaffold.dart';
 import '../features/features.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -30,20 +27,9 @@ final router = GoRouter(
       routes: [
         GoRoute(
           path: RouterPath.welcome.path,
-          pageBuilder: (context, state) {
-            return NoTransitionPage(
-              child: StreamBuilder<CvAppLanguageState>(
-                stream: injector<CvAppLanguageController>().stream,
-                builder: (context, snapshot) {
-                  final lang = snapshot.data?.cvAppLanguage.code ??
-                      injector<CvAppLanguageController>().value.cvAppLanguage.code;
-                  injector<WelcomeScreenController>().loadData(lang);
-
-                  return const WelcomeScreen();
-                },
-              ),
-            );
-          },
+          pageBuilder: (context, state) => const NoTransitionPage(
+            child: WelcomeScreen(),
+          ),
         ),
         GoRoute(
           path: RouterPath.skills.path,
@@ -61,31 +47,3 @@ final router = GoRouter(
     ),
   ],
 );
-
-class ScaffoldCvApp extends StatelessWidget {
-  final Widget child;
-
-  const ScaffoldCvApp({
-    super.key,
-    required this.child,
-  });
-
-  static const _appConstraints = BoxConstraints(maxWidth: 1366.0);
-  static const _appPadding = EdgeInsets.symmetric(horizontal: 40.0);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      color: CvAppBasicColors.gloomy,
-      padding: _appPadding,
-      child: ConstrainedBox(
-        constraints: _appConstraints,
-        child: Scaffold(
-          appBar: const CvAppBar(),
-          body: child,
-        ),
-      ),
-    );
-  }
-}

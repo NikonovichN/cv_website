@@ -1,3 +1,7 @@
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:html' as html;
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
@@ -132,9 +136,15 @@ class _ErrorState extends StatelessWidget {
           child: SizedBox(
             width: 180,
             child: CvAppButton.primary(
-              onPressed: () => welcomeScreenController.loadData(
-                languageController.value.cvAppLanguage.code,
-              ),
+              onPressed: () {
+                if (kIsWeb) {
+                  html.window.location.reload();
+                } else {
+                  welcomeScreenController.loadData(
+                    languageController.value.cvAppLanguage.code,
+                  );
+                }
+              },
               child: Text(tryAgainLabel ?? _defaultTryAgainLabel),
             ),
           ),
