@@ -6,12 +6,35 @@ import 'dto.dart';
 import 'repository.dart';
 import '../../common/errors.dart';
 
+class SocialLinks extends Equatable {
+  static const defaultTelegram = 'https://t.me/Nikita_Nikonovich';
+  static const defaultLinkedIn = 'https://www.linkedin.com/in/nikita-nikonovich-970828a1';
+  static const defaultGmail = 'mailto:nikonovichnd@gmail.com?subject=Mikita\'s%20site%20subject';
+  static const defaultGitHub = 'https://github.com/NikonovichN?tab=repositories';
+
+  final String telegram;
+  final String linkedIn;
+  final String gmail;
+  final String gitHub;
+
+  const SocialLinks({
+    this.telegram = defaultTelegram,
+    this.linkedIn = defaultLinkedIn,
+    this.gmail = defaultGmail,
+    this.gitHub = defaultGitHub,
+  });
+
+  @override
+  List<Object?> get props => [telegram];
+}
+
 class ScreenData extends Equatable {
   final String title;
   final String description;
   final String tryAgainLabel;
   final String phone1;
   final String phone2;
+  final SocialLinks socialLinks;
 
   const ScreenData({
     required this.title,
@@ -19,6 +42,7 @@ class ScreenData extends Equatable {
     required this.tryAgainLabel,
     required this.phone1,
     required this.phone2,
+    required this.socialLinks,
   });
 
   @override
@@ -27,22 +51,22 @@ class ScreenData extends Equatable {
 
 class WelcomeScreenState extends Equatable {
   final bool isLoading;
-  final ScreenData? value;
+  final ScreenData? screenData;
   final RepositoryError? error;
 
-  const WelcomeScreenState({required this.isLoading, this.value, this.error});
+  const WelcomeScreenState({required this.isLoading, this.screenData, this.error});
 
   @override
-  List<Object?> get props => [isLoading, value, error];
+  List<Object?> get props => [isLoading, screenData, error];
 
   WelcomeScreenState copyWith({
     required bool isLoading,
-    ScreenData? value,
+    ScreenData? screenData,
     RepositoryError? error,
   }) {
     return WelcomeScreenState(
       isLoading: isLoading,
-      value: value ?? this.value,
+      screenData: screenData ?? this.screenData,
       error: error ?? this.error,
     );
   }
@@ -51,7 +75,7 @@ class WelcomeScreenState extends Equatable {
 abstract class WelcomeScreenController {
   Future<void> loadData(String language);
   Stream<WelcomeScreenState> get stream;
-  WelcomeScreenState get value;
+  WelcomeScreenState get state;
 }
 
 class WelcomeScreenControllerImpl implements WelcomeScreenController {
@@ -70,7 +94,7 @@ class WelcomeScreenControllerImpl implements WelcomeScreenController {
   Stream<WelcomeScreenState> get stream => _controller.stream;
 
   @override
-  WelcomeScreenState get value => _state;
+  WelcomeScreenState get state => _state;
 
   void emit(WelcomeScreenState newState) {
     _state = newState;
@@ -79,11 +103,11 @@ class WelcomeScreenControllerImpl implements WelcomeScreenController {
 
   @override
   Future<void> loadData(String language) async {
-    if (value.isLoading) {
+    if (state.isLoading) {
       return;
     }
 
-    emit(_state.copyWith(isLoading: true, value: null, error: null));
+    emit(_state.copyWith(isLoading: true, screenData: null, error: null));
 
     try {
       final repositoryData = await _repository.loadData(language);
@@ -91,7 +115,7 @@ class WelcomeScreenControllerImpl implements WelcomeScreenController {
       emit(
         _state.copyWith(
           isLoading: false,
-          value: repositoryData.toScreenData(),
+          screenData: repositoryData.toScreenData(),
         ),
       );
     } catch (error) {
@@ -107,10 +131,17 @@ class WelcomeScreenControllerImpl implements WelcomeScreenController {
 
 extension on WelcomeScreenDTO {
   ScreenData toScreenData() => ScreenData(
-        description: description,
-        title: title,
-        tryAgainLabel: tryAgainLabel,
-        phone1: phone1,
-        phone2: phone2,
+      description: description,
+      title: title,
+      tryAgainLabel: tryAgainLabel,
+      phone1: phone1,
+      phone2: phone2,
+      socialLinks: SocialLinks()
+      // SocialLinks(
+      //   telegram: socials.telegram,
+      //   gitHub: socials.git,
+      //   linkedIn: socials.linkedIn,
+      //   gmail: socials.gmail,
+      // ),
       );
 }
