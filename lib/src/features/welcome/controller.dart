@@ -40,12 +40,16 @@ class WelcomeScreenState extends Equatable {
     ScreenData? value,
     RepositoryError? error,
   }) {
-    return WelcomeScreenState(isLoading: isLoading, value: value, error: error);
+    return WelcomeScreenState(
+      isLoading: isLoading,
+      value: value ?? this.value,
+      error: error ?? this.error,
+    );
   }
 }
 
 abstract class WelcomeScreenController {
-  Future<void> loadData();
+  Future<void> loadData(String language);
   Stream<WelcomeScreenState> get stream;
   WelcomeScreenState get value;
 }
@@ -74,7 +78,7 @@ class WelcomeScreenControllerImpl implements WelcomeScreenController {
   }
 
   @override
-  Future<void> loadData() async {
+  Future<void> loadData(String language) async {
     if (value.isLoading) {
       return;
     }
@@ -82,7 +86,7 @@ class WelcomeScreenControllerImpl implements WelcomeScreenController {
     emit(_state.copyWith(isLoading: true, value: null, error: null));
 
     try {
-      final repositoryData = await _repository.loadData('en');
+      final repositoryData = await _repository.loadData(language);
 
       emit(
         _state.copyWith(

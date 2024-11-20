@@ -17,7 +17,7 @@ class WelcomeRepositoryImpl implements WelcomeRepository {
 
   @override
   Future<WelcomeScreenDTO> loadData(String language) async {
-    final data = await _remoteDB.ref(_path).child('/en').get();
+    final data = await _remoteDB.ref(_path).child(language).get();
 
     if (data.exists) {
       return WelcomeScreenDTO.fromJson(Map<String, dynamic>.from(data.value as Map));

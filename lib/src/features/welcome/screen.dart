@@ -1,9 +1,14 @@
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:html' as html;
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'controller.dart';
 import '../../src.dart';
+import 'controller.dart';
+import '../languages/controller.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -16,20 +21,18 @@ class WelcomeScreen extends StatelessWidget {
     return StreamBuilder<WelcomeScreenState>(
         stream: injector(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData || snapshot.data == null || snapshot.data?.error != null) {
+          if (!snapshot.hasData || (snapshot.data?.isLoading != null && snapshot.data!.isLoading)) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (snapshot.data?.error != null) {
             return _ErrorState(
               message: snapshot.data?.error?.message,
               tryAgainLabel: snapshot.data?.value?.tryAgainLabel,
             );
           }
 
-          final state = snapshot.data!;
-
-          if (state.isLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          final value = state.value!;
+          final value = snapshot.data!.value!;
 
           return ScrollConfiguration(
             behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
@@ -116,6 +119,9 @@ class _ErrorState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final welcomeScreenController = injector<WelcomeScreenController>();
+    final languageController = injector<CvAppLanguageController>();
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -130,7 +136,15 @@ class _ErrorState extends StatelessWidget {
           child: SizedBox(
             width: 180,
             child: CvAppButton.primary(
-              onPressed: injector<WelcomeScreenController>().loadData,
+              onPressed: () {
+                if (kIsWeb) {
+                  html.window.location.reload();
+                } else {
+                  welcomeScreenController.loadData(
+                    languageController.value.cvAppLanguage.code,
+                  );
+                }
+              },
               child: Text(tryAgainLabel ?? _defaultTryAgainLabel),
             ),
           ),
