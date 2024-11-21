@@ -28,7 +28,9 @@ class SocialLinks extends Equatable {
   List<Object?> get props => [telegram];
 }
 
-class ScreenData extends Equatable {
+class WelcomeScreenData extends Equatable {
+  static const defaultTryAgainLabel = 'Try again!';
+
   final String title;
   final String description;
   final String tryAgainLabel;
@@ -36,10 +38,10 @@ class ScreenData extends Equatable {
   final String phone2;
   final SocialLinks socialLinks;
 
-  const ScreenData({
+  const WelcomeScreenData({
     required this.title,
     required this.description,
-    required this.tryAgainLabel,
+    this.tryAgainLabel = defaultTryAgainLabel,
     required this.phone1,
     required this.phone2,
     required this.socialLinks,
@@ -51,7 +53,7 @@ class ScreenData extends Equatable {
 
 class WelcomeScreenState extends Equatable {
   final bool isLoading;
-  final ScreenData? screenData;
+  final WelcomeScreenData? screenData;
   final RepositoryError? error;
 
   const WelcomeScreenState({required this.isLoading, this.screenData, this.error});
@@ -61,7 +63,7 @@ class WelcomeScreenState extends Equatable {
 
   WelcomeScreenState copyWith({
     required bool isLoading,
-    ScreenData? screenData,
+    WelcomeScreenData? screenData,
     RepositoryError? error,
   }) {
     return WelcomeScreenState(
@@ -130,7 +132,7 @@ class WelcomeScreenControllerImpl implements WelcomeScreenController {
 }
 
 extension on WelcomeScreenDTO {
-  ScreenData toScreenData() => ScreenData(
+  WelcomeScreenData toScreenData() => WelcomeScreenData(
         description: description,
         title: title,
         tryAgainLabel: tryAgainLabel,

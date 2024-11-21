@@ -1,6 +1,8 @@
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
 
+import 'package:cv_website/src/common/errors.dart';
+import 'package:cv_website/src/ui_kit/ui_kit.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -27,9 +29,9 @@ class WelcomeScreen extends StatelessWidget {
           }
 
           if (snapshot.data?.error != null) {
-            return _ErrorState(
-              message: snapshot.data?.error?.message,
-              tryAgainLabel: snapshot.data?.screenData?.tryAgainLabel,
+            return _Error(
+              screenData: snapshot.data!.screenData,
+              error: snapshot.data!.error!,
             );
           }
 
@@ -89,48 +91,29 @@ class WelcomeScreen extends StatelessWidget {
   }
 }
 
-class _ErrorState extends StatelessWidget {
-  final String? message;
-  final String? tryAgainLabel;
+class _Error extends StatelessWidget {
+  final WelcomeScreenData? screenData;
+  final RepositoryError error;
 
-  const _ErrorState({this.message, this.tryAgainLabel});
-
-  static const String _defaultTryAgainLabel = 'Try again!';
+  const _Error({this.screenData, required this.error});
 
   @override
   Widget build(BuildContext context) {
     final welcomeScreenController = injector<WelcomeScreenController>();
     final languageController = injector<CvAppLanguageController>();
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        const Spacer(flex: 2),
-        if (message != null) ...[
-          Text(message!, textAlign: TextAlign.center),
-          const SizedBox(height: 40.0),
-        ],
-        Center(
-          child: SizedBox(
-            width: 180,
-            child: CvAppButton.primary(
-              onPressed: () {
-                if (kIsWeb) {
-                  html.window.location.reload();
-                } else {
-                  welcomeScreenController.loadData(
-                    languageController.value.cvAppLanguage.code,
-                  );
-                }
-              },
-              child: Text(tryAgainLabel ?? _defaultTryAgainLabel),
-            ),
-          ),
-        ),
-        const Spacer(flex: 3),
-      ],
+    return ErrorPlaceholder(
+      message: Text(error.message),
+      onPressed: () {
+        if (kIsWeb) {
+          html.window.location.reload();
+        } else {
+          welcomeScreenController.loadData(
+            languageController.value.cvAppLanguage.code,
+          );
+        }
+      },
+      childButton: Text(screenData?.tryAgainLabel ?? WelcomeScreenData.defaultTryAgainLabel),
     );
   }
 }
