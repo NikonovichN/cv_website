@@ -9,3 +9,5 @@ export 'languages/widget.dart';
 export 'menu/controller.dart';
 export 'menu/repository.dart';
 export 'menu/cv_app_bar.dart';
+export 'skills/controller.dart';
+export 'skills/repository.dart';
