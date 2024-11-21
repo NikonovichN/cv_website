@@ -131,17 +131,16 @@ class WelcomeScreenControllerImpl implements WelcomeScreenController {
 
 extension on WelcomeScreenDTO {
   ScreenData toScreenData() => ScreenData(
-      description: description,
-      title: title,
-      tryAgainLabel: tryAgainLabel,
-      phone1: phone1,
-      phone2: phone2,
-      socialLinks: SocialLinks()
-      // SocialLinks(
-      //   telegram: socials.telegram,
-      //   gitHub: socials.git,
-      //   linkedIn: socials.linkedIn,
-      //   gmail: socials.gmail,
-      // ),
+        description: description,
+        title: title,
+        tryAgainLabel: tryAgainLabel,
+        phone1: phone1,
+        phone2: phone2,
+        socialLinks: SocialLinks(
+          telegram: socials.telegram,
+          gitHub: socials.git,
+          linkedIn: socials.linkedIn,
+          gmail: socials.gmail,
+        ),
       );
 }
