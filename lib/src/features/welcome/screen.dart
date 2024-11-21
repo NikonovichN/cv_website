@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../src.dart';
 import 'controller.dart';
@@ -28,11 +29,11 @@ class WelcomeScreen extends StatelessWidget {
           if (snapshot.data?.error != null) {
             return _ErrorState(
               message: snapshot.data?.error?.message,
-              tryAgainLabel: snapshot.data?.value?.tryAgainLabel,
+              tryAgainLabel: snapshot.data?.screenData?.tryAgainLabel,
             );
           }
 
-          final value = snapshot.data!.value!;
+          final state = snapshot.data!.screenData!;
 
           return ScrollConfiguration(
             behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
@@ -43,12 +44,12 @@ class WelcomeScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(value.title, style: CvAppFonts.header),
+                    Text(state.title, style: CvAppFonts.header),
                     const SizedBox(height: 62.0),
                     Padding(
                       padding: _descriptionTextPadding,
                       child: Text(
-                        value.description,
+                        state.description,
                         style: CvAppFonts.robotoRegular,
                         textAlign: TextAlign.center,
                       ),
@@ -63,32 +64,11 @@ class WelcomeScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            _PhoneText(phone: value.phone1),
+                            _PhoneText(phone: state.phone1),
                             const SizedBox(height: 8.0),
-                            _PhoneText(phone: value.phone2),
+                            _PhoneText(phone: state.phone2),
                             const SizedBox(height: 20.0),
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                // TODO: do not forget add real link
-                                CvAppSvgIconButton.primary(
-                                  iconPath: Assets.icons.svg.gmail,
-                                  onPressed: () {},
-                                ),
-                                CvAppSvgIconButton(
-                                  iconPath: Assets.icons.svg.git,
-                                  onPressed: () {},
-                                ),
-                                CvAppSvgIconButton.primary(
-                                  iconPath: Assets.icons.svg.linkedIn,
-                                  onPressed: () {},
-                                ),
-                                CvAppSvgIconButton.primary(
-                                  iconPath: Assets.icons.svg.telegram,
-                                  onPressed: () {},
-                                ),
-                              ],
-                            )
+                            const _Socials()
                           ],
                         ),
                         SvgPicture.asset(
@@ -164,14 +144,81 @@ class _PhoneText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: _padding,
-      child: Text(
-        phone,
-        style: CvAppFonts.robotoSmallRegular.copyWith(
-          color: CvAppBasicColors.silverWare,
+    return GestureDetector(
+      onTap: () async {
+        try {
+          await launchUrl(Uri.parse('tel:$phone'));
+        } catch (_) {
+          // TODO: to think about handle this case
+        }
+      },
+      child: Padding(
+        padding: _padding,
+        child: Text(
+          phone,
+          style: CvAppFonts.robotoSmallRegular.copyWith(
+            color: CvAppBasicColors.silverWare,
+          ),
         ),
       ),
+    );
+  }
+}
+
+class _Socials extends StatelessWidget {
+  const _Socials();
+
+  static const _defaultSocialLinks = SocialLinks();
+
+  @override
+  Widget build(BuildContext context) {
+    final state =
+        injector<WelcomeScreenController>().state.screenData?.socialLinks ?? _defaultSocialLinks;
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        CvAppSvgIconButton.primary(
+          iconPath: Assets.icons.svg.gmail,
+          onPressed: () async {
+            try {
+              await launchUrl(Uri.parse(state.gmail));
+            } catch (_) {
+              // TODO: to think about handle this case
+            }
+          },
+        ),
+        CvAppSvgIconButton.primary(
+          iconPath: Assets.icons.svg.git,
+          onPressed: () async {
+            try {
+              await launchUrl(Uri.parse(state.gitHub));
+            } catch (_) {
+              // TODO: to think about handle this case
+            }
+          },
+        ),
+        CvAppSvgIconButton.primary(
+          iconPath: Assets.icons.svg.linkedIn,
+          onPressed: () async {
+            try {
+              await launchUrl(Uri.parse(state.linkedIn));
+            } catch (_) {
+              // TODO: to think about handle this case
+            }
+          },
+        ),
+        CvAppSvgIconButton.primary(
+          iconPath: Assets.icons.svg.telegram,
+          onPressed: () async {
+            try {
+              await launchUrl(Uri.parse(state.telegram));
+            } catch (_) {
+              // TODO: to think about handle this case
+            }
+          },
+        ),
+      ],
     );
   }
 }

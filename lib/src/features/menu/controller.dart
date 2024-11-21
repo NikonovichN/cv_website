@@ -55,7 +55,7 @@ class CvAppMenuState extends Equatable {
 abstract class CvAppMenuController {
   Future<void> loadItems(String language);
   Stream<CvAppMenuState> get stream;
-  CvAppMenuState get value;
+  CvAppMenuState get state;
 }
 
 class CvAppMenuControllerImpl implements CvAppMenuController {
@@ -71,7 +71,7 @@ class CvAppMenuControllerImpl implements CvAppMenuController {
   Stream<CvAppMenuState> get stream => _controller.stream;
 
   @override
-  CvAppMenuState get value => _state;
+  CvAppMenuState get state => _state;
 
   void emit(CvAppMenuState newState) {
     _state = newState;
@@ -80,7 +80,7 @@ class CvAppMenuControllerImpl implements CvAppMenuController {
 
   @override
   Future<void> loadItems(String language) async {
-    if (value.isLoading) {
+    if (state.isLoading) {
       return;
     }
 

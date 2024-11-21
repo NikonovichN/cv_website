@@ -44,19 +44,19 @@ class CvAppSvgIconButton extends StatelessWidget {
     );
   }
 
-  Color _overlayColor(Set<WidgetState> state) {
+  Color? _overlayColor(Set<WidgetState> state) {
     if (state.contains(WidgetState.hovered)) {
-      return hoverStyle?.overlayColor?.resolve(state) ?? Colors.transparent;
+      return hoverStyle?.overlayColor?.resolve(state);
     }
 
-    return style?.overlayColor?.resolve(state) ?? Colors.transparent;
+    return style?.overlayColor?.resolve(state);
   }
 
-  Color _foregroundColor(Set<WidgetState> state) {
+  Color? _foregroundColor(Set<WidgetState> state) {
     if (state.contains(WidgetState.hovered)) {
-      return hoverStyle?.foregroundColor?.resolve(state) ?? Colors.transparent;
+      return hoverStyle?.foregroundColor?.resolve(state);
     }
 
-    return style?.foregroundColor?.resolve(state) ?? Colors.transparent;
+    return style?.foregroundColor?.resolve(state);
   }
 }
