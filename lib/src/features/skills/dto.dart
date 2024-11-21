@@ -1,0 +1,32 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'dto.g.dart';
+
+@JsonSerializable()
+class SkillsScreenDTO {
+  final String education;
+
+  @JsonKey(name: 'education-list')
+  final String educationList;
+
+  @JsonKey(name: 'left-rate')
+  final String leftRate;
+
+  @JsonKey(name: 'right-rate')
+  final String rightRate;
+
+  @JsonKey(name: 'rate-list')
+  final String rateList;
+
+  SkillsScreenDTO({
+    required this.education,
+    required this.educationList,
+    required this.leftRate,
+    required this.rightRate,
+    required this.rateList,
+  });
+
+  factory SkillsScreenDTO.fromJson(Map<String, dynamic> json) => _$SkillsScreenDTOFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SkillsScreenDTOToJson(this);
+}
