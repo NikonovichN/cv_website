@@ -7,7 +7,7 @@ class SkillsScreenDTO {
   final String education;
 
   @JsonKey(name: 'education-list')
-  final String educationList;
+  final List<String> educationList;
 
   @JsonKey(name: 'left-rate')
   final String leftRate;
@@ -16,7 +16,7 @@ class SkillsScreenDTO {
   final String rightRate;
 
   @JsonKey(name: 'rate-list')
-  final String rateList;
+  final List<String> rateList;
 
   SkillsScreenDTO({
     required this.education,

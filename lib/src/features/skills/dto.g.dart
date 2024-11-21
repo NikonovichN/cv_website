@@ -9,10 +9,13 @@ part of 'dto.dart';
 SkillsScreenDTO _$SkillsScreenDTOFromJson(Map<String, dynamic> json) =>
     SkillsScreenDTO(
       education: json['education'] as String,
-      educationList: json['education-list'] as String,
+      educationList: (json['education-list'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
       leftRate: json['left-rate'] as String,
       rightRate: json['right-rate'] as String,
-      rateList: json['rate-list'] as String,
+      rateList:
+          (json['rate-list'] as List<dynamic>).map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$SkillsScreenDTOToJson(SkillsScreenDTO instance) =>
