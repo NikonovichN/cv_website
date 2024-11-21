@@ -188,7 +188,7 @@ class _Socials extends StatelessWidget {
             }
           },
         ),
-        CvAppSvgIconButton(
+        CvAppSvgIconButton.primary(
           iconPath: Assets.icons.svg.git,
           onPressed: () async {
             try {
