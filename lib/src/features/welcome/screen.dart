@@ -1,7 +1,6 @@
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
 
-import 'package:cv_website/src/common/errors.dart';
 import 'package:cv_website/src/ui_kit/ui_kit.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -29,10 +28,7 @@ class WelcomeScreen extends StatelessWidget {
           }
 
           if (snapshot.data?.error != null) {
-            return _Error(
-              screenData: snapshot.data!.screenData,
-              error: snapshot.data!.error!,
-            );
+            return const _Error();
           }
 
           final state = snapshot.data!.screenData!;
@@ -92,18 +88,18 @@ class WelcomeScreen extends StatelessWidget {
 }
 
 class _Error extends StatelessWidget {
-  final WelcomeScreenData? screenData;
-  final RepositoryError error;
-
-  const _Error({this.screenData, required this.error});
+  const _Error();
 
   @override
   Widget build(BuildContext context) {
     final welcomeScreenController = injector<WelcomeScreenController>();
+    final welcomeScreenData = welcomeScreenController.state.screenData;
+    final welcomeScreenError = welcomeScreenController.state.error;
+
     final languageController = injector<CvAppLanguageController>();
 
     return ErrorPlaceholder(
-      message: Text(error.message),
+      message: welcomeScreenError != null ? Text(welcomeScreenError.message) : null,
       onPressed: () {
         if (kIsWeb) {
           html.window.location.reload();
@@ -113,7 +109,7 @@ class _Error extends StatelessWidget {
           );
         }
       },
-      childButton: Text(screenData?.tryAgainLabel ?? WelcomeScreenData.defaultTryAgainLabel),
+      childButton: Text(welcomeScreenData?.tryAgainLabel ?? WelcomeScreenData.defaultTryAgainLabel),
     );
   }
 }

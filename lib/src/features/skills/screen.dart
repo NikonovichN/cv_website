@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 
 import 'controller.dart';
 import '../../di/injections.dart';
-import '../../common/errors.dart';
 import '../../ui_kit/ui_kit.dart';
 import '../languages/controller.dart';
 
@@ -23,19 +22,14 @@ class SkillsScreen extends StatelessWidget {
         }
 
         if (snapshot.data?.error != null) {
-          return _Error(
-            screenData: snapshot.data!.screenData,
-            error: snapshot.data!.error!,
-          );
+          return const _Error();
         }
 
         final state = snapshot.data!.screenData!;
 
         return Column(
           children: [
-            Text(state.leftRate),
-            Text(state.rightRate),
-            ...state.rates.map((el) => Text(el.title)),
+            const _RatesKnowledge(),
             Text(state.educationTitle),
             ...state.educationList.map((el) => Text(el)),
           ],
@@ -45,19 +39,36 @@ class SkillsScreen extends StatelessWidget {
   }
 }
 
-class _Error extends StatelessWidget {
-  final SkillsScreenData? screenData;
-  final RepositoryError error;
-
-  const _Error({this.screenData, required this.error});
+class _RatesKnowledge extends StatelessWidget {
+  const _RatesKnowledge();
 
   @override
   Widget build(BuildContext context) {
     final skillsScreenController = injector<SkillsScreenController>();
+    final skillsScreenData = skillsScreenController.state.screenData;
+
+    return skillsScreenData == null
+        ? const SizedBox.shrink()
+        : Stack(
+            children: [
+              Container(),
+            ],
+          );
+  }
+}
+
+class _Error extends StatelessWidget {
+  const _Error();
+
+  @override
+  Widget build(BuildContext context) {
+    final skillsScreenController = injector<SkillsScreenController>();
+    final skillsScreenData = skillsScreenController.state.screenData;
+    final skillsScreenError = skillsScreenController.state.error;
     final languageController = injector<CvAppLanguageController>();
 
     return ErrorPlaceholder(
-      message: Text(error.message),
+      message: skillsScreenError != null ? Text(skillsScreenError.message) : null,
       onPressed: () {
         if (kIsWeb) {
           html.window.location.reload();
@@ -67,7 +78,7 @@ class _Error extends StatelessWidget {
           );
         }
       },
-      childButton: Text(screenData?.tryAgainLabel ?? SkillsScreenData.defaultTryAgainLabel),
+      childButton: Text(skillsScreenData?.tryAgainLabel ?? SkillsScreenData.defaultTryAgainLabel),
     );
   }
 }
