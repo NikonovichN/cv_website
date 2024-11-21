@@ -36,7 +36,14 @@ class SkillsScreenData extends Equatable {
   });
 
   @override
-  List<Object?> get props => [leftRate, rightRate, rates, educationTitle, educationList];
+  List<Object?> get props => [
+        leftRate,
+        rightRate,
+        rates,
+        educationTitle,
+        educationList,
+        tryAgainLabel,
+      ];
 }
 
 class SkillsScreenState extends Equatable {
