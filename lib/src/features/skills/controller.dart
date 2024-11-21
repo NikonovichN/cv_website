@@ -16,19 +16,23 @@ class Rate extends Equatable {
   List<Object?> get props => [title, value];
 }
 
-class ScreenData extends Equatable {
+class SkillsScreenData extends Equatable {
+  static const defaultTryAgainLabel = 'Try again!';
+
   final String leftRate;
   final String rightRate;
   final List<Rate> rates;
   final String educationTitle;
   final List<String> educationList;
+  final String tryAgainLabel;
 
-  const ScreenData({
+  const SkillsScreenData({
     required this.leftRate,
     required this.rightRate,
     required this.rates,
     required this.educationTitle,
     required this.educationList,
+    this.tryAgainLabel = defaultTryAgainLabel,
   });
 
   @override
@@ -37,7 +41,7 @@ class ScreenData extends Equatable {
 
 class SkillsScreenState extends Equatable {
   final bool isLoading;
-  final ScreenData? screenData;
+  final SkillsScreenData? screenData;
   final RepositoryError? error;
 
   const SkillsScreenState({required this.isLoading, this.screenData, this.error});
@@ -47,7 +51,7 @@ class SkillsScreenState extends Equatable {
 
   SkillsScreenState copyWith({
     required bool isLoading,
-    ScreenData? screenData,
+    SkillsScreenData? screenData,
     RepositoryError? error,
   }) {
     return SkillsScreenState(
@@ -116,11 +120,12 @@ class SkillsScreenControllerImpl implements SkillsScreenController {
 }
 
 extension on SkillsScreenDTO {
-  ScreenData get toScreenData => ScreenData(
+  SkillsScreenData get toScreenData => SkillsScreenData(
         leftRate: leftRate,
         rightRate: rightRate,
         educationTitle: education,
         educationList: educationList,
+        tryAgainLabel: tryAgainLabel,
         rates: rateList
             .map((el) => Rate(
                   title: el.split(':')[0],

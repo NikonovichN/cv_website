@@ -18,12 +18,16 @@ class SkillsScreenDTO {
   @JsonKey(name: 'rate-list')
   final List<String> rateList;
 
+  @JsonKey(name: 'try-again-button')
+  final String tryAgainLabel;
+
   SkillsScreenDTO({
     required this.education,
     required this.educationList,
     required this.leftRate,
     required this.rightRate,
     required this.rateList,
+    required this.tryAgainLabel,
   });
 
   factory SkillsScreenDTO.fromJson(Map<String, dynamic> json) => _$SkillsScreenDTOFromJson(json);
