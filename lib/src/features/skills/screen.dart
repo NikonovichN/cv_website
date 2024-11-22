@@ -34,8 +34,8 @@ class SkillsScreen extends StatelessWidget {
               Text(state.title, style: CvAppFonts.header),
               const SizedBox(height: 62.0),
               const _RatesKnowledge(),
-              Text(state.educationTitle),
-              ...state.educationList.map((el) => Text(el)),
+              const SizedBox(height: 100.0),
+              const _Education(),
             ],
           ),
         );
@@ -121,6 +121,41 @@ class _RatesKnowledge extends StatelessWidget {
                 ),
               ],
             ),
+          );
+  }
+}
+
+class _Education extends StatelessWidget {
+  const _Education();
+
+  @override
+  Widget build(BuildContext context) {
+    final skillsScreenController = injector<SkillsScreenController>();
+    final skillsScreenData = skillsScreenController.state.screenData;
+
+    return skillsScreenData == null
+        ? const SizedBox.shrink()
+        : Column(
+            children: [
+              Text(
+                skillsScreenData.educationTitle,
+                textAlign: TextAlign.center,
+                style: CvAppFonts.oswaldSubTitle.copyWith(fontWeight: FontWeight.w400),
+              ),
+              const SizedBox(height: 20.0),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: skillsScreenData.educationList
+                    .map((el) => Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4.0),
+                          child: Text(
+                            el,
+                            style: CvAppFonts.robotoMediumM,
+                          ),
+                        ))
+                    .toList(),
+              )
+            ],
           );
   }
 }
