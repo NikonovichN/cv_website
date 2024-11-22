@@ -36,50 +36,48 @@ class WelcomeScreen extends StatelessWidget {
           return ScrollConfiguration(
             behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
             child: SingleChildScrollView(
-              child: Padding(
-                padding: _padding,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(state.title, style: CvAppFonts.header),
-                    const SizedBox(height: 62.0),
-                    Padding(
-                      padding: _descriptionTextPadding,
-                      child: Text(
-                        state.description,
-                        style: CvAppFonts.robotoRegular,
-                        textAlign: TextAlign.center,
-                      ),
+              padding: _padding,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(state.title, style: CvAppFonts.header),
+                  const SizedBox(height: 62.0),
+                  Padding(
+                    padding: _descriptionTextPadding,
+                    child: Text(
+                      state.description,
+                      style: CvAppFonts.robotoRegular,
+                      textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 76.0),
-                    Assets.images.avatar.image(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            _PhoneText(phone: state.phone1),
-                            const SizedBox(height: 8.0),
-                            _PhoneText(phone: state.phone2),
-                            const SizedBox(height: 20.0),
-                            const _Socials()
-                          ],
+                  ),
+                  const SizedBox(height: 76.0),
+                  Assets.images.avatar.image(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          _PhoneText(phone: state.phone1),
+                          const SizedBox(height: 8.0),
+                          _PhoneText(phone: state.phone2),
+                          const SizedBox(height: 20.0),
+                          const _Socials()
+                        ],
+                      ),
+                      SvgPicture.asset(
+                        Assets.icons.svg.heart,
+                        colorFilter: const ColorFilter.mode(
+                          CvAppBasicColors.buttercup,
+                          BlendMode.srcIn,
                         ),
-                        SvgPicture.asset(
-                          Assets.icons.svg.heart,
-                          colorFilter: const ColorFilter.mode(
-                            CvAppBasicColors.buttercup,
-                            BlendMode.srcIn,
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
+                      ),
+                    ],
+                  )
+                ],
               ),
             ),
           );
