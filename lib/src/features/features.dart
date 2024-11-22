@@ -1,5 +1,5 @@
 export 'experience/ui/screen.dart';
-export 'skills/ui/screen.dart';
+export 'skills/screen.dart';
 export 'welcome/screen.dart';
 export 'welcome/controller.dart';
 export 'welcome/repository.dart';
@@ -9,3 +9,5 @@ export 'languages/widget.dart';
 export 'menu/controller.dart';
 export 'menu/repository.dart';
 export 'menu/cv_app_bar.dart';
+export 'skills/controller.dart';
+export 'skills/repository.dart';
