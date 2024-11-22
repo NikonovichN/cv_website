@@ -27,12 +27,14 @@ class SkillsScreen extends StatelessWidget {
 
         final state = snapshot.data!.screenData!;
 
-        return Column(
-          children: [
-            const _RatesKnowledge(),
-            Text(state.educationTitle),
-            ...state.educationList.map((el) => Text(el)),
-          ],
+        return ScrollScreenConfiguration(
+          child: Column(
+            children: [
+              const _RatesKnowledge(),
+              Text(state.educationTitle),
+              ...state.educationList.map((el) => Text(el)),
+            ],
+          ),
         );
       },
     );

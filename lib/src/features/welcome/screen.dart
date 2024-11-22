@@ -15,73 +15,69 @@ import '../languages/controller.dart';
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
-  static const _padding = EdgeInsets.symmetric(vertical: 20.0);
   static const _descriptionTextPadding = EdgeInsets.symmetric(horizontal: 136.0);
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<WelcomeScreenState>(
-        stream: injector(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData || (snapshot.data?.isLoading != null && snapshot.data!.isLoading)) {
-            return const Center(child: CircularProgressIndicator());
-          }
+      stream: injector(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData || (snapshot.data?.isLoading != null && snapshot.data!.isLoading)) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-          if (snapshot.data?.error != null) {
-            return const _Error();
-          }
+        if (snapshot.data?.error != null) {
+          return const _Error();
+        }
 
-          final state = snapshot.data!.screenData!;
+        final state = snapshot.data!.screenData!;
 
-          return ScrollConfiguration(
-            behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-            child: SingleChildScrollView(
-              padding: _padding,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
+        return ScrollScreenConfiguration(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(state.title, style: CvAppFonts.header),
+              const SizedBox(height: 62.0),
+              Padding(
+                padding: _descriptionTextPadding,
+                child: Text(
+                  state.description,
+                  style: CvAppFonts.robotoRegular,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const SizedBox(height: 76.0),
+              Assets.images.avatar.image(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(state.title, style: CvAppFonts.header),
-                  const SizedBox(height: 62.0),
-                  Padding(
-                    padding: _descriptionTextPadding,
-                    child: Text(
-                      state.description,
-                      style: CvAppFonts.robotoRegular,
-                      textAlign: TextAlign.center,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _PhoneText(phone: state.phone1),
+                      const SizedBox(height: 8.0),
+                      _PhoneText(phone: state.phone2),
+                      const SizedBox(height: 20.0),
+                      const _Socials()
+                    ],
+                  ),
+                  SvgPicture.asset(
+                    Assets.icons.svg.heart,
+                    colorFilter: const ColorFilter.mode(
+                      CvAppBasicColors.buttercup,
+                      BlendMode.srcIn,
                     ),
                   ),
-                  const SizedBox(height: 76.0),
-                  Assets.images.avatar.image(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          _PhoneText(phone: state.phone1),
-                          const SizedBox(height: 8.0),
-                          _PhoneText(phone: state.phone2),
-                          const SizedBox(height: 20.0),
-                          const _Socials()
-                        ],
-                      ),
-                      SvgPicture.asset(
-                        Assets.icons.svg.heart,
-                        colorFilter: const ColorFilter.mode(
-                          CvAppBasicColors.buttercup,
-                          BlendMode.srcIn,
-                        ),
-                      ),
-                    ],
-                  )
                 ],
-              ),
-            ),
-          );
-        });
+              )
+            ],
+          ),
+        );
+      },
+    );
   }
 }
 
