@@ -19,6 +19,12 @@ class CvAppFonts {
     fontWeight: FontWeight.w300,
   );
 
+  static const TextStyle robotoMediumM = TextStyle(
+    fontSize: 20,
+    fontFamily: robotoFontFamily,
+    fontWeight: FontWeight.w400,
+  );
+
   static const TextStyle menu = TextStyle(
     fontSize: 20,
     fontFamily: oswaldFontFamily,
@@ -58,5 +64,11 @@ class CvAppFonts {
     fontSize: 16,
     fontFamily: oswaldFontFamily,
     fontWeight: FontWeight.w400,
+  );
+
+  static const TextStyle oswaldSubTitle = TextStyle(
+    fontSize: 24,
+    fontFamily: oswaldFontFamily,
+    fontWeight: FontWeight.w600,
   );
 }

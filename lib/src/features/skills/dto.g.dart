@@ -8,6 +8,7 @@ part of 'dto.dart';
 
 SkillsScreenDTO _$SkillsScreenDTOFromJson(Map<String, dynamic> json) =>
     SkillsScreenDTO(
+      title: json['title'] as String,
       education: json['education'] as String,
       educationList: (json['education-list'] as List<dynamic>)
           .map((e) => e as String)
@@ -21,6 +22,7 @@ SkillsScreenDTO _$SkillsScreenDTOFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$SkillsScreenDTOToJson(SkillsScreenDTO instance) =>
     <String, dynamic>{
+      'title': instance.title,
       'education': instance.education,
       'education-list': instance.educationList,
       'left-rate': instance.leftRate,

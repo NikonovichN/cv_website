@@ -4,6 +4,8 @@ part 'dto.g.dart';
 
 @JsonSerializable()
 class SkillsScreenDTO {
+  final String title;
+
   final String education;
 
   @JsonKey(name: 'education-list')
@@ -22,6 +24,7 @@ class SkillsScreenDTO {
   final String tryAgainLabel;
 
   SkillsScreenDTO({
+    required this.title,
     required this.education,
     required this.educationList,
     required this.leftRate,

@@ -29,7 +29,10 @@ class SkillsScreen extends StatelessWidget {
 
         return ScrollScreenConfiguration(
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
+              Text(state.title, style: CvAppFonts.header),
+              const SizedBox(height: 62.0),
               const _RatesKnowledge(),
               Text(state.educationTitle),
               ...state.educationList.map((el) => Text(el)),
@@ -44,17 +47,80 @@ class SkillsScreen extends StatelessWidget {
 class _RatesKnowledge extends StatelessWidget {
   const _RatesKnowledge();
 
+  static const _rightPart = .4;
+  static const _padding = EdgeInsets.symmetric(horizontal: 50.0);
+
   @override
   Widget build(BuildContext context) {
     final skillsScreenController = injector<SkillsScreenController>();
     final skillsScreenData = skillsScreenController.state.screenData;
+    final size = MediaQuery.of(context).size;
 
     return skillsScreenData == null
         ? const SizedBox.shrink()
-        : Stack(
-            children: [
-              Container(),
-            ],
+        : Padding(
+            padding: _padding,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 70.0),
+                    ...skillsScreenData.rates.map((el) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Text(el.title.toUpperCase(), style: CvAppFonts.oswaldSubTitle),
+                      );
+                    }),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: size.width * _rightPart,
+                          padding: const EdgeInsets.only(bottom: 16.0),
+                          decoration: const BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(color: CvAppBasicColors.acid),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                skillsScreenData.leftRate,
+                                style: CvAppFonts.robotoMediumM
+                                    .copyWith(color: CvAppBasicColors.greenLight),
+                              ),
+                              Text(
+                                skillsScreenData.rightRate,
+                                style: CvAppFonts.robotoMediumM
+                                    .copyWith(color: CvAppBasicColors.greenLight),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 20.0),
+                    ...skillsScreenData.rates.map((el) {
+                      return Container(
+                        margin: const EdgeInsets.symmetric(vertical: 10.0),
+                        width: size.width * _rightPart * el.value / 100.0,
+                        height: 30.0,
+                        color: CvAppBasicColors.greenLight,
+                      );
+                    }),
+                  ],
+                ),
+              ],
+            ),
           );
   }
 }

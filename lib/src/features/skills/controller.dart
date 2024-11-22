@@ -19,6 +19,7 @@ class Rate extends Equatable {
 class SkillsScreenData extends Equatable {
   static const defaultTryAgainLabel = 'Try again!';
 
+  final String title;
   final String leftRate;
   final String rightRate;
   final List<Rate> rates;
@@ -27,6 +28,7 @@ class SkillsScreenData extends Equatable {
   final String tryAgainLabel;
 
   const SkillsScreenData({
+    required this.title,
     required this.leftRate,
     required this.rightRate,
     required this.rates,
@@ -37,6 +39,7 @@ class SkillsScreenData extends Equatable {
 
   @override
   List<Object?> get props => [
+        title,
         leftRate,
         rightRate,
         rates,
@@ -128,6 +131,7 @@ class SkillsScreenControllerImpl implements SkillsScreenController {
 
 extension on SkillsScreenDTO {
   SkillsScreenData get toScreenData => SkillsScreenData(
+        title: title,
         leftRate: leftRate,
         rightRate: rightRate,
         educationTitle: education,
@@ -138,6 +142,7 @@ extension on SkillsScreenDTO {
                   title: el.split(':')[0],
                   value: int.parse(el.split(':')[1]),
                 ))
-            .toList(),
+            .toList()
+          ..sort((a, b) => b.value - a.value),
       );
 }
