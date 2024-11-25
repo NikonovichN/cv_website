@@ -1,4 +1,4 @@
-export 'experience/ui/screen.dart';
+export 'experience/screen.dart';
 export 'skills/screen.dart';
 export 'welcome/screen.dart';
 export 'welcome/controller.dart';
