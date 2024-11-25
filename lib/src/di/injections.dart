@@ -40,6 +40,9 @@ class DependencyInjections {
     injector.registerSingleton<SkillsScreenController>(
       SkillsScreenControllerImpl(repository: injector()),
     );
+    injector.registerSingleton<ExperienceScreenController>(
+      ExperienceScreenControllerImpl(repository: injector()),
+    );
 
     /// Other
     injector.registerSingleton<Stream<CvAppLanguageState>>(
@@ -56,6 +59,9 @@ class DependencyInjections {
     );
     injector.registerSingleton<Stream<SkillsScreenState>>(
       injector<SkillsScreenController>().stream,
+    );
+    injector.registerSingleton<Stream<ExperienceScreenState>>(
+      injector<ExperienceScreenController>().stream,
     );
   }
 }
