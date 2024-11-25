@@ -9,12 +9,16 @@ class ExperienceScreenDTO {
   @JsonKey(name: 'download-button')
   final String downloadButton;
 
+  @JsonKey(name: 'try-again-button')
+  final String tryAgainButton;
+
   @JsonKey(name: 'experience')
   final List<ExperienceDTO> list;
 
   ExperienceScreenDTO({
     required this.title,
     required this.downloadButton,
+    required this.tryAgainButton,
     required this.list,
   });
 

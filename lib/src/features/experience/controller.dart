@@ -43,18 +43,22 @@ class Experience extends Equatable {
 }
 
 class ExperienceScreenData extends Equatable {
+  static const defaultTryAgainLabel = "Try again!";
+
   final String title;
-  final String downloadButton;
+  final String downloadLabel;
+  final String tryAgainLabel;
   final List<Experience> list;
 
   const ExperienceScreenData({
     required this.title,
-    required this.downloadButton,
+    required this.downloadLabel,
+    required this.tryAgainLabel,
     required this.list,
   });
 
   @override
-  List<Object?> get props => [title, downloadButton, list];
+  List<Object?> get props => [title, downloadLabel, tryAgainLabel, list];
 }
 
 class ExperienceScreenState extends Equatable {
@@ -140,7 +144,8 @@ class ExperienceScreenControllerImpl implements ExperienceScreenController {
 extension on ExperienceScreenDTO {
   ExperienceScreenData get toScreenData => ExperienceScreenData(
         title: title,
-        downloadButton: downloadButton,
+        downloadLabel: downloadButton,
+        tryAgainLabel: tryAgainButton,
         list: list
             .map(
               (place) => Experience(

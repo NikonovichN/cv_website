@@ -10,6 +10,7 @@ ExperienceScreenDTO _$ExperienceScreenDTOFromJson(Map<String, dynamic> json) =>
     ExperienceScreenDTO(
       title: json['title'] as String,
       downloadButton: json['download-button'] as String,
+      tryAgainButton: json['try-again-button'] as String,
       list: (json['experience'] as List<dynamic>)
           .map((e) => ExperienceDTO.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -20,6 +21,7 @@ Map<String, dynamic> _$ExperienceScreenDTOToJson(
     <String, dynamic>{
       'title': instance.title,
       'download-button': instance.downloadButton,
+      'try-again-button': instance.tryAgainButton,
       'experience': instance.list,
     };
 
