@@ -25,6 +25,8 @@ class DependencyInjections {
     injector
         .registerSingleton<CvAppLanguageRepository>(CvAppLanguageRepositoryImpl(prefs: injector()));
     injector.registerSingleton<SkillsRepository>(SkillsRepositoryImpl(remoteDB: injector()));
+    injector
+        .registerSingleton<ExperienceRepository>(ExperienceRepositoryImpl(remoteDB: injector()));
 
     /// Controllers
     injector
