@@ -12,7 +12,7 @@ class ExperienceScreenDTO {
   @JsonKey(name: 'try-again-button')
   final String tryAgainButton;
 
-  @JsonKey(name: 'experience')
+  @JsonKey(name: 'experience', fromJson: _convertExperienceFromJson)
   final List<ExperienceDTO> list;
 
   ExperienceScreenDTO({
@@ -21,6 +21,12 @@ class ExperienceScreenDTO {
     required this.tryAgainButton,
     required this.list,
   });
+
+  static _convertExperienceFromJson(List<dynamic> json) => json
+      .map((e) => _$ExperienceDTOFromJson(
+            Map<String, dynamic>.from(e as Map),
+          ))
+      .toList();
 
   factory ExperienceScreenDTO.fromJson(Map<String, dynamic> json) =>
       _$ExperienceScreenDTOFromJson(json);
@@ -34,6 +40,7 @@ class ExperienceDTO {
 
   final String title;
 
+  @JsonKey(fromJson: _convertProjectFromJson)
   final List<ProjectDTO> projects;
 
   ExperienceDTO({
@@ -41,6 +48,12 @@ class ExperienceDTO {
     required this.title,
     required this.projects,
   });
+
+  static _convertProjectFromJson(List<dynamic> json) => json
+      .map((e) => _$ProjectDTOFromJson(
+            Map<String, dynamic>.from(e as Map),
+          ))
+      .toList();
 
   factory ExperienceDTO.fromJson(Map<String, dynamic> json) => _$ExperienceDTOFromJson(json);
 

@@ -11,9 +11,8 @@ ExperienceScreenDTO _$ExperienceScreenDTOFromJson(Map<String, dynamic> json) =>
       title: json['title'] as String,
       downloadButton: json['download-button'] as String,
       tryAgainButton: json['try-again-button'] as String,
-      list: (json['experience'] as List<dynamic>)
-          .map((e) => ExperienceDTO.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      list: ExperienceScreenDTO._convertExperienceFromJson(
+          json['experience'] as List),
     );
 
 Map<String, dynamic> _$ExperienceScreenDTOToJson(
@@ -29,9 +28,7 @@ ExperienceDTO _$ExperienceDTOFromJson(Map<String, dynamic> json) =>
     ExperienceDTO(
       period: json['period'] as String,
       title: json['title'] as String,
-      projects: (json['projects'] as List<dynamic>)
-          .map((e) => ProjectDTO.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      projects: ExperienceDTO._convertProjectFromJson(json['projects'] as List),
     );
 
 Map<String, dynamic> _$ExperienceDTOToJson(ExperienceDTO instance) =>

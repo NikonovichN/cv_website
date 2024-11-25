@@ -25,6 +25,7 @@ class ScaffoldCvApp extends StatelessWidget {
         injector<CvAppMenuController>().loadItems(lang);
         injector<WelcomeScreenController>().loadData(lang);
         injector<SkillsScreenController>().loadData(lang);
+        injector<ExperienceScreenController>().loadData(lang);
 
         return Container(
           alignment: Alignment.center,
