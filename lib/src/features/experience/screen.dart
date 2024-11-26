@@ -58,7 +58,13 @@ class _AccordionSection extends StatelessWidget {
             (el) => AccordionSection<int>(
               uniqueId: ValueKey(el.title).hashCode,
               header: Text(el.period, style: CvAppFonts.oswaldMedium),
-              title: Text(el.title, style: CvAppFonts.oswaldMedium.copyWith(fontSize: 26.0)),
+              title: Text(
+                el.title,
+                style: CvAppFonts.oswaldMedium.copyWith(
+                  fontSize: 26.0,
+                  color: CvAppBasicColors.softGrey,
+                ),
+              ),
               content: Column(
                 children: el.projects
                     .map(
@@ -109,21 +115,60 @@ class _SectionContent extends StatelessWidget {
     required this.toolsTitle,
   });
 
+  static const _padding = EdgeInsets.all(40.0);
+  static const _innerPadding = EdgeInsets.only(left: 50.0);
+  static const _emptySpaceS = SizedBox(height: 8.0);
+  static const _emptySpaceXS = SizedBox(height: 5.0);
+  static const _emptySpaceL = SizedBox(height: 22.0);
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(period),
-        Text(role),
-        Text(projectDescriptionTitle),
-        Text(projectDescription),
-        Text(responsibilitiesTitle),
-        Text(responsibilities),
-        Text(teamSizeTitle),
-        Text(teamSize),
-        Text(toolsTitle),
-        Text(tools),
-      ],
+    return Padding(
+      padding: _padding,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(role, style: CvAppFonts.oswaldRegular),
+          _emptySpaceS,
+          Text(period, style: CvAppFonts.oswaldSmallRegular),
+          _emptySpaceL,
+          Padding(
+            padding: _innerPadding,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(projectDescriptionTitle,
+                    style: CvAppFonts.oswaldRegular.copyWith(
+                      color: CvAppBasicColors.acid,
+                    )),
+                _emptySpaceXS,
+                Text(projectDescription),
+                _emptySpaceL,
+                Text(responsibilitiesTitle,
+                    style: CvAppFonts.oswaldRegular.copyWith(
+                      color: CvAppBasicColors.acid,
+                    )),
+                _emptySpaceXS,
+                Text(responsibilities),
+                _emptySpaceL,
+                Text(teamSizeTitle,
+                    style: CvAppFonts.oswaldRegular.copyWith(
+                      color: CvAppBasicColors.acid,
+                    )),
+                _emptySpaceXS,
+                Text(teamSize),
+                _emptySpaceL,
+                Text(toolsTitle,
+                    style: CvAppFonts.oswaldRegular.copyWith(
+                      color: CvAppBasicColors.acid,
+                    )),
+                _emptySpaceXS,
+                Text(tools),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
