@@ -32,41 +32,52 @@ class ExperienceScreen extends StatelessWidget {
             children: [
               Text(state.title, style: CvAppFonts.header),
               const SizedBox(height: 62.0),
-              AccordionContainer<int>(
-                sections: state.list
-                    .map(
-                      (el) => AccordionSection<int>(
-                        uniqueId: ValueKey(el.title).hashCode,
-                        header: Row(
-                          children: [
-                            Text(el.period),
-                            Text(el.title),
-                          ],
-                        ),
-                        content: Column(
-                          children: el.projects
-                              .map(
-                                (pr) => Column(
-                                  children: [
-                                    Text(pr.period),
-                                    Text(pr.role),
-                                    Text(pr.projectDescription),
-                                    Text(pr.responsibilities),
-                                    Text(pr.teamSize),
-                                    Text(pr.tools),
-                                  ],
-                                ),
-                              )
-                              .toList(),
-                        ),
-                      ),
-                    )
-                    .toList(),
-              ),
+              const _AccordionSection(),
             ],
           ),
         );
       },
+    );
+  }
+}
+
+class _AccordionSection extends StatelessWidget {
+  const _AccordionSection();
+
+  @override
+  Widget build(BuildContext context) {
+    final state = injector<ExperienceScreenController>().state.screenData;
+
+    if (state == null) {
+      return const SizedBox.shrink();
+    }
+
+    return AccordionContainer<int>(
+      sections: state.list
+          .map(
+            (el) => AccordionSection<int>(
+              uniqueId: ValueKey(el.title).hashCode,
+              header: Text(el.period, style: CvAppFonts.oswaldMedium),
+              title: Text(el.title, style: CvAppFonts.oswaldMedium.copyWith(fontSize: 26.0)),
+              content: Column(
+                children: el.projects
+                    .map(
+                      (pr) => Column(
+                        children: [
+                          Text(pr.period),
+                          Text(pr.role),
+                          Text(pr.projectDescription),
+                          Text(pr.responsibilities),
+                          Text(pr.teamSize),
+                          Text(pr.tools),
+                        ],
+                      ),
+                    )
+                    .toList(),
+              ),
+            ),
+          )
+          .toList(),
     );
   }
 }

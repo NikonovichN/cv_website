@@ -34,6 +34,7 @@ class AccordionSection<T> extends StatelessWidget {
   /// Key should be static for every section!
   final T uniqueId;
   final Widget header;
+  final Widget title;
   final Widget content;
   final EdgeInsets? margin;
   final AccordionSectionTapCallback? onTap;
@@ -42,6 +43,7 @@ class AccordionSection<T> extends StatelessWidget {
     super.key,
     required this.uniqueId,
     required this.header,
+    required this.title,
     required this.content,
     this.margin = const EdgeInsets.symmetric(vertical: 24.0),
     this.onTap,
@@ -49,8 +51,7 @@ class AccordionSection<T> extends StatelessWidget {
 
   final _controller = AccordionControllerImpl<T>();
 
-  static const _containerAnimationDuration = Duration(milliseconds: 140);
-  static const _textAnimationDuration = Duration(milliseconds: 60);
+  static const _containerAnimationDuration = Duration(milliseconds: 240);
 
   @override
   Widget build(BuildContext context) {
@@ -58,32 +59,51 @@ class AccordionSection<T> extends StatelessWidget {
       stream: _controller.stream,
       builder: (context, snapshot) {
         final isSectionActive = snapshot.data?.activeSections.contains(uniqueId) ?? false;
+
         return Padding(
           padding: margin ?? EdgeInsets.zero,
-          child: Column(
+          child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              GestureDetector(
-                onTap: () {
-                  onTap?.call(uniqueId);
-                  isSectionActive
-                      ? _controller.removeActiveSection(uniqueId)
-                      : _controller.addActiveSection(uniqueId);
-                },
-                child: AnimatedContainer(
-                  duration: _textAnimationDuration,
-                  child: _AnimatedHeader(
-                    isActive: isSectionActive,
-                    header: header,
-                  ),
+              Expanded(flex: 1, child: header),
+              Expanded(
+                flex: 3,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                        onTap: () {
+                          onTap?.call(uniqueId);
+                          isSectionActive
+                              ? _controller.removeActiveSection(uniqueId)
+                              : _controller.addActiveSection(uniqueId);
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          decoration: const BoxDecoration(
+                            color: Colors.transparent,
+                            border: Border(
+                              bottom: BorderSide(color: CvAppBasicColors.silverWare),
+                            ),
+                          ),
+                          child: _AnimatedHeader(
+                            isActive: isSectionActive,
+                            header: title,
+                          ),
+                        ),
+                      ),
+                    ),
+                    AnimatedCrossFade(
+                      duration: _containerAnimationDuration,
+                      firstChild: Container(height: 0.0),
+                      secondChild: content,
+                      crossFadeState:
+                          isSectionActive ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+                    ),
+                  ],
                 ),
-              ),
-              AnimatedCrossFade(
-                duration: _containerAnimationDuration,
-                firstChild: Container(height: 0.0),
-                secondChild: content,
-                crossFadeState:
-                    isSectionActive ? CrossFadeState.showSecond : CrossFadeState.showFirst,
               ),
             ],
           ),

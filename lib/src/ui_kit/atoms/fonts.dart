@@ -71,4 +71,10 @@ class CvAppFonts {
     fontFamily: oswaldFontFamily,
     fontWeight: FontWeight.w600,
   );
+
+  static const TextStyle oswaldMedium = TextStyle(
+    fontSize: 18,
+    fontFamily: oswaldFontFamily,
+    fontWeight: FontWeight.w500,
+  );
 }

@@ -161,9 +161,13 @@ extension on ExperienceScreenDTO {
                           teamSize: project.teamSize,
                           tools: project.tools),
                     )
+                    .toList()
+                    .reversed
                     .toList(),
               ),
             )
+            .toList()
+            .reversed
             .toList(),
       );
 }
