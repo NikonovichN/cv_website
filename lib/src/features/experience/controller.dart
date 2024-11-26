@@ -9,18 +9,26 @@ import '../../common/errors.dart';
 class Project extends Equatable {
   final String period;
   final String projectDescription;
+  final String projectDescriptionTitle;
   final String role;
   final String responsibilities;
+  final String responsibilitiesTitle;
   final String teamSize;
+  final String teamSizeTitle;
   final String tools;
+  final String toolsTitle;
 
   const Project({
     required this.period,
     required this.projectDescription,
+    required this.projectDescriptionTitle,
     required this.role,
     required this.responsibilities,
+    required this.responsibilitiesTitle,
     required this.teamSize,
+    required this.teamSizeTitle,
     required this.tools,
+    required this.toolsTitle,
   });
 
   @override
@@ -154,12 +162,17 @@ extension on ExperienceScreenDTO {
                 projects: place.projects
                     .map(
                       (project) => Project(
-                          period: project.period,
-                          projectDescription: project.projectDescription,
-                          role: project.role,
-                          responsibilities: project.responsibilities,
-                          teamSize: project.teamSize,
-                          tools: project.tools),
+                        period: project.period,
+                        projectDescription: project.projectDescription,
+                        projectDescriptionTitle: project.projectDescriptionTitle,
+                        role: project.role,
+                        responsibilities: project.responsibilities,
+                        responsibilitiesTitle: project.responsibilitiesTitle,
+                        teamSize: project.teamSize,
+                        teamSizeTitle: project.teamSizeTitle,
+                        tools: project.tools,
+                        toolsTitle: project.toolsTitle,
+                      ),
                     )
                     .toList()
                     .reversed

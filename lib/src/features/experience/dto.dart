@@ -67,20 +67,38 @@ class ProjectDTO {
   @JsonKey(name: 'project-description')
   final String projectDescription;
 
+  @JsonKey(name: 'project-description-title')
+  final String projectDescriptionTitle;
+
   final String role;
+
   final String responsibilities;
+
+  @JsonKey(name: 'responsibilities-title')
+  final String responsibilitiesTitle;
 
   @JsonKey(name: 'team-size')
   final String teamSize;
+
+  @JsonKey(name: 'team-size-title')
+  final String teamSizeTitle;
+
   final String tools;
+
+  @JsonKey(name: 'tools-title')
+  final String toolsTitle;
 
   ProjectDTO({
     required this.period,
     required this.projectDescription,
+    required this.projectDescriptionTitle,
     required this.role,
     required this.responsibilities,
+    required this.responsibilitiesTitle,
     required this.teamSize,
+    required this.teamSizeTitle,
     required this.tools,
+    required this.toolsTitle,
   });
 
   factory ProjectDTO.fromJson(Map<String, dynamic> json) => _$ProjectDTOFromJson(json);

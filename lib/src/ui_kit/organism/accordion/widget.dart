@@ -129,7 +129,7 @@ class _AnimatedHeader extends StatelessWidget {
       children: [
         header,
         AnimatedRotation(
-          turns: isActive ? 0 : .5,
+          turns: isActive ? .5 : 0,
           duration: _animationDuration,
           child: SvgPicture.asset(
             Assets.icons.svg.downArrow,

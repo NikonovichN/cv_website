@@ -62,15 +62,17 @@ class _AccordionSection extends StatelessWidget {
               content: Column(
                 children: el.projects
                     .map(
-                      (pr) => Column(
-                        children: [
-                          Text(pr.period),
-                          Text(pr.role),
-                          Text(pr.projectDescription),
-                          Text(pr.responsibilities),
-                          Text(pr.teamSize),
-                          Text(pr.tools),
-                        ],
+                      (pr) => _SectionContent(
+                        period: pr.period,
+                        role: pr.role,
+                        projectDescription: pr.projectDescription,
+                        projectDescriptionTitle: pr.projectDescriptionTitle,
+                        responsibilities: pr.responsibilities,
+                        responsibilitiesTitle: pr.responsibilitiesTitle,
+                        teamSize: pr.teamSize,
+                        teamSizeTitle: pr.teamSizeTitle,
+                        tools: pr.tools,
+                        toolsTitle: pr.toolsTitle,
                       ),
                     )
                     .toList(),
@@ -78,6 +80,50 @@ class _AccordionSection extends StatelessWidget {
             ),
           )
           .toList(),
+    );
+  }
+}
+
+class _SectionContent extends StatelessWidget {
+  final String period;
+  final String role;
+  final String projectDescription;
+  final String projectDescriptionTitle;
+  final String responsibilities;
+  final String responsibilitiesTitle;
+  final String teamSize;
+  final String teamSizeTitle;
+  final String tools;
+  final String toolsTitle;
+
+  const _SectionContent({
+    required this.period,
+    required this.role,
+    required this.projectDescription,
+    required this.projectDescriptionTitle,
+    required this.responsibilities,
+    required this.responsibilitiesTitle,
+    required this.teamSize,
+    required this.teamSizeTitle,
+    required this.tools,
+    required this.toolsTitle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(period),
+        Text(role),
+        Text(projectDescriptionTitle),
+        Text(projectDescription),
+        Text(responsibilitiesTitle),
+        Text(responsibilities),
+        Text(teamSizeTitle),
+        Text(teamSize),
+        Text(toolsTitle),
+        Text(tools),
+      ],
     );
   }
 }
