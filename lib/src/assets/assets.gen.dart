@@ -29,6 +29,9 @@ class $AssetsImagesGen {
 class $AssetsIconsSvgGen {
   const $AssetsIconsSvgGen();
 
+  /// File path: assets/icons/svg/down-arrow.svg
+  String get downArrow => 'assets/icons/svg/down-arrow.svg';
+
   /// File path: assets/icons/svg/git.svg
   String get git => 'assets/icons/svg/git.svg';
 
@@ -45,7 +48,7 @@ class $AssetsIconsSvgGen {
   String get telegram => 'assets/icons/svg/telegram.svg';
 
   /// List of all assets
-  List<String> get values => [git, gmail, heart, linkedIn, telegram];
+  List<String> get values => [downArrow, git, gmail, heart, linkedIn, telegram];
 }
 
 class Assets {

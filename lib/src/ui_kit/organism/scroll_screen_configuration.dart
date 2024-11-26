@@ -11,9 +11,13 @@ class ScrollScreenConfiguration extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScrollConfiguration(
       behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-      child: SingleChildScrollView(
-        padding: _padding,
-        child: child,
+      child: GlowingOverscrollIndicator(
+        axisDirection: AxisDirection.down,
+        color: Colors.transparent,
+        child: SingleChildScrollView(
+          padding: _padding,
+          child: child,
+        ),
       ),
     );
   }

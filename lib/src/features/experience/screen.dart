@@ -32,25 +32,36 @@ class ExperienceScreen extends StatelessWidget {
             children: [
               Text(state.title, style: CvAppFonts.header),
               const SizedBox(height: 62.0),
-              ...state.list.map(
-                (el) => Column(
-                  children: [
-                    Text(el.period),
-                    Text(el.title),
-                    ...el.projects.map(
-                      (pr) => Column(
-                        children: [
-                          Text(pr.period),
-                          Text(pr.role),
-                          Text(pr.projectDescription),
-                          Text(pr.responsibilities),
-                          Text(pr.teamSize),
-                          Text(pr.tools),
-                        ],
+              AccordionContainer<int>(
+                sections: state.list
+                    .map(
+                      (el) => AccordionSection<int>(
+                        uniqueId: ValueKey(el.title).hashCode,
+                        header: Row(
+                          children: [
+                            Text(el.period),
+                            Text(el.title),
+                          ],
+                        ),
+                        content: Column(
+                          children: el.projects
+                              .map(
+                                (pr) => Column(
+                                  children: [
+                                    Text(pr.period),
+                                    Text(pr.role),
+                                    Text(pr.projectDescription),
+                                    Text(pr.responsibilities),
+                                    Text(pr.teamSize),
+                                    Text(pr.tools),
+                                  ],
+                                ),
+                              )
+                              .toList(),
+                        ),
                       ),
                     )
-                  ],
-                ),
+                    .toList(),
               ),
             ],
           ),
