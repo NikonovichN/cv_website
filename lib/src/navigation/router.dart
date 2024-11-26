@@ -1,3 +1,4 @@
+import 'package:cv_website/src/di/injections.dart';
 import 'package:flutter/material.dart';
 
 import 'package:go_router/go_router.dart';
@@ -20,6 +21,7 @@ final router = GoRouter(
         return GoRouterStateProvider(
           state: state,
           child: ScaffoldCvApp(
+            loadDataScreen: state.loadDataScreenCallback,
             child: child,
           ),
         );
@@ -47,3 +49,17 @@ final router = GoRouter(
     ),
   ],
 );
+
+extension on GoRouterState {
+  Function(String)? get loadDataScreenCallback {
+    if (fullPath == null) return null;
+
+    if (fullPath!.contains(RouterPath.welcome.path)) {
+      return injector<WelcomeScreenController>().loadData;
+    } else if (fullPath!.contains(RouterPath.skills.path)) {
+      return injector<SkillsScreenController>().loadData;
+    } else {
+      return injector<ExperienceScreenController>().loadData;
+    }
+  }
+}

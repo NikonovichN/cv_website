@@ -48,7 +48,7 @@ class CvAppButton extends StatelessWidget {
     return Padding(
       padding: margin ?? EdgeInsets.zero,
       child: ElevatedButton(
-        onPressed: isLoading ? () => {} : onPressed,
+        onPressed: isLoading ? null : onPressed,
         style: ButtonStyle(
           backgroundColor: WidgetStateProperty.resolveWith(_backgroundColor),
           overlayColor: WidgetStateProperty.resolveWith(_backgroundColor),

@@ -5,10 +5,12 @@ import 'features/features.dart';
 
 class ScaffoldCvApp extends StatelessWidget {
   final Widget child;
+  final Function(String language)? loadDataScreen;
 
   const ScaffoldCvApp({
     super.key,
     required this.child,
+    required this.loadDataScreen,
   });
 
   static const _appConstraints = BoxConstraints(maxWidth: 1366.0);
@@ -21,10 +23,8 @@ class ScaffoldCvApp extends StatelessWidget {
       builder: (context, snapshot) {
         final lang =
             snapshot.data?.cvAppLanguage.code ?? injector<CvAppLanguageState>().cvAppLanguage.code;
-
         injector<CvAppMenuController>().loadItems(lang);
-        injector<WelcomeScreenController>().loadData(lang);
-        injector<SkillsScreenController>().loadData(lang);
+        loadDataScreen?.call(lang);
 
         return Container(
           alignment: Alignment.center,

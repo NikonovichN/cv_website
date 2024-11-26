@@ -34,7 +34,6 @@ class CvAppBar extends StatelessWidget implements PreferredSizeWidget {
               const SizedBox(height: 6.0),
               Row(
                 children: [
-                  // TODO: do something with text
                   SvAppTextButton.menu(
                     onPressed: () => context.go(RouterPath.welcome.path),
                     isActive: goRouterState.fullPath == RouterPath.welcome.path,
