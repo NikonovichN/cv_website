@@ -58,12 +58,12 @@ class __MouseRegionState extends State<_MouseRegion> {
   final _skillsKey = GlobalKey();
   final _experienceKey = GlobalKey();
 
-  late GlobalKey _activeMenuKey;
+  GlobalKey? _activeMenuKey;
 
   double _dotPosition = 0.0;
   bool _mouseInter = false;
 
-  late Timer timer;
+  Timer? timer;
 
   @override
   void initState() {
@@ -84,9 +84,11 @@ class __MouseRegionState extends State<_MouseRegion> {
   }
 
   void _setCenterDotPosition() {
-    final RenderBox renderBox = _activeMenuKey.currentContext?.findRenderObject() as RenderBox;
+    final renderBox = _activeMenuKey?.currentContext?.findRenderObject() as RenderBox?;
     setState(() {
-      _dotPosition = renderBox.localToGlobal(Offset.zero).dx + (renderBox.size.width / 2);
+      if (renderBox != null) {
+        _dotPosition = renderBox.localToGlobal(Offset.zero).dx + (renderBox.size.width / 2);
+      }
     });
   }
 
@@ -96,9 +98,23 @@ class __MouseRegionState extends State<_MouseRegion> {
     }
   }
 
+  void _setActiveMenuKey(GoRouterState routerState) {
+    final path =
+        RouterPath.values.singleWhere((val) => routerState.fullPath?.contains(val.name) ?? false);
+
+    switch (path) {
+      case RouterPath.welcome:
+        _activeMenuKey = _welcomeKey;
+      case RouterPath.skills:
+        _activeMenuKey = _skillsKey;
+      case RouterPath.experience:
+        _activeMenuKey = _experienceKey;
+    }
+  }
+
   @override
   void dispose() {
-    timer.cancel();
+    timer?.cancel();
     super.dispose();
   }
 
@@ -112,13 +128,7 @@ class __MouseRegionState extends State<_MouseRegion> {
         ? (widthScreen - appConstraints.maxWidth) / 2
         : appPadding.left;
 
-    if (goRouterState.fullPath == RouterPath.welcome.path) {
-      _activeMenuKey = _welcomeKey;
-    } else if (goRouterState.fullPath == RouterPath.skills.path) {
-      _activeMenuKey = _skillsKey;
-    } else if (goRouterState.fullPath == RouterPath.experience.path) {
-      _activeMenuKey = _experienceKey;
-    }
+    _setActiveMenuKey(goRouterState);
 
     return MouseRegion(
       onEnter: (_) => setState(() => _mouseInter = true),
