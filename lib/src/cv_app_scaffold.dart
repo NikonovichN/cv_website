@@ -13,9 +13,6 @@ class ScaffoldCvApp extends StatelessWidget {
     required this.loadDataScreen,
   });
 
-  static const _appConstraints = BoxConstraints(maxWidth: 1366.0);
-  static const _appPadding = EdgeInsets.symmetric(horizontal: 40.0);
-
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<CvAppLanguageState>(
@@ -29,9 +26,9 @@ class ScaffoldCvApp extends StatelessWidget {
         return Container(
           alignment: Alignment.center,
           color: CvAppBasicColors.gloomy,
-          padding: _appPadding,
+          padding: appPadding,
           child: ConstrainedBox(
-            constraints: _appConstraints,
+            constraints: appConstraints,
             child: Scaffold(
               appBar: const CvAppBar(),
               body: child,
