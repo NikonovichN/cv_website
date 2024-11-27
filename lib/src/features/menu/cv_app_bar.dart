@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:go_router/go_router.dart';
@@ -18,7 +19,7 @@ class CvAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size(double.infinity, 100.0);
 
-  static const _padding = EdgeInsets.only(top: 14.0, bottom: 16.0);
+  static const _padding = EdgeInsets.only(top: 14.0);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,12 @@ class CvAppBar extends StatelessWidget implements PreferredSizeWidget {
             children: [
               const ChooseLanguage(),
               const SizedBox(height: 6.0),
-              _MouseRegion(key: ValueKey(snapshot.data?.items.toString())),
+              SizedBox(
+                height: 36.0,
+                child: _MouseRegion(
+                  key: ValueKey(snapshot.data?.items.toString()),
+                ),
+              ),
             ],
           ),
         );
@@ -75,6 +81,17 @@ class __MouseRegionState extends State<_MouseRegion> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _setCenterDotPosition();
     });
+  }
+
+  void _onMouseEnter(PointerEnterEvent _) {
+    setState(() => _mouseInter = true);
+  }
+
+  void _onMouseExit(PointerExitEvent _) {
+    timer?.cancel();
+    timer = null;
+    timer = Timer.periodic(_timerDuration, _ticker);
+    setState(() => _mouseInter = false);
   }
 
   void _updateLocation(PointerEvent details) {
@@ -131,8 +148,8 @@ class __MouseRegionState extends State<_MouseRegion> {
     _setActiveMenuKey(goRouterState);
 
     return MouseRegion(
-      onEnter: (_) => setState(() => _mouseInter = true),
-      onExit: (_) => setState(() => _mouseInter = false),
+      onEnter: _onMouseEnter,
+      onExit: _onMouseExit,
       onHover: _updateLocation,
       child: Stack(
         children: [
