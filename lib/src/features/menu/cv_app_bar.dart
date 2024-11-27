@@ -25,15 +25,15 @@ class CvAppBar extends StatelessWidget implements PreferredSizeWidget {
     return StreamBuilder<CvAppMenuState>(
       stream: injector(),
       builder: (context, snapshot) {
-        return const Padding(
+        return Padding(
           padding: _padding,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ChooseLanguage(),
-              SizedBox(height: 6.0),
-              _MouseRegion(),
+              const ChooseLanguage(),
+              const SizedBox(height: 6.0),
+              _MouseRegion(key: ValueKey(snapshot.data?.items.toString())),
             ],
           ),
         );
@@ -43,7 +43,7 @@ class CvAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class _MouseRegion extends StatefulWidget {
-  const _MouseRegion();
+  const _MouseRegion({super.key});
 
   @override
   State<_MouseRegion> createState() => __MouseRegionState();

@@ -20,22 +20,22 @@ class DependencyInjections {
     );
 
     /// Repositories
-    injector.registerSingleton<MenuRepository>(MenuRepositoryImpl(remoteDB: injector()));
-    injector.registerSingleton<WelcomeRepository>(WelcomeRepositoryImpl(remoteDB: injector()));
     injector
         .registerSingleton<CvAppLanguageRepository>(CvAppLanguageRepositoryImpl(prefs: injector()));
+    injector.registerSingleton<MenuRepository>(MenuRepositoryImpl(remoteDB: injector()));
+    injector.registerSingleton<WelcomeRepository>(WelcomeRepositoryImpl(remoteDB: injector()));
     injector.registerSingleton<SkillsRepository>(SkillsRepositoryImpl(remoteDB: injector()));
     injector
         .registerSingleton<ExperienceRepository>(ExperienceRepositoryImpl(remoteDB: injector()));
 
     /// Controllers
+    injector.registerSingleton<CvAppLanguageController>(
+      CvAppLanguageControllerImpl(repository: injector()),
+    );
     injector
         .registerSingleton<CvAppMenuController>(CvAppMenuControllerImpl(repository: injector()));
     injector.registerSingleton<WelcomeScreenController>(
       WelcomeScreenControllerImpl(repository: injector()),
-    );
-    injector.registerSingleton<CvAppLanguageController>(
-      CvAppLanguageControllerImpl(repository: injector()),
     );
     injector.registerSingleton<SkillsScreenController>(
       SkillsScreenControllerImpl(repository: injector()),
