@@ -12,7 +12,7 @@ class SkillsRepositoryImpl implements SkillsRepository {
 
   const SkillsRepositoryImpl({required FirebaseDatabase remoteDB}) : _remoteDB = remoteDB;
 
-  static const _path = 'skills';
+  static const _path = 'skills-screen';
   static const _errorEmptyData = 'No data loaded!';
 
   @override
