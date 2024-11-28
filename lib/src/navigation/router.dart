@@ -54,12 +54,15 @@ extension on GoRouterState {
   Function(String)? get loadDataScreenCallback {
     if (fullPath == null) return null;
 
-    if (fullPath!.contains(RouterPath.welcome.path)) {
-      return injector<WelcomeScreenController>().loadData;
-    } else if (fullPath!.contains(RouterPath.skills.path)) {
-      return injector<SkillsScreenController>().loadData;
-    } else {
-      return injector<ExperienceScreenController>().loadData;
+    final path = RouterPath.values.singleWhere((val) => fullPath!.contains(val.name));
+
+    switch (path) {
+      case RouterPath.welcome:
+        return injector<WelcomeScreenController>().loadData;
+      case RouterPath.skills:
+        return injector<SkillsScreenController>().loadData;
+      case RouterPath.experience:
+        return injector<ExperienceScreenController>().loadData;
     }
   }
 }
