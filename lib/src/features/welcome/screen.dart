@@ -15,8 +15,6 @@ import '../languages/controller.dart';
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
-  static const _descriptionTextPadding = EdgeInsets.symmetric(horizontal: 136.0);
-
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<WelcomeScreenState>(
@@ -39,40 +37,7 @@ class WelcomeScreen extends StatelessWidget {
             children: [
               Text(state.title, style: CvAppFonts.header),
               const SizedBox(height: 62.0),
-              Padding(
-                padding: _descriptionTextPadding,
-                child: Text(
-                  state.description,
-                  style: CvAppFonts.robotoRegular,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              const SizedBox(height: 76.0),
-              Assets.images.avatar.image(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _PhoneText(phone: state.phone1),
-                      const SizedBox(height: 8.0),
-                      _PhoneText(phone: state.phone2),
-                      const SizedBox(height: 20.0),
-                      const _Socials()
-                    ],
-                  ),
-                  SvgPicture.asset(
-                    Assets.icons.svg.heart,
-                    colorFilter: const ColorFilter.mode(
-                      CvAppBasicColors.buttercup,
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                ],
-              )
+              const _Body(),
             ],
           ),
         );
@@ -104,6 +69,105 @@ class _Error extends StatelessWidget {
         }
       },
       childButton: Text(welcomeScreenData?.tryAgainLabel ?? WelcomeScreenData.defaultTryAgainLabel),
+    );
+  }
+}
+
+class _Body extends StatelessWidget {
+  static const _descriptionTextPadding = EdgeInsets.symmetric(horizontal: 136.0);
+
+  const _Body();
+
+  @override
+  Widget build(BuildContext context) {
+    final welcomeScreenController = injector<WelcomeScreenController>();
+    final welcomeScreenData = welcomeScreenController.state.screenData;
+
+    if (welcomeScreenData == null) {
+      return const SizedBox.shrink();
+    }
+
+    return Stack(
+      children: [
+        Column(
+          children: [
+            Padding(
+              padding: _descriptionTextPadding,
+              child: Text(
+                welcomeScreenData.description,
+                style: CvAppFonts.robotoRegular,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const SizedBox(height: 74.0),
+            Assets.images.avatar.image(),
+            const SizedBox(height: 100.0),
+          ],
+        ),
+        Positioned(
+          bottom: 0.0,
+          left: 0.0,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _PhoneText(phone: welcomeScreenData.phone1),
+              const SizedBox(height: 8.0),
+              _PhoneText(phone: welcomeScreenData.phone2),
+              const SizedBox(height: 20.0),
+              const _Socials()
+            ],
+          ),
+        ),
+        const Positioned(
+          bottom: 0.0,
+          right: 0.0,
+          child: _Heart(),
+        )
+      ],
+    );
+  }
+}
+
+class _Heart extends StatefulWidget {
+  const _Heart();
+
+  @override
+  State<_Heart> createState() => __HeartState();
+}
+
+class __HeartState extends State<_Heart> {
+  static const _durationHeartAnimation = Duration(milliseconds: 100);
+  static const _sizeHeart = 60.0;
+  static const _sizeHeartPressed = 52.0;
+
+  bool isPressed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {},
+      onTapDown: (_) {
+        setState(() => isPressed = true);
+      },
+      onTapUp: (_) {
+        setState(() => isPressed = false);
+      },
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: AnimatedContainer(
+          duration: _durationHeartAnimation,
+          width: isPressed ? _sizeHeartPressed : _sizeHeart,
+          height: isPressed ? _sizeHeartPressed : _sizeHeart,
+          child: SvgPicture.asset(
+            Assets.icons.svg.heart,
+            colorFilter: const ColorFilter.mode(
+              CvAppBasicColors.buttercup,
+              BlendMode.srcIn,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
