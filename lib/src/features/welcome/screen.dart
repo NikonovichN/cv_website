@@ -173,26 +173,28 @@ class __FloatingHeartState extends State<_FloatingHeart> with SingleTickerProvid
   @override
   Widget build(BuildContext context) {
     double verticalOffset = 0.0;
-    double right =
-        __HeartState.sizeHeart / 2 - __FloatingHeartState.sizeHeart / 2 + verticalOffset / 2;
+    double maxWidthFloatingZone = __HeartState.maxWidthOfFloatingZone;
+    double floatingSizeHeart = __FloatingHeartState.sizeHeart;
+    double buttonSizeHeart = __HeartState.sizeHeart;
 
-    if (_animationTick > __HeartState.sizeHeart && _animationTick % 2 == 1) {
-      verticalOffset = Random().nextDouble() * __HeartState.maxWidthOfFloatingZone -
-          __FloatingHeartState.sizeHeart;
-      if (Random().nextBool()) {
-        right = __FloatingHeartState.sizeHeart + verticalOffset / 2;
-      } else {
-        right = __FloatingHeartState.sizeHeart - verticalOffset / 2;
-      }
+    double right = buttonSizeHeart / 2 - floatingSizeHeart / 2 + verticalOffset / 2;
+    double bottom = buttonSizeHeart - floatingSizeHeart * 2 + _animationTick.toDouble();
+
+    if (_animationTick > buttonSizeHeart && _animationTick % 2 == 1) {
+      verticalOffset = Random().nextDouble() * maxWidthFloatingZone - floatingSizeHeart;
+      verticalOffset = verticalOffset / 2;
+      right = Random().nextBool()
+          ? floatingSizeHeart + verticalOffset
+          : floatingSizeHeart - verticalOffset;
     }
 
     return AnimatedPositioned(
       duration: _durationAnimation,
-      bottom: __HeartState.sizeHeart - sizeHeart * 2 + _animationTick.toDouble(),
+      bottom: bottom,
       right: right,
       child: Container(
-        width: sizeHeart,
-        height: sizeHeart,
+        width: floatingSizeHeart,
+        height: floatingSizeHeart,
         decoration: BoxDecoration(
           color: widget.color,
           shape: BoxShape.circle,
