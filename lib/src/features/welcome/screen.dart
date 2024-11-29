@@ -1,11 +1,15 @@
+import 'dart:async';
+
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
+import 'dart:math';
 
 import 'package:cv_website/src/ui_kit/ui_kit.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../src.dart';
@@ -129,6 +133,83 @@ class _Body extends StatelessWidget {
   }
 }
 
+class _FloatingHeart extends StatefulWidget {
+  final Color color;
+  final Duration durationLife;
+
+  const _FloatingHeart({super.key, required this.durationLife, required this.color});
+
+  @override
+  State<_FloatingHeart> createState() => __FloatingHeartState();
+}
+
+class __FloatingHeartState extends State<_FloatingHeart> with SingleTickerProviderStateMixin {
+  static const _durationAnimation = Duration(milliseconds: 1800);
+  static const sizeHeart = 8.0;
+
+  AnimationController? _controller;
+  int _animationTick = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(vsync: this)..repeat(period: widget.durationLife);
+    _controller?.addListener(_listenAnimationTicker);
+  }
+
+  void _listenAnimationTicker() {
+    _animationTick++;
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    _controller?.removeListener(_listenAnimationTicker);
+    _controller?.dispose();
+    _controller = null;
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double verticalOffset = 0.0;
+    double right =
+        __HeartState.sizeHeart / 2 - __FloatingHeartState.sizeHeart / 2 + verticalOffset / 2;
+
+    if (_animationTick > __HeartState.sizeHeart && _animationTick % 2 == 1) {
+      verticalOffset = Random().nextDouble() * __HeartState.maxWidthOfFloatingZone -
+          __FloatingHeartState.sizeHeart;
+      if (Random().nextBool()) {
+        right = __FloatingHeartState.sizeHeart + verticalOffset / 2;
+      } else {
+        right = __FloatingHeartState.sizeHeart - verticalOffset / 2;
+      }
+    }
+
+    return AnimatedPositioned(
+      duration: _durationAnimation,
+      bottom: __HeartState.sizeHeart - sizeHeart * 2 + _animationTick.toDouble(),
+      right: right,
+      child: Container(
+        width: sizeHeart,
+        height: sizeHeart,
+        decoration: BoxDecoration(
+          color: widget.color,
+          shape: BoxShape.circle,
+        ),
+      ),
+    );
+  }
+}
+
+class _FloatingHeartSettings {
+  final String mapKey;
+  final Timer timer;
+  final Widget heart;
+
+  _FloatingHeartSettings({required this.mapKey, required this.heart, required this.timer});
+}
+
 class _Heart extends StatefulWidget {
   const _Heart();
 
@@ -138,35 +219,99 @@ class _Heart extends StatefulWidget {
 
 class __HeartState extends State<_Heart> {
   static const _durationHeartAnimation = Duration(milliseconds: 100);
-  static const _sizeHeart = 60.0;
+  static const sizeHeart = 60.0;
   static const _sizeHeartPressed = 52.0;
 
-  bool isPressed = false;
+  bool _isPressed = false;
+
+  final Map<String, _FloatingHeartSettings> _mapHearts = {};
+
+  final List<Color> _heartColors = [
+    CvAppBasicColors.buttercup,
+    CvAppBasicColors.acid,
+    CvAppBasicColors.buttercupLight,
+    CvAppBasicColors.green,
+    CvAppBasicColors.greenLight,
+    CvAppBasicColors.softGrey,
+  ];
+
+  static const double maxWidthOfFloatingZone = 200.0;
+  double maxHeightOfFloatingZone = 0.0;
+
+  void _addHeart() {
+    final duration = Duration(milliseconds: 2000 + Random().nextInt(10000));
+    final color = _heartColors[Random().nextInt(_heartColors.length - 1)];
+    final key = DateTime.now().millisecondsSinceEpoch.toString();
+
+    final timer = Timer(duration, () {
+      _mapHearts.removeWhere((k, _) => k == key);
+      if (mounted) {
+        setState(() {});
+      }
+    });
+
+    _mapHearts.addAll({
+      key: _FloatingHeartSettings(
+        mapKey: key,
+        timer: timer,
+        heart: _FloatingHeart(
+          key: ValueKey(key),
+          color: color,
+          durationLife: duration,
+        ),
+      )
+    });
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  void _setIsPressed(bool pressed) => setState(() => _isPressed = pressed);
+
+  @override
+  void dispose() {
+    _mapHearts.forEach((key, value) {
+      value.timer.cancel();
+    });
+    _mapHearts.clear();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {},
-      onTapDown: (_) {
-        setState(() => isPressed = true);
-      },
-      onTapUp: (_) {
-        setState(() => isPressed = false);
-      },
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        child: AnimatedContainer(
-          duration: _durationHeartAnimation,
-          width: isPressed ? _sizeHeartPressed : _sizeHeart,
-          height: isPressed ? _sizeHeartPressed : _sizeHeart,
-          child: SvgPicture.asset(
-            Assets.icons.svg.heart,
-            colorFilter: const ColorFilter.mode(
-              CvAppBasicColors.buttercup,
-              BlendMode.srcIn,
+    maxHeightOfFloatingZone = MediaQuery.of(context).size.height * .7;
+
+    return SizedBox(
+      width: maxWidthOfFloatingZone,
+      height: maxHeightOfFloatingZone,
+      child: Stack(
+        children: [
+          ..._mapHearts.entries.map((e) => e.value.heart),
+          Positioned(
+            bottom: 0.0,
+            right: 0.0,
+            child: GestureDetector(
+              onTap: _addHeart,
+              onTapDown: (_) => _setIsPressed(true),
+              onTapUp: (_) => _setIsPressed(false),
+              child: MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: AnimatedContainer(
+                  duration: _durationHeartAnimation,
+                  width: _isPressed ? _sizeHeartPressed : sizeHeart,
+                  height: _isPressed ? _sizeHeartPressed : sizeHeart,
+                  child: SvgPicture.asset(
+                    Assets.icons.svg.heart,
+                    colorFilter: const ColorFilter.mode(
+                      CvAppBasicColors.buttercup,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                ),
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
