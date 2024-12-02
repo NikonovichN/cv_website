@@ -38,6 +38,15 @@ class $AssetsIconsSvgGen {
   /// File path: assets/icons/svg/gmail.svg
   String get gmail => 'assets/icons/svg/gmail.svg';
 
+  /// File path: assets/icons/svg/heart-angle.svg
+  String get heartAngle => 'assets/icons/svg/heart-angle.svg';
+
+  /// File path: assets/icons/svg/heart-pulse.svg
+  String get heartPulse => 'assets/icons/svg/heart-pulse.svg';
+
+  /// File path: assets/icons/svg/heart-small.svg
+  String get heartSmall => 'assets/icons/svg/heart-small.svg';
+
   /// File path: assets/icons/svg/heart.svg
   String get heart => 'assets/icons/svg/heart.svg';
 
@@ -48,7 +57,17 @@ class $AssetsIconsSvgGen {
   String get telegram => 'assets/icons/svg/telegram.svg';
 
   /// List of all assets
-  List<String> get values => [downArrow, git, gmail, heart, linkedIn, telegram];
+  List<String> get values => [
+        downArrow,
+        git,
+        gmail,
+        heartAngle,
+        heartPulse,
+        heartSmall,
+        heart,
+        linkedIn,
+        telegram
+      ];
 }
 
 class Assets {

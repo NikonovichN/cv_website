@@ -136,8 +136,14 @@ class _Body extends StatelessWidget {
 class _FloatingHeart extends StatefulWidget {
   final Color color;
   final Duration durationLife;
+  final String iconPath;
 
-  const _FloatingHeart({super.key, required this.durationLife, required this.color});
+  const _FloatingHeart({
+    super.key,
+    required this.durationLife,
+    required this.color,
+    required this.iconPath,
+  });
 
   @override
   State<_FloatingHeart> createState() => __FloatingHeartState();
@@ -145,7 +151,7 @@ class _FloatingHeart extends StatefulWidget {
 
 class __FloatingHeartState extends State<_FloatingHeart> with SingleTickerProviderStateMixin {
   static const _durationAnimation = Duration(milliseconds: 1800);
-  static const sizeHeart = 8.0;
+  static const sizeHeart = 24.0;
 
   AnimationController? _controller;
   int _animationTick = 0;
@@ -172,32 +178,33 @@ class __FloatingHeartState extends State<_FloatingHeart> with SingleTickerProvid
 
   @override
   Widget build(BuildContext context) {
-    double verticalOffset = 0.0;
+    double horizontalOffset = 0.0;
     double maxWidthFloatingZone = __HeartState.maxWidthOfFloatingZone;
     double floatingSizeHeart = __FloatingHeartState.sizeHeart;
     double buttonSizeHeart = __HeartState.sizeHeart;
 
-    double right = buttonSizeHeart / 2 - floatingSizeHeart / 2 + verticalOffset / 2;
+    double right = buttonSizeHeart / 2 - floatingSizeHeart / 2 + horizontalOffset / 2;
     double bottom = buttonSizeHeart - floatingSizeHeart * 2 + _animationTick.toDouble();
 
     if (_animationTick > buttonSizeHeart && _animationTick % 2 == 1) {
-      verticalOffset = Random().nextDouble() * maxWidthFloatingZone - floatingSizeHeart;
-      verticalOffset = verticalOffset / 2;
+      horizontalOffset = Random().nextDouble() * maxWidthFloatingZone - floatingSizeHeart;
+      horizontalOffset = horizontalOffset / 2 - floatingSizeHeart;
       right = Random().nextBool()
-          ? floatingSizeHeart + verticalOffset
-          : floatingSizeHeart - verticalOffset;
+          ? floatingSizeHeart + horizontalOffset
+          : floatingSizeHeart - horizontalOffset;
     }
 
     return AnimatedPositioned(
       duration: _durationAnimation,
       bottom: bottom,
       right: right,
-      child: Container(
+      child: SvgPicture.asset(
+        widget.iconPath,
         width: floatingSizeHeart,
         height: floatingSizeHeart,
-        decoration: BoxDecoration(
-          color: widget.color,
-          shape: BoxShape.circle,
+        colorFilter: ColorFilter.mode(
+          widget.color,
+          BlendMode.srcIn,
         ),
       ),
     );
@@ -228,13 +235,23 @@ class __HeartState extends State<_Heart> {
 
   final Map<String, _FloatingHeartSettings> _mapHearts = {};
 
-  final List<Color> _heartColors = [
+  final List<Color> _smallHeartColors = [
     CvAppBasicColors.buttercup,
     CvAppBasicColors.acid,
     CvAppBasicColors.buttercupLight,
     CvAppBasicColors.green,
     CvAppBasicColors.greenLight,
     CvAppBasicColors.softGrey,
+    CvAppBasicColors.smallHeartBlue,
+    CvAppBasicColors.smallHeartRed,
+    CvAppBasicColors.smallHeartTurquoise,
+    CvAppBasicColors.smallHeartYellow,
+  ];
+
+  final List<String> _smallHeartPaths = [
+    Assets.icons.svg.heartAngle,
+    Assets.icons.svg.heartSmall,
+    Assets.icons.svg.heartPulse,
   ];
 
   static const double maxWidthOfFloatingZone = 200.0;
@@ -242,7 +259,8 @@ class __HeartState extends State<_Heart> {
 
   void _addHeart() {
     final duration = Duration(milliseconds: 2000 + Random().nextInt(10000));
-    final color = _heartColors[Random().nextInt(_heartColors.length - 1)];
+    final color = _smallHeartColors[Random().nextInt(_smallHeartColors.length - 1)];
+    final iconPath = _smallHeartPaths[Random().nextInt(_smallHeartPaths.length - 1)];
     final key = DateTime.now().millisecondsSinceEpoch.toString();
 
     final timer = Timer(duration, () {
@@ -259,6 +277,7 @@ class __HeartState extends State<_Heart> {
         heart: _FloatingHeart(
           key: ValueKey(key),
           color: color,
+          iconPath: iconPath,
           durationLife: duration,
         ),
       )
