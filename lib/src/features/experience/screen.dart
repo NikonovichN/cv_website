@@ -53,6 +53,11 @@ class _Download extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = injector<ExperienceScreenController>().state.screenData;
+    final languageController = injector<CvAppLanguageController>();
+    final fileToDownload =
+        languageController.value.cvAppLanguage.code == CvAppLanguage.defaultLanguage
+            ? Assets.files.a00CvNikitaNikonovichEn
+            : Assets.files.a00CvNikitaNikonovichRu;
 
     if (state == null) {
       return const SizedBox.shrink();
@@ -60,7 +65,7 @@ class _Download extends StatelessWidget {
 
     return Row(children: [
       CvAppButton.secondary(
-        onPressed: () {},
+        onPressed: () => html.window.open(fileToDownload, fileToDownload),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
