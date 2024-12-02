@@ -9,6 +9,21 @@
 
 import 'package:flutter/widgets.dart';
 
+class $AssetsFilesGen {
+  const $AssetsFilesGen();
+
+  /// File path: assets/files/00 cv_Nikita_Nikonovich - en.pdf
+  String get a00CvNikitaNikonovichEn =>
+      'assets/files/00 cv_Nikita_Nikonovich - en.pdf';
+
+  /// File path: assets/files/00 cv_Nikita_Nikonovich - ru.pdf
+  String get a00CvNikitaNikonovichRu =>
+      'assets/files/00 cv_Nikita_Nikonovich - ru.pdf';
+
+  /// List of all assets
+  List<String> get values => [a00CvNikitaNikonovichEn, a00CvNikitaNikonovichRu];
+}
+
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
@@ -31,6 +46,10 @@ class $AssetsIconsSvgGen {
 
   /// File path: assets/icons/svg/down-arrow.svg
   String get downArrow => 'assets/icons/svg/down-arrow.svg';
+
+  /// File path: assets/icons/svg/download-minimalistic.svg
+  String get downloadMinimalistic =>
+      'assets/icons/svg/download-minimalistic.svg';
 
   /// File path: assets/icons/svg/git.svg
   String get git => 'assets/icons/svg/git.svg';
@@ -59,6 +78,7 @@ class $AssetsIconsSvgGen {
   /// List of all assets
   List<String> get values => [
         downArrow,
+        downloadMinimalistic,
         git,
         gmail,
         heartAngle,
@@ -73,6 +93,7 @@ class $AssetsIconsSvgGen {
 class Assets {
   Assets._();
 
+  static const $AssetsFilesGen files = $AssetsFilesGen();
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
 }

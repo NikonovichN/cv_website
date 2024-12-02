@@ -22,6 +22,8 @@ class CvAppBasicColors {
   static const buttonBackgroundDisabled = silverWare;
   static const buttonLabelPrimary = gloomy;
   static const buttonLabelDisabled = buttercupLight;
+
+  static const buttonBackgroundSecondaryPressed = Color.fromARGB(22, 255, 211, 90);
 }
 
 class CvAppDarkColorsScheme extends ColorScheme {

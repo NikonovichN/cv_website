@@ -4,16 +4,15 @@ import 'dart:async';
 import 'dart:html' as html;
 import 'dart:math';
 
-import 'package:cv_website/src/ui_kit/ui_kit.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
-
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../src.dart';
 import 'controller.dart';
+import '../../ui_kit/ui_kit.dart';
 import '../languages/controller.dart';
 
 class WelcomeScreen extends StatelessWidget {

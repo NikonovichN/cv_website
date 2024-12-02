@@ -43,6 +43,19 @@ class CvAppButton extends StatelessWidget {
     this.margin,
   });
 
+  const CvAppButton.secondary({
+    super.key,
+    this.onPressed,
+    required this.child,
+    this.colorScheme = secondaryColorScheme,
+    this.textStyle = CvAppFonts.primaryButton,
+    this.textColor = CvAppBasicColors.buttercup,
+    this.isLoading = false,
+    this.elevation = 0,
+    this.padding = const EdgeInsets.symmetric(horizontal: 36.0, vertical: 12.0),
+    this.margin,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Padding(

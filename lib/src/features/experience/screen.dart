@@ -4,6 +4,10 @@ import 'dart:html' as html;
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
+import 'package:flutter_svg/flutter_svg.dart';
+
+import 'package:cv_website/src/assets/assets.gen.dart';
+
 import 'controller.dart';
 import '../languages/controller.dart';
 import '../../di/injections.dart';
@@ -32,12 +36,47 @@ class ExperienceScreen extends StatelessWidget {
             children: [
               Text(state.title, style: CvAppFonts.header),
               const SizedBox(height: 62.0),
+              const _Download(),
+              const SizedBox(height: 36.0),
               const _AccordionSection(),
             ],
           ),
         );
       },
     );
+  }
+}
+
+class _Download extends StatelessWidget {
+  const _Download();
+
+  @override
+  Widget build(BuildContext context) {
+    final state = injector<ExperienceScreenController>().state.screenData;
+
+    if (state == null) {
+      return const SizedBox.shrink();
+    }
+
+    return Row(children: [
+      CvAppButton.secondary(
+        onPressed: () {},
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(state.downloadLabel),
+            const SizedBox(width: 15.0),
+            SvgPicture.asset(
+              Assets.icons.svg.downloadMinimalistic,
+              colorFilter: const ColorFilter.mode(
+                CvAppBasicColors.buttercup,
+                BlendMode.srcIn,
+              ),
+            ),
+          ],
+        ),
+      )
+    ]);
   }
 }
 
