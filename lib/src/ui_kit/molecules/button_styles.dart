@@ -79,3 +79,24 @@ const primaryColorScheme = ButtonColorScheme(
   disabledForegroundColor: CvAppBasicColors.buttonLabelDisabled,
   loadingForegroundColor: CvAppBasicColors.buttonLabelPrimary,
 );
+
+const secondaryColorScheme = ButtonColorScheme(
+  /// background
+  defaultBackgroundColor: Colors.transparent,
+  pressedBackgroundColor: CvAppBasicColors.buttonBackgroundSecondaryPressed,
+  disabledBackgroundColor: Colors.transparent,
+  loadingBackgroundColor: Colors.transparent,
+
+  strokeColorScheme: ButtonStrokeColorScheme(
+    defaultColor: CvAppBasicColors.buttercup,
+    pressedColor: CvAppBasicColors.buttercupLight,
+    loadingColor: CvAppBasicColors.buttercup,
+    disabledColor: CvAppBasicColors.buttonBackgroundDisabled,
+  ),
+
+  /// foreground
+  defaultForegroundColor: Colors.transparent,
+  pressedForegroundColor: Colors.transparent,
+  disabledForegroundColor: CvAppBasicColors.buttonBackgroundDisabled,
+  loadingForegroundColor: Colors.transparent,
+);
