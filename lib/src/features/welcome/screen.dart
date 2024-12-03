@@ -32,16 +32,22 @@ class WelcomeScreen extends StatelessWidget {
         }
 
         final state = snapshot.data!.screenData!;
+        final widthScreen = MediaQuery.of(context).size.width;
+        final isSmallScreen = widthScreen < appConstraints.maxWidth;
+        final cvAppPadding = isSmallScreen ? appPaddingSmallScreen : appPadding;
 
         return ScrollScreenConfiguration(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(state.title, style: CvAppFonts.header),
-              const SizedBox(height: 62.0),
-              const _Body(),
-            ],
+          child: Padding(
+            padding: cvAppPadding.copyWith(bottom: 16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(state.title, style: CvAppFonts.header),
+                const SizedBox(height: 62.0),
+                const _Body(),
+              ],
+            ),
           ),
         );
       },
@@ -263,8 +269,8 @@ class __HeartState extends State<_Heart> {
 
   void _addHeart() {
     final duration = Duration(milliseconds: 2000 + Random().nextInt(10000));
-    final color = _smallHeartColors[Random().nextInt(_smallHeartColors.length - 1)];
-    final iconPath = _smallHeartPaths[Random().nextInt(_smallHeartPaths.length - 1)];
+    final color = _smallHeartColors[Random().nextInt(_smallHeartColors.length)];
+    final iconPath = _smallHeartPaths[Random().nextInt(_smallHeartPaths.length)];
     final key = DateTime.now().millisecondsSinceEpoch.toString();
 
     final timer = Timer(duration, () {
