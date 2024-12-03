@@ -143,12 +143,12 @@ class __MouseRegionState extends State<_MouseRegion> {
     final goRouterState = GoRouterStateProvider.of(context).state;
     final items = injector<CvAppMenuController>().state.items;
 
-    final widthScreen = MediaQuery.of(context).size.width;
-    final cvAppPadding = widthScreen > appConstraints.maxWidth ? appPadding : appPaddingSmallScreen;
+    final screenState = ScreenProvider.of(context).state;
 
-    final offsetX = widthScreen > appConstraints.maxWidth
-        ? (widthScreen - appConstraints.maxWidth) / 2
-        : cvAppPadding.left;
+    final leftPadding = screenState.appPadding.left;
+    final offsetX = screenState.isSmallScreen
+        ? leftPadding
+        : (screenState.widthScreen - appConstraints.maxWidth) / 2 + leftPadding;
 
     _setActiveMenuKey(goRouterState);
 
