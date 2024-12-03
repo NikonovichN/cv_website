@@ -6,7 +6,7 @@ import 'package:flutter/gestures.dart';
 import 'package:go_router/go_router.dart';
 
 import 'controller.dart';
-import '../providers/screen_provider.dart';
+import '../providers/app_provider.dart';
 import '../languages/widget.dart';
 import '../../di/injections.dart';
 import '../../common/values.dart';
@@ -23,20 +23,22 @@ class CvAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenState = ScreenProvider.of(context).state;
-    final topPadding = screenState.isSmallScreen ? 6.0 : 14.0;
+    final appProviderValue = AppProvider.of(context).value;
+    final topPadding = appProviderValue.isSmallScreen ? 6.0 : 14.0;
 
     return StreamBuilder<CvAppMenuState>(
       stream: injector(),
       builder: (context, snapshot) {
         return Padding(
-          padding: screenState.appPadding.copyWith(top: topPadding),
+          padding: appProviderValue.padding.copyWith(top: topPadding),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const ChooseLanguage(),
-              screenState.isSmallScreen ? const SizedBox.shrink() : const SizedBox(height: 6.0),
+              appProviderValue.isSmallScreen
+                  ? const SizedBox.shrink()
+                  : const SizedBox(height: 6.0),
               SizedBox(
                 height: 40.0,
                 child: _MouseRegion(
@@ -143,12 +145,12 @@ class __MouseRegionState extends State<_MouseRegion> {
     final goRouterState = GoRouterStateProvider.of(context).state;
     final items = injector<CvAppMenuController>().state.items;
 
-    final screenState = ScreenProvider.of(context).state;
+    final appProviderValue = AppProvider.of(context).value;
 
-    final leftPadding = screenState.appPadding.left;
-    final offsetX = screenState.isSmallScreen
+    final leftPadding = appProviderValue.padding.left;
+    final offsetX = appProviderValue.isSmallScreen
         ? leftPadding
-        : (screenState.widthScreen - appConstraints.maxWidth) / 2 + leftPadding;
+        : (appProviderValue.widthScreen - appConstraints.maxWidth) / 2 + leftPadding;
 
     _setActiveMenuKey(goRouterState);
 

@@ -29,11 +29,11 @@ class ScaffoldCvApp extends StatelessWidget {
         menuController.loadItems(lang);
         loadDataScreen?.call(lang);
 
-        return ScreenProvider(
-          state: ScreenState(
+        return AppProvider(
+          value: ProviderValue(
             widthScreen: widthScreen,
             isSmallScreen: isSmallScreen,
-            appPadding: cvAppPadding,
+            padding: cvAppPadding,
           ),
           child: Container(
             alignment: Alignment.center,
