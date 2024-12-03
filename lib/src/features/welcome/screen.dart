@@ -19,6 +19,8 @@ import '../providers/screen_provider.dart';
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
+  static const _emptySpace = SizedBox(height: 62.0);
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<WelcomeScreenState>(
@@ -43,8 +45,9 @@ class WelcomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
+                screenState.isSmallScreen ? _emptySpace : const SizedBox.shrink(),
                 Text(state.title, style: CvAppFonts.header),
-                const SizedBox(height: 62.0),
+                _emptySpace,
                 const _Body(),
               ],
             ),
