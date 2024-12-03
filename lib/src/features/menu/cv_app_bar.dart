@@ -1,15 +1,17 @@
 import 'dart:async';
 
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
 
 import 'package:go_router/go_router.dart';
 
-import '../features.dart';
+import 'controller.dart';
+import '../providers/screen_provider.dart';
+import '../languages/widget.dart';
 import '../../di/injections.dart';
 import '../../common/values.dart';
 import '../../navigation/paths.dart';
-import '../../navigation/state_provider.dart';
+import '../providers/go_router_state_provider.dart';
 import '../../ui_kit/molecules/molecules.dart';
 import '../../ui_kit/atoms/colors.dart';
 
@@ -21,22 +23,20 @@ class CvAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final widthScreen = MediaQuery.of(context).size.width;
-    final isSmallScreen = widthScreen < appConstraints.maxWidth;
-    final topPadding = isSmallScreen ? 6.0 : 14.0;
-    final cvAppPadding = isSmallScreen ? appPaddingSmallScreen : appPadding;
+    final screenState = ScreenProvider.of(context).state;
+    final topPadding = screenState.isSmallScreen ? 6.0 : 14.0;
 
     return StreamBuilder<CvAppMenuState>(
       stream: injector(),
       builder: (context, snapshot) {
         return Padding(
-          padding: cvAppPadding.copyWith(top: topPadding),
+          padding: screenState.appPadding.copyWith(top: topPadding),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const ChooseLanguage(),
-              isSmallScreen ? const SizedBox.shrink() : const SizedBox(height: 6.0),
+              screenState.isSmallScreen ? const SizedBox.shrink() : const SizedBox(height: 6.0),
               SizedBox(
                 height: 40.0,
                 child: _MouseRegion(

@@ -22,17 +22,28 @@ class ScaffoldCvApp extends StatelessWidget {
         final languageState = injector<CvAppLanguageState>();
         final lang = lnSnap.data?.cvAppLanguage.code ?? languageState.cvAppLanguage.code;
 
+        final widthScreen = MediaQuery.of(context).size.width;
+        final isSmallScreen = widthScreen < appConstraints.maxWidth;
+        final cvAppPadding = isSmallScreen ? appPaddingSmallScreen : appPadding;
+
         menuController.loadItems(lang);
         loadDataScreen?.call(lang);
 
-        return Container(
-          alignment: Alignment.center,
-          color: CvAppBasicColors.gloomy,
-          child: ConstrainedBox(
-            constraints: appConstraints,
-            child: Scaffold(
-              appBar: const CvAppBar(),
-              body: child,
+        return ScreenProvider(
+          state: ScreenState(
+            widthScreen: widthScreen,
+            isSmallScreen: isSmallScreen,
+            appPadding: cvAppPadding,
+          ),
+          child: Container(
+            alignment: Alignment.center,
+            color: CvAppBasicColors.gloomy,
+            child: ConstrainedBox(
+              constraints: appConstraints,
+              child: Scaffold(
+                appBar: const CvAppBar(),
+                body: child,
+              ),
             ),
           ),
         );

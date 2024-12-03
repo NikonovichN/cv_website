@@ -13,3 +13,4 @@ export 'skills/controller.dart';
 export 'skills/repository.dart';
 export 'experience/repository.dart';
 export 'experience/controller.dart';
+export 'providers/screen_provider.dart';

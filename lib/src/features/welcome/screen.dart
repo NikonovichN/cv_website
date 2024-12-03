@@ -14,6 +14,7 @@ import 'controller.dart';
 import '../../src.dart';
 import '../../ui_kit/ui_kit.dart';
 import '../languages/controller.dart';
+import '../providers/screen_provider.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -32,13 +33,12 @@ class WelcomeScreen extends StatelessWidget {
         }
 
         final state = snapshot.data!.screenData!;
-        final widthScreen = MediaQuery.of(context).size.width;
-        final isSmallScreen = widthScreen < appConstraints.maxWidth;
-        final cvAppPadding = isSmallScreen ? appPaddingSmallScreen : appPadding;
+
+        final screenState = ScreenProvider.of(context).state;
 
         return ScrollScreenConfiguration(
           child: Padding(
-            padding: cvAppPadding.copyWith(bottom: 16.0),
+            padding: screenState.appPadding.copyWith(bottom: 16.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
