@@ -17,16 +17,22 @@ class ScaffoldCvApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder<CvAppLanguageState>(
       stream: injector<CvAppLanguageController>().stream,
-      builder: (context, snapshot) {
-        final lang =
-            snapshot.data?.cvAppLanguage.code ?? injector<CvAppLanguageState>().cvAppLanguage.code;
-        injector<CvAppMenuController>().loadItems(lang);
+      builder: (context, lnSnap) {
+        final widthScreen = MediaQuery.of(context).size.width;
+        final cvAppPadding =
+            widthScreen > appConstraints.maxWidth ? appPadding : appPaddingSmallScreen;
+
+        final menuController = injector<CvAppMenuController>();
+        final languageState = injector<CvAppLanguageState>();
+        final lang = lnSnap.data?.cvAppLanguage.code ?? languageState.cvAppLanguage.code;
+
+        menuController.loadItems(lang);
         loadDataScreen?.call(lang);
 
         return Container(
           alignment: Alignment.center,
           color: CvAppBasicColors.gloomy,
-          padding: appPadding,
+          padding: cvAppPadding,
           child: ConstrainedBox(
             constraints: appConstraints,
             child: Scaffold(

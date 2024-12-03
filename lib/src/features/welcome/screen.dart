@@ -10,8 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../src.dart';
 import 'controller.dart';
+import '../../src.dart';
 import '../../ui_kit/ui_kit.dart';
 import '../languages/controller.dart';
 
@@ -77,7 +77,8 @@ class _Error extends StatelessWidget {
 }
 
 class _Body extends StatelessWidget {
-  static const _descriptionTextPadding = EdgeInsets.symmetric(horizontal: 136.0);
+  static const _textPadding = EdgeInsets.symmetric(horizontal: 136.0);
+  static const _textPaddingSmallScreen = EdgeInsets.symmetric(horizontal: 32.0);
 
   const _Body();
 
@@ -85,6 +86,10 @@ class _Body extends StatelessWidget {
   Widget build(BuildContext context) {
     final welcomeScreenController = injector<WelcomeScreenController>();
     final welcomeScreenData = welcomeScreenController.state.screenData;
+
+    final widthScreen = MediaQuery.of(context).size.width;
+    final isSmallScreen = widthScreen < appConstraints.maxWidth;
+    final padding = isSmallScreen ? _textPaddingSmallScreen : _textPadding;
 
     if (welcomeScreenData == null) {
       return const SizedBox.shrink();
@@ -95,16 +100,16 @@ class _Body extends StatelessWidget {
         Column(
           children: [
             Padding(
-              padding: _descriptionTextPadding,
+              padding: padding,
               child: Text(
                 welcomeScreenData.description,
                 style: CvAppFonts.robotoRegular,
                 textAlign: TextAlign.center,
               ),
             ),
-            const SizedBox(height: 74.0),
+            isSmallScreen ? const SizedBox(height: 36.0) : const SizedBox(height: 74.0),
             Assets.images.avatar.image(),
-            const SizedBox(height: 100.0),
+            isSmallScreen ? const SizedBox(height: 136.0) : const SizedBox(height: 100.0),
           ],
         ),
         Positioned(
@@ -381,7 +386,7 @@ class _Socials extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         CvAppSvgIconButton.primary(
-          iconPath: Assets.icons.svg.gmail,
+          iconPath: Assets.icons.svg.mail,
           onPressed: () async {
             try {
               await launchUrl(Uri.parse(state.gmail));
