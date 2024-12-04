@@ -10,6 +10,11 @@ class ChooseLanguage extends StatelessWidget {
   static const _ru = 'ru';
   static const _en = 'en';
 
+  static const _constraintsLinkButton = BoxConstraints(
+    maxWidth: 24.0,
+    minHeight: 20.0,
+  );
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<CvAppLanguageState>(
@@ -19,16 +24,22 @@ class ChooseLanguage extends StatelessWidget {
         return Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SvAppTextButton.link(
-              isActive: _en == lang,
-              onPressed: () => injector<CvAppLanguageController>().save(_en),
-              child: const Text(_en),
+            ConstrainedBox(
+              constraints: _constraintsLinkButton,
+              child: SvAppTextButton.link(
+                isActive: _en == lang,
+                onPressed: () => injector<CvAppLanguageController>().save(_en),
+                child: const Text(_en),
+              ),
             ),
             const SizedBox(width: 4.0),
-            SvAppTextButton.link(
-              isActive: _ru == lang,
-              onPressed: () => injector<CvAppLanguageController>().save(_ru),
-              child: const Text(_ru),
+            ConstrainedBox(
+              constraints: _constraintsLinkButton,
+              child: SvAppTextButton.link(
+                isActive: _ru == lang,
+                onPressed: () => injector<CvAppLanguageController>().save(_ru),
+                child: const Text(_ru),
+              ),
             ),
           ],
         );
