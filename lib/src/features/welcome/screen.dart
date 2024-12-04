@@ -14,7 +14,7 @@ import 'controller.dart';
 import '../../src.dart';
 import '../../ui_kit/ui_kit.dart';
 import '../languages/controller.dart';
-import '../providers/app_provider.dart';
+import '../../providers/app_provider.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -44,8 +44,7 @@ class WelcomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                appProviderValue.isSmallScreen ? _emptySpace : const SizedBox.shrink(),
-                Text(state.title, style: CvAppFonts.header),
+                ScreenHeader(text: Text(state.title)),
                 _emptySpace,
                 const _Body(),
               ],

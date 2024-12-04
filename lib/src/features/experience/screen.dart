@@ -12,9 +12,13 @@ import 'controller.dart';
 import '../languages/controller.dart';
 import '../../di/injections.dart';
 import '../../ui_kit/ui_kit.dart';
+import '../../providers/app_provider.dart';
 
 class ExperienceScreen extends StatelessWidget {
   const ExperienceScreen({super.key});
+
+  static const _emptyWidget = SizedBox.shrink();
+  static const _emptySpace = SizedBox(height: 62.0);
 
   @override
   Widget build(BuildContext context) {
@@ -30,16 +34,21 @@ class ExperienceScreen extends StatelessWidget {
         }
 
         final state = snapshot.data!.screenData!;
+        final appProviderValue = AppProvider.of(context).value;
+        const downloadWidget = _Download();
 
         return ScrollScreenConfiguration(
-          child: Column(
-            children: [
-              Text(state.title, style: CvAppFonts.header),
-              const SizedBox(height: 62.0),
-              const _Download(),
-              const SizedBox(height: 36.0),
-              const _AccordionSection(),
-            ],
+          child: Padding(
+            padding: appProviderValue.padding.copyWith(bottom: 16.0),
+            child: Column(
+              children: [
+                ScreenHeader(text: Text(state.title)),
+                _emptySpace,
+                if (appProviderValue.isSmallScreen) _emptyWidget else downloadWidget,
+                const _AccordionSection(),
+                if (appProviderValue.isSmallScreen) ...[_emptySpace, downloadWidget],
+              ],
+            ),
           ),
         );
       },
@@ -52,6 +61,7 @@ class _Download extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appProviderValue = AppProvider.of(context).value;
     final state = injector<ExperienceScreenController>().state.screenData;
     final languageController = injector<CvAppLanguageController>();
     final fileToDownload =
@@ -63,25 +73,29 @@ class _Download extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    return Row(children: [
-      CvAppButton.secondary(
-        onPressed: () => html.window.open(fileToDownload, fileToDownload),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(state.downloadLabel),
-            const SizedBox(width: 15.0),
-            SvgPicture.asset(
-              Assets.icons.svg.downloadMinimalistic,
-              colorFilter: const ColorFilter.mode(
-                CvAppBasicColors.buttercup,
-                BlendMode.srcIn,
+    return Row(
+      mainAxisAlignment:
+          appProviderValue.isSmallScreen ? MainAxisAlignment.center : MainAxisAlignment.start,
+      children: [
+        CvAppButton.secondary(
+          onPressed: () => html.window.open(fileToDownload, fileToDownload),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(state.downloadLabel),
+              const SizedBox(width: 15.0),
+              SvgPicture.asset(
+                Assets.icons.svg.downloadMinimalistic,
+                colorFilter: const ColorFilter.mode(
+                  CvAppBasicColors.buttercup,
+                  BlendMode.srcIn,
+                ),
               ),
-            ),
-          ],
-        ),
-      )
-    ]);
+            ],
+          ),
+        )
+      ],
+    );
   }
 }
 
@@ -104,6 +118,8 @@ class _AccordionSection extends StatelessWidget {
               header: Text(el.period, style: CvAppFonts.oswaldMedium),
               title: Text(
                 el.title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 style: CvAppFonts.oswaldMedium.copyWith(
                   fontSize: 26.0,
                   color: CvAppBasicColors.softGrey,
@@ -160,6 +176,7 @@ class _SectionContent extends StatelessWidget {
   });
 
   static const _padding = EdgeInsets.all(40.0);
+  static const _paddingSmallScreen = EdgeInsets.symmetric(vertical: 16);
   static const _innerPadding = EdgeInsets.only(left: 50.0);
   static const _emptySpaceS = SizedBox(height: 8.0);
   static const _emptySpaceXS = SizedBox(height: 5.0);
@@ -167,8 +184,9 @@ class _SectionContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appProviderValue = AppProvider.of(context).value;
     return Padding(
-      padding: _padding,
+      padding: appProviderValue.isSmallScreen ? _paddingSmallScreen : _padding,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

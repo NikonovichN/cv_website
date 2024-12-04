@@ -6,12 +6,12 @@ import 'package:flutter/gestures.dart';
 import 'package:go_router/go_router.dart';
 
 import 'controller.dart';
-import '../providers/app_provider.dart';
+import '../../providers/app_provider.dart';
 import '../languages/widget.dart';
 import '../../di/injections.dart';
 import '../../common/values.dart';
 import '../../navigation/paths.dart';
-import '../providers/go_router_state_provider.dart';
+import '../../providers/go_router_state_provider.dart';
 import '../../ui_kit/molecules/molecules.dart';
 import '../../ui_kit/atoms/colors.dart';
 

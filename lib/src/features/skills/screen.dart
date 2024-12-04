@@ -8,7 +8,7 @@ import 'controller.dart';
 import '../../di/injections.dart';
 import '../../ui_kit/ui_kit.dart';
 import '../languages/controller.dart';
-import '../providers/app_provider.dart';
+import '../../providers/app_provider.dart';
 
 class SkillsScreen extends StatelessWidget {
   const SkillsScreen({super.key});
@@ -29,14 +29,12 @@ class SkillsScreen extends StatelessWidget {
         }
 
         final state = snapshot.data!.screenData!;
-        final appProviderValue = AppProvider.of(context).value;
 
         return ScrollScreenConfiguration(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              appProviderValue.isSmallScreen ? _emptySpace : const SizedBox.shrink(),
-              Text(state.title, style: CvAppFonts.header),
+              ScreenHeader(text: Text(state.title)),
               _emptySpace,
               const _RatesKnowledge(),
               const SizedBox(height: 100.0),

@@ -106,7 +106,7 @@ class CvAppButton extends StatelessWidget {
 
   OutlinedBorder? _shape(Set<WidgetState> states) {
     return RoundedRectangleBorder(
-      borderRadius: CvAppRadius.borderLg,
+      borderRadius: CvAppRadius.borderXXl,
       side: colorScheme.strokeColorScheme != null
           ? BorderSide(
               width: 1,
