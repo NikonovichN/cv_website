@@ -127,7 +127,7 @@ class _AnimatedHeader extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        header,
+        Flexible(child: header),
         AnimatedRotation(
           turns: isActive ? .5 : 0,
           duration: _animationDuration,

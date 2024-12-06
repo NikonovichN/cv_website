@@ -20,4 +20,5 @@ class CvAppRadius {
 
   //
   static const BorderRadius borderLg = BorderRadius.all(Radius.circular(lg));
+  static const BorderRadius borderXXl = BorderRadius.all(Radius.circular(xxl));
 }

@@ -10,13 +10,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../src.dart';
 import 'controller.dart';
+import '../../src.dart';
 import '../../ui_kit/ui_kit.dart';
 import '../languages/controller.dart';
+import '../../providers/app_provider.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
+
+  static const _emptySpace = SizedBox(height: 62.0);
 
   @override
   Widget build(BuildContext context) {
@@ -32,16 +35,20 @@ class WelcomeScreen extends StatelessWidget {
         }
 
         final state = snapshot.data!.screenData!;
+        final appProviderValue = AppProvider.of(context).value;
 
         return ScrollScreenConfiguration(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(state.title, style: CvAppFonts.header),
-              const SizedBox(height: 62.0),
-              const _Body(),
-            ],
+          child: Padding(
+            padding: appProviderValue.padding.copyWith(bottom: 16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ScreenHeader(text: Text(state.title)),
+                _emptySpace,
+                const _Body(),
+              ],
+            ),
           ),
         );
       },
@@ -77,7 +84,8 @@ class _Error extends StatelessWidget {
 }
 
 class _Body extends StatelessWidget {
-  static const _descriptionTextPadding = EdgeInsets.symmetric(horizontal: 136.0);
+  static const _textPadding = EdgeInsets.symmetric(horizontal: 136.0);
+  static const _textPaddingSmallScreen = EdgeInsets.symmetric(horizontal: 32.0);
 
   const _Body();
 
@@ -85,6 +93,10 @@ class _Body extends StatelessWidget {
   Widget build(BuildContext context) {
     final welcomeScreenController = injector<WelcomeScreenController>();
     final welcomeScreenData = welcomeScreenController.state.screenData;
+
+    final widthScreen = MediaQuery.of(context).size.width;
+    final isSmallScreen = widthScreen < appConstraints.maxWidth;
+    final padding = isSmallScreen ? _textPaddingSmallScreen : _textPadding;
 
     if (welcomeScreenData == null) {
       return const SizedBox.shrink();
@@ -95,16 +107,16 @@ class _Body extends StatelessWidget {
         Column(
           children: [
             Padding(
-              padding: _descriptionTextPadding,
+              padding: padding,
               child: Text(
                 welcomeScreenData.description,
                 style: CvAppFonts.robotoRegular,
                 textAlign: TextAlign.center,
               ),
             ),
-            const SizedBox(height: 74.0),
+            isSmallScreen ? const SizedBox(height: 36.0) : const SizedBox(height: 74.0),
             Assets.images.avatar.image(),
-            const SizedBox(height: 100.0),
+            isSmallScreen ? const SizedBox(height: 136.0) : const SizedBox(height: 100.0),
           ],
         ),
         Positioned(
@@ -258,8 +270,8 @@ class __HeartState extends State<_Heart> {
 
   void _addHeart() {
     final duration = Duration(milliseconds: 2000 + Random().nextInt(10000));
-    final color = _smallHeartColors[Random().nextInt(_smallHeartColors.length - 1)];
-    final iconPath = _smallHeartPaths[Random().nextInt(_smallHeartPaths.length - 1)];
+    final color = _smallHeartColors[Random().nextInt(_smallHeartColors.length)];
+    final iconPath = _smallHeartPaths[Random().nextInt(_smallHeartPaths.length)];
     final key = DateTime.now().millisecondsSinceEpoch.toString();
 
     final timer = Timer(duration, () {
@@ -381,7 +393,7 @@ class _Socials extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         CvAppSvgIconButton.primary(
-          iconPath: Assets.icons.svg.gmail,
+          iconPath: Assets.icons.svg.mail,
           onPressed: () async {
             try {
               await launchUrl(Uri.parse(state.gmail));

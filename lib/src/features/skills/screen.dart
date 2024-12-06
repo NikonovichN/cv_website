@@ -8,9 +8,12 @@ import 'controller.dart';
 import '../../di/injections.dart';
 import '../../ui_kit/ui_kit.dart';
 import '../languages/controller.dart';
+import '../../providers/app_provider.dart';
 
 class SkillsScreen extends StatelessWidget {
   const SkillsScreen({super.key});
+
+  static const _emptySpace = SizedBox(height: 62.0);
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +34,12 @@ class SkillsScreen extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(state.title, style: CvAppFonts.header),
-              const SizedBox(height: 62.0),
+              ScreenHeader(text: Text(state.title)),
+              _emptySpace,
               const _RatesKnowledge(),
               const SizedBox(height: 100.0),
               const _Education(),
+              _emptySpace,
             ],
           ),
         );
@@ -48,80 +52,143 @@ class _RatesKnowledge extends StatelessWidget {
   const _RatesKnowledge();
 
   static const _rightPart = .4;
-  static const _padding = EdgeInsets.symmetric(horizontal: 50.0);
+
+  static const _padding = EdgeInsets.symmetric(horizontal: 60.0);
+  static const _paddingSmallScreen = EdgeInsets.symmetric(horizontal: 16.0);
+  static const _spaceBtwTextRate = SizedBox(width: 16.0);
+  static const _spaceBtwTableRates = SizedBox(height: 16.0);
 
   @override
   Widget build(BuildContext context) {
+    final appProviderValue = AppProvider.of(context).value;
     final skillsScreenController = injector<SkillsScreenController>();
     final skillsScreenData = skillsScreenController.state.screenData;
-    final size = MediaQuery.of(context).size;
+
+    final padding = appProviderValue.isSmallScreen ? _paddingSmallScreen : _padding;
+
+    final rightPart = appProviderValue.widthScreen * _rightPart;
+    final leftPart = appProviderValue.widthScreen -
+        rightPart -
+        _spaceBtwTextRate.width! -
+        padding.left -
+        padding.right;
 
     return skillsScreenData == null
         ? const SizedBox.shrink()
         : Padding(
-            padding: _padding,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            padding: padding,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 70.0),
-                    ...skillsScreenData.rates.map((el) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Text(el.title.toUpperCase(), style: CvAppFonts.oswaldSubTitle),
-                      );
-                    }),
-                  ],
+                Container(
+                  width: rightPart,
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(color: CvAppBasicColors.acid),
+                    ),
+                  ),
+                  child: const _TableTitle(),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
+                _spaceBtwTableRates,
+                ...skillsScreenData.rates.map(
+                  (el) {
+                    return Row(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          width: size.width * _rightPart,
-                          padding: const EdgeInsets.only(bottom: 16.0),
-                          decoration: const BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(color: CvAppBasicColors.acid),
-                            ),
+                        Flexible(
+                          child: SizedBox(
+                            width: leftPart,
+                            child: _SkillTitle(value: el.title),
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                skillsScreenData.leftRate,
-                                style: CvAppFonts.robotoMediumM
-                                    .copyWith(color: CvAppBasicColors.greenLight),
-                              ),
-                              Text(
-                                skillsScreenData.rightRate,
-                                style: CvAppFonts.robotoMediumM
-                                    .copyWith(color: CvAppBasicColors.greenLight),
-                              ),
-                            ],
-                          ),
-                        )
+                        ),
+                        _spaceBtwTextRate,
+                        _Rate(width: rightPart, value: rightPart * el.value / 100.0),
                       ],
-                    ),
-                    const SizedBox(height: 20.0),
-                    ...skillsScreenData.rates.map((el) {
-                      return Container(
-                        margin: const EdgeInsets.symmetric(vertical: 10.0),
-                        width: size.width * _rightPart * el.value / 100.0,
-                        height: 30.0,
-                        color: CvAppBasicColors.greenLight,
-                      );
-                    }),
-                  ],
+                    );
+                  },
                 ),
               ],
             ),
           );
+  }
+}
+
+class _TableTitle extends StatelessWidget {
+  const _TableTitle();
+
+  @override
+  Widget build(BuildContext context) {
+    final appProviderValue = AppProvider.of(context).value;
+    final skillsScreenController = injector<SkillsScreenController>();
+    final skillsScreenData = skillsScreenController.state.screenData;
+
+    final fontSize = appProviderValue.isSmallScreen ? 14.0 : CvAppFonts.robotoMediumM.fontSize;
+    final textStyle = CvAppFonts.robotoMediumM
+        .copyWith(color: CvAppBasicColors.greenLight)
+        .copyWith(fontSize: fontSize);
+
+    return skillsScreenData == null
+        ? const SizedBox.shrink()
+        : Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Flexible(child: Text(skillsScreenData.leftRate, style: textStyle)),
+              Flexible(child: Text(skillsScreenData.rightRate, style: textStyle)),
+            ],
+          );
+  }
+}
+
+class _SkillTitle extends StatelessWidget {
+  final String value;
+
+  const _SkillTitle({required this.value});
+
+  static const _padding = EdgeInsets.symmetric(vertical: 8.0);
+
+  @override
+  Widget build(BuildContext context) {
+    final appProviderValue = AppProvider.of(context).value;
+    return Padding(
+      padding: _padding,
+      child: Text(
+        value.toUpperCase(),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: appProviderValue.isSmallScreen
+            ? CvAppFonts.oswaldSubTitle.copyWith(
+                fontSize: 18,
+                fontWeight: FontWeight.w400,
+              )
+            : CvAppFonts.oswaldSubTitle,
+      ),
+    );
+  }
+}
+
+class _Rate extends StatelessWidget {
+  final double width;
+  final double value;
+
+  const _Rate({required this.width, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    final appProviderValue = AppProvider.of(context).value;
+    return Container(
+      width: width,
+      alignment: Alignment.centerLeft,
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 10.0),
+        width: value,
+        height: appProviderValue.isSmallScreen ? 24.0 : 30.0,
+        color: CvAppBasicColors.greenLight,
+      ),
+    );
   }
 }
 

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'paths.dart';
-import 'state_provider.dart';
+import '../providers/go_router_state_provider.dart';
 import '../cv_app_scaffold.dart';
 import '../features/features.dart';
 

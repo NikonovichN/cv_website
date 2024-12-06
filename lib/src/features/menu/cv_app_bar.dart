@@ -1,15 +1,17 @@
 import 'dart:async';
 
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
 
 import 'package:go_router/go_router.dart';
 
-import '../features.dart';
+import 'controller.dart';
+import '../../providers/app_provider.dart';
+import '../languages/widget.dart';
 import '../../di/injections.dart';
 import '../../common/values.dart';
 import '../../navigation/paths.dart';
-import '../../navigation/state_provider.dart';
+import '../../providers/go_router_state_provider.dart';
 import '../../ui_kit/molecules/molecules.dart';
 import '../../ui_kit/atoms/colors.dart';
 
@@ -19,23 +21,26 @@ class CvAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size(double.infinity, 100.0);
 
-  static const _padding = EdgeInsets.only(top: 14.0);
-
   @override
   Widget build(BuildContext context) {
+    final appProviderValue = AppProvider.of(context).value;
+    final topPadding = appProviderValue.isSmallScreen ? 6.0 : 14.0;
+
     return StreamBuilder<CvAppMenuState>(
       stream: injector(),
       builder: (context, snapshot) {
         return Padding(
-          padding: _padding,
+          padding: appProviderValue.padding.copyWith(top: topPadding),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const ChooseLanguage(),
-              const SizedBox(height: 6.0),
+              appProviderValue.isSmallScreen
+                  ? const SizedBox.shrink()
+                  : const SizedBox(height: 6.0),
               SizedBox(
-                height: 36.0,
+                height: 40.0,
                 child: _MouseRegion(
                   key: ValueKey(snapshot.data?.items.toString()),
                 ),
@@ -69,12 +74,12 @@ class __MouseRegionState extends State<_MouseRegion> {
   double _dotPosition = 0.0;
   bool _mouseInter = false;
 
-  Timer? timer;
+  Timer? _timer;
 
   @override
   void initState() {
     super.initState();
-    timer = Timer.periodic(_timerDuration, _ticker);
+    _timer = Timer.periodic(_timerDuration, _ticker);
 
     _activeMenuKey = _welcomeKey;
 
@@ -88,9 +93,9 @@ class __MouseRegionState extends State<_MouseRegion> {
   }
 
   void _onMouseExit(PointerExitEvent _) {
-    timer?.cancel();
-    timer = null;
-    timer = Timer.periodic(_timerDuration, _ticker);
+    _timer?.cancel();
+    _timer = null;
+    _timer = Timer.periodic(_timerDuration, _ticker);
     setState(() => _mouseInter = false);
   }
 
@@ -131,7 +136,7 @@ class __MouseRegionState extends State<_MouseRegion> {
 
   @override
   void dispose() {
-    timer?.cancel();
+    _timer?.cancel();
     super.dispose();
   }
 
@@ -140,10 +145,12 @@ class __MouseRegionState extends State<_MouseRegion> {
     final goRouterState = GoRouterStateProvider.of(context).state;
     final items = injector<CvAppMenuController>().state.items;
 
-    final widthScreen = MediaQuery.of(context).size.width;
-    final offsetX = widthScreen > appConstraints.maxWidth
-        ? (widthScreen - appConstraints.maxWidth) / 2
-        : appPadding.left;
+    final appProviderValue = AppProvider.of(context).value;
+
+    final leftPadding = appProviderValue.padding.left;
+    final offsetX = appProviderValue.isSmallScreen
+        ? leftPadding
+        : (appProviderValue.widthScreen - appConstraints.maxWidth) / 2 + leftPadding;
 
     _setActiveMenuKey(goRouterState);
 
@@ -178,7 +185,7 @@ class __MouseRegionState extends State<_MouseRegion> {
             ],
           ),
           AnimatedPositioned(
-            bottom: 0.0,
+            bottom: 4.0,
             left: _dotPosition - offsetX,
             duration: _mouseInter ? _animationDurationShort : _animationDurationLong,
             curve: _mouseInter ? Curves.linear : Curves.fastEaseInToSlowEaseOut,
