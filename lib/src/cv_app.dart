@@ -11,6 +11,7 @@ class CvApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: _titleApp,
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: const CvAppDarkColorsScheme(),
         fontFamily: CvAppFonts.robotoFontFamily,
