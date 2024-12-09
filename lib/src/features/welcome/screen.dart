@@ -326,6 +326,8 @@ class __HeartState extends State<_Heart> {
               onTap: _addHeart,
               onTapDown: (_) => _setIsPressed(true),
               onTapUp: (_) => _setIsPressed(false),
+              onPanDown: (_) => _setIsPressed(true),
+              onPanEnd: (_) => _setIsPressed(false),
               child: MouseRegion(
                 cursor: SystemMouseCursors.click,
                 child: AnimatedContainer(
