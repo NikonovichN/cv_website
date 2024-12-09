@@ -159,6 +159,7 @@ class _SkillTitle extends StatelessWidget {
         value.toUpperCase(),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
+        textAlign: TextAlign.center,
         style: appProviderValue.isSmallScreen
             ? CvAppFonts.oswaldSubTitle.copyWith(
                 fontSize: 18,
@@ -195,6 +196,8 @@ class _Rate extends StatelessWidget {
 class _Education extends StatelessWidget {
   const _Education();
 
+  static const _padding = EdgeInsets.symmetric(horizontal: 16.0);
+
   @override
   Widget build(BuildContext context) {
     final skillsScreenController = injector<SkillsScreenController>();
@@ -202,27 +205,33 @@ class _Education extends StatelessWidget {
 
     return skillsScreenData == null
         ? const SizedBox.shrink()
-        : Column(
-            children: [
-              Text(
-                skillsScreenData.educationTitle,
-                textAlign: TextAlign.center,
-                style: CvAppFonts.oswaldSubTitle.copyWith(fontWeight: FontWeight.w400),
-              ),
-              const SizedBox(height: 20.0),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: skillsScreenData.educationList
-                    .map((el) => Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4.0),
-                          child: Text(
-                            el,
-                            style: CvAppFonts.robotoMediumM,
-                          ),
-                        ))
-                    .toList(),
-              )
-            ],
+        : Padding(
+            padding: _padding,
+            child: Column(
+              children: [
+                Text(
+                  skillsScreenData.educationTitle,
+                  textAlign: TextAlign.center,
+                  style: CvAppFonts.oswaldSubTitle.copyWith(fontWeight: FontWeight.w400),
+                ),
+                const SizedBox(height: 20.0),
+                SizedBox(
+                  width: 700.0,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: skillsScreenData.educationList
+                        .map((el) => Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4.0),
+                              child: Text(
+                                el,
+                                style: CvAppFonts.robotoMediumM,
+                              ),
+                            ))
+                        .toList(),
+                  ),
+                )
+              ],
+            ),
           );
   }
 }
