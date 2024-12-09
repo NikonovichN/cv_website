@@ -110,7 +110,7 @@ class _Body extends StatelessWidget {
               padding: padding,
               child: Text(
                 welcomeScreenData.description,
-                style: CvAppFonts.robotoRegular,
+                style: CvAppFonts.robotoRegular.copyWith(height: 1.2),
                 textAlign: TextAlign.center,
               ),
             ),
