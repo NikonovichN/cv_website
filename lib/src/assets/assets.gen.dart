@@ -12,16 +12,14 @@ import 'package:flutter/widgets.dart';
 class $AssetsFilesGen {
   const $AssetsFilesGen();
 
-  /// File path: assets/files/00_cv_Nikita_Nikonovich_en.pdf
-  String get a00CvNikitaNikonovichEn =>
-      'assets/files/00_cv_Nikita_Nikonovich_en.pdf';
+  /// File path: assets/files/00_CV_Nikonovich_En.pdf
+  String get a00CVNikonovichEn => 'assets/files/00_CV_Nikonovich_En.pdf';
 
-  /// File path: assets/files/00_cv_Nikita_Nikonovich_ru.pdf
-  String get a00CvNikitaNikonovichRu =>
-      'assets/files/00_cv_Nikita_Nikonovich_ru.pdf';
+  /// File path: assets/files/00_CV_Nikonovich_Ru.pdf
+  String get a00CVNikonovichRu => 'assets/files/00_CV_Nikonovich_Ru.pdf';
 
   /// List of all assets
-  List<String> get values => [a00CvNikitaNikonovichEn, a00CvNikitaNikonovichRu];
+  List<String> get values => [a00CVNikonovichEn, a00CVNikonovichRu];
 }
 
 class $AssetsIconsGen {
