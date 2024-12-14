@@ -72,6 +72,9 @@ class $AssetsIconsSvgGen {
   /// File path: assets/icons/svg/mail.svg
   String get mail => 'assets/icons/svg/mail.svg';
 
+  /// File path: assets/icons/svg/oops.svg
+  String get oops => 'assets/icons/svg/oops.svg';
+
   /// File path: assets/icons/svg/telegram.svg
   String get telegram => 'assets/icons/svg/telegram.svg';
 
@@ -86,6 +89,7 @@ class $AssetsIconsSvgGen {
         heart,
         linkedIn,
         mail,
+        oops,
         telegram
       ];
 }

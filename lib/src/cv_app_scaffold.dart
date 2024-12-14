@@ -10,7 +10,7 @@ class ScaffoldCvApp extends StatelessWidget {
   const ScaffoldCvApp({
     super.key,
     required this.child,
-    required this.loadDataScreen,
+    this.loadDataScreen,
   });
 
   @override

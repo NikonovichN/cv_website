@@ -131,6 +131,8 @@ class __MouseRegionState extends State<_MouseRegion> {
         _activeMenuKey = _skillsKey;
       case RouterPath.experience:
         _activeMenuKey = _experienceKey;
+      case RouterPath.error:
+        _activeMenuKey = null;
     }
   }
 
