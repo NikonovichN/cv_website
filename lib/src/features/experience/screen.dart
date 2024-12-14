@@ -66,8 +66,8 @@ class _Download extends StatelessWidget {
     final languageController = injector<CvAppLanguageController>();
     final fileToDownload =
         languageController.value.cvAppLanguage.code == CvAppLanguage.defaultLanguage
-            ? Assets.files.a00CvNikitaNikonovichEn
-            : Assets.files.a00CvNikitaNikonovichRu;
+            ? Assets.files.a00CVNikonovichEn
+            : Assets.files.a00CVNikonovichRu;
 
     if (state == null) {
       return const SizedBox.shrink();
@@ -78,7 +78,15 @@ class _Download extends StatelessWidget {
           appProviderValue.isSmallScreen ? MainAxisAlignment.center : MainAxisAlignment.start,
       children: [
         CvAppButton.secondary(
-          onPressed: () => html.window.open(fileToDownload, fileToDownload),
+          onPressed: () {
+            try {
+              final anchor = html.AnchorElement(href: 'assets/$fileToDownload');
+              anchor.download = fileToDownload.split('/').last;
+              anchor.click();
+            } catch (_) {
+              // TODO: handle this case
+            }
+          },
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
