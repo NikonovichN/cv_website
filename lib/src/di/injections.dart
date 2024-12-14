@@ -14,54 +14,39 @@ class DependencyInjections {
 
   static Future<void> registerDependencies() async {
     /// Stuff
-    injector.registerSingleton<FirebaseDatabase>(initializeFirebaseDatabase());
-    injector.registerSingleton<SharedPreferencesManager>(
-      SharedPreferencesManagerImpl(prefs: await SharedPreferences.getInstance()),
-    );
+    injector
+      ..registerSingleton<FirebaseDatabase>(initializeFirebaseDatabase())
+      ..registerSingleton<SharedPreferencesManager>(
+          SharedPreferencesManagerImpl(prefs: await SharedPreferences.getInstance()));
 
     /// Repositories
     injector
-        .registerSingleton<CvAppLanguageRepository>(CvAppLanguageRepositoryImpl(prefs: injector()));
-    injector.registerSingleton<MenuRepository>(MenuRepositoryImpl(remoteDB: injector()));
-    injector.registerSingleton<WelcomeRepository>(WelcomeRepositoryImpl(remoteDB: injector()));
-    injector.registerSingleton<SkillsRepository>(SkillsRepositoryImpl(remoteDB: injector()));
-    injector
-        .registerSingleton<ExperienceRepository>(ExperienceRepositoryImpl(remoteDB: injector()));
+      ..registerSingleton<CvAppLanguageRepository>(CvAppLanguageRepositoryImpl(prefs: injector()))
+      ..registerSingleton<MenuRepository>(MenuRepositoryImpl(remoteDB: injector()))
+      ..registerSingleton<WelcomeRepository>(WelcomeRepositoryImpl(remoteDB: injector()))
+      ..registerSingleton<SkillsRepository>(SkillsRepositoryImpl(remoteDB: injector()))
+      ..registerSingleton<ExperienceRepository>(ExperienceRepositoryImpl(remoteDB: injector()));
 
     /// Controllers
-    injector.registerSingleton<CvAppLanguageController>(
-      CvAppLanguageControllerImpl(repository: injector()),
-    );
     injector
-        .registerSingleton<CvAppMenuController>(CvAppMenuControllerImpl(repository: injector()));
-    injector.registerSingleton<WelcomeScreenController>(
-      WelcomeScreenControllerImpl(repository: injector()),
-    );
-    injector.registerSingleton<SkillsScreenController>(
-      SkillsScreenControllerImpl(repository: injector()),
-    );
-    injector.registerSingleton<ExperienceScreenController>(
-      ExperienceScreenControllerImpl(repository: injector()),
-    );
+      ..registerSingleton<CvAppLanguageController>(
+          CvAppLanguageControllerImpl(repository: injector()))
+      ..registerSingleton<CvAppMenuController>(CvAppMenuControllerImpl(repository: injector()))
+      ..registerSingleton<WelcomeScreenController>(
+          WelcomeScreenControllerImpl(repository: injector()))
+      ..registerSingleton<SkillsScreenController>(
+          SkillsScreenControllerImpl(repository: injector()))
+      ..registerSingleton<ExperienceScreenController>(
+          ExperienceScreenControllerImpl(repository: injector()));
 
     /// Other
-    injector.registerSingleton<Stream<CvAppLanguageState>>(
-      injector<CvAppLanguageController>().stream,
-    );
-    injector.registerSingleton<CvAppLanguageState>(
-      injector<CvAppLanguageController>().value,
-    );
-    injector.registerSingleton<Stream<WelcomeScreenState>>(
-      injector<WelcomeScreenController>().stream,
-    );
-    injector.registerSingleton<Stream<CvAppMenuState>>(
-      injector<CvAppMenuController>().stream,
-    );
-    injector.registerSingleton<Stream<SkillsScreenState>>(
-      injector<SkillsScreenController>().stream,
-    );
-    injector.registerSingleton<Stream<ExperienceScreenState>>(
-      injector<ExperienceScreenController>().stream,
-    );
+    injector
+      ..registerSingleton<Stream<CvAppLanguageState>>(injector<CvAppLanguageController>().stream)
+      ..registerSingleton<CvAppLanguageState>(injector<CvAppLanguageController>().value)
+      ..registerSingleton<Stream<WelcomeScreenState>>(injector<WelcomeScreenController>().stream)
+      ..registerSingleton<Stream<CvAppMenuState>>(injector<CvAppMenuController>().stream)
+      ..registerSingleton<Stream<SkillsScreenState>>(injector<SkillsScreenController>().stream)
+      ..registerSingleton<Stream<ExperienceScreenState>>(
+          injector<ExperienceScreenController>().stream);
   }
 }
