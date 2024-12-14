@@ -12,13 +12,13 @@ import 'package:flutter/widgets.dart';
 class $AssetsFilesGen {
   const $AssetsFilesGen();
 
-  /// File path: assets/files/00 cv_Nikita_Nikonovich - en.pdf
+  /// File path: assets/files/00_cv_Nikita_Nikonovich_en.pdf
   String get a00CvNikitaNikonovichEn =>
-      'assets/files/00 cv_Nikita_Nikonovich - en.pdf';
+      'assets/files/00_cv_Nikita_Nikonovich_en.pdf';
 
-  /// File path: assets/files/00 cv_Nikita_Nikonovich - ru.pdf
+  /// File path: assets/files/00_cv_Nikita_Nikonovich_ru.pdf
   String get a00CvNikitaNikonovichRu =>
-      'assets/files/00 cv_Nikita_Nikonovich - ru.pdf';
+      'assets/files/00_cv_Nikita_Nikonovich_ru.pdf';
 
   /// List of all assets
   List<String> get values => [a00CvNikitaNikonovichEn, a00CvNikitaNikonovichRu];
@@ -72,6 +72,9 @@ class $AssetsIconsSvgGen {
   /// File path: assets/icons/svg/mail.svg
   String get mail => 'assets/icons/svg/mail.svg';
 
+  /// File path: assets/icons/svg/oops.svg
+  String get oops => 'assets/icons/svg/oops.svg';
+
   /// File path: assets/icons/svg/telegram.svg
   String get telegram => 'assets/icons/svg/telegram.svg';
 
@@ -86,6 +89,7 @@ class $AssetsIconsSvgGen {
         heart,
         linkedIn,
         mail,
+        oops,
         telegram
       ];
 }

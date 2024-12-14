@@ -14,6 +14,7 @@ final _shellNavigatorKey = GlobalKey<NavigatorState>();
 final router = GoRouter(
   initialLocation: RouterPath.welcome.path,
   navigatorKey: _rootNavigatorKey,
+  onException: (_, __, router) => router.go(RouterPath.error.path),
   routes: [
     ShellRoute(
       navigatorKey: _shellNavigatorKey,
@@ -45,6 +46,12 @@ final router = GoRouter(
             child: ExperienceScreen(),
           ),
         ),
+        GoRoute(
+          path: RouterPath.error.path,
+          pageBuilder: (context, state) => const NoTransitionPage(
+            child: ErrorScreen(),
+          ),
+        ),
       ],
     ),
   ],
@@ -63,6 +70,8 @@ extension on GoRouterState {
         return injector<SkillsScreenController>().loadData;
       case RouterPath.experience:
         return injector<ExperienceScreenController>().loadData;
+      case RouterPath.error:
+        return null;
     }
   }
 }
