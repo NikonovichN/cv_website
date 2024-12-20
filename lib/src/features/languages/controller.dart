@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 
+import '../../common/common.dart';
 import 'repository.dart';
 
 class CvAppLanguage extends Equatable {
@@ -36,7 +37,7 @@ abstract class CvAppLanguageController {
   CvAppLanguageState get value;
 }
 
-class CvAppLanguageControllerImpl implements CvAppLanguageController {
+class CvAppLanguageControllerImpl with CvWebLogger implements CvAppLanguageController {
   final StreamController<CvAppLanguageState> _controller =
       StreamController<CvAppLanguageState>.broadcast();
 
@@ -80,8 +81,8 @@ class CvAppLanguageControllerImpl implements CvAppLanguageController {
     try {
       await _repository.save(languageCode);
       read();
-      // TODO: to think about handle this case
-      // ignore: empty_catches
-    } catch (_) {}
+    } catch (e) {
+      error(e.toString());
+    }
   }
 }

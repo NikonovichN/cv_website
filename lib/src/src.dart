@@ -6,4 +6,4 @@ export 'assets/fonts.gen.dart';
 export 'ui_kit/molecules/molecules.dart';
 export 'di/injections.dart';
 export 'ui_kit/molecules/button.dart';
-export 'common/values.dart';
+export 'common/common.dart';

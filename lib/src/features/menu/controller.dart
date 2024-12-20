@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 
 import 'dto.dart';
 import 'repository.dart';
-import '../../common/errors.dart';
+import '../../common/common.dart';
 
 class MenuItems extends Equatable {
   static const defaultWelcome = 'Welcome';
@@ -58,7 +58,7 @@ abstract class CvAppMenuController {
   CvAppMenuState get state;
 }
 
-class CvAppMenuControllerImpl implements CvAppMenuController {
+class CvAppMenuControllerImpl with CvWebLogger implements CvAppMenuController {
   final StreamController<CvAppMenuState> _controller = StreamController<CvAppMenuState>.broadcast();
 
   CvAppMenuState _state = const CvAppMenuState();
@@ -95,12 +95,13 @@ class CvAppMenuControllerImpl implements CvAppMenuController {
           items: repositoryData.toMenuItems(),
         ),
       );
-    } catch (error) {
+    } catch (e) {
+      final errorString = e.toString();
+
+      error(errorString);
       emit(_state.copyWith(
         isLoading: false,
-        error: RepositoryError(
-          message: error.toString(),
-        ),
+        error: RepositoryError(message: errorString),
       ));
     }
   }

@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 
 import 'dto.dart';
 import 'repository.dart';
-import '../../common/errors.dart';
+import '../../common/common.dart';
 
 class SocialLinks extends Equatable {
   static const defaultTelegram = 'https://t.me/Nikita_Nikonovich';
@@ -80,7 +80,7 @@ abstract class WelcomeScreenController {
   WelcomeScreenState get state;
 }
 
-class WelcomeScreenControllerImpl implements WelcomeScreenController {
+class WelcomeScreenControllerImpl with CvWebLogger implements WelcomeScreenController {
   final StreamController<WelcomeScreenState> _controller =
       StreamController<WelcomeScreenState>.broadcast();
 
@@ -120,12 +120,13 @@ class WelcomeScreenControllerImpl implements WelcomeScreenController {
           screenData: repositoryData.toScreenData(),
         ),
       );
-    } catch (error) {
+    } catch (e) {
+      final errorString = e.toString();
+
+      error(errorString);
       emit(_state.copyWith(
         isLoading: false,
-        error: RepositoryError(
-          message: error.toString(),
-        ),
+        error: RepositoryError(message: errorString),
       ));
     }
   }

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 
-import '../../common/errors.dart';
+import '../../common/common.dart';
 import 'repository.dart';
 import 'dto.dart';
 
@@ -78,7 +78,7 @@ abstract class SkillsScreenController {
   SkillsScreenState get state;
 }
 
-class SkillsScreenControllerImpl implements SkillsScreenController {
+class SkillsScreenControllerImpl with CvWebLogger implements SkillsScreenController {
   final StreamController<SkillsScreenState> _controller =
       StreamController<SkillsScreenState>.broadcast();
 
@@ -118,12 +118,13 @@ class SkillsScreenControllerImpl implements SkillsScreenController {
           screenData: repositoryData.toScreenData,
         ),
       );
-    } catch (error) {
+    } catch (e) {
+      final errorString = e.toString();
+
+      error(errorString);
       emit(_state.copyWith(
         isLoading: false,
-        error: RepositoryError(
-          message: error.toString(),
-        ),
+        error: RepositoryError(message: errorString),
       ));
     }
   }
