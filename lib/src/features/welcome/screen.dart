@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 import 'controller.dart';
 import '../../src.dart';
@@ -364,8 +365,10 @@ class _PhoneText extends StatelessWidget {
       onTap: () async {
         try {
           await launchUrl(Uri.parse('tel:$phone'));
-        } catch (_) {
-          // TODO: to think about handle this case
+        } catch (error) {
+          final errorEvent = ErrorEventParameters(message: error.toString());
+          injector<FirebaseAnalytics>()
+              .logEvent(name: errorEvent.name, parameters: errorEvent.toMap());
         }
       },
       child: Padding(
@@ -399,8 +402,10 @@ class _Socials extends StatelessWidget {
           onPressed: () async {
             try {
               await launchUrl(Uri.parse(state.gmail));
-            } catch (_) {
-              // TODO: to think about handle this case
+            } catch (error) {
+              final errorEvent = ErrorEventParameters(message: error.toString());
+              injector<FirebaseAnalytics>()
+                  .logEvent(name: errorEvent.name, parameters: errorEvent.toMap());
             }
           },
         ),
@@ -409,8 +414,10 @@ class _Socials extends StatelessWidget {
           onPressed: () async {
             try {
               await launchUrl(Uri.parse(state.gitHub));
-            } catch (_) {
-              // TODO: to think about handle this case
+            } catch (error) {
+              final errorEvent = ErrorEventParameters(message: error.toString());
+              injector<FirebaseAnalytics>()
+                  .logEvent(name: errorEvent.name, parameters: errorEvent.toMap());
             }
           },
         ),
@@ -419,8 +426,10 @@ class _Socials extends StatelessWidget {
           onPressed: () async {
             try {
               await launchUrl(Uri.parse(state.linkedIn));
-            } catch (_) {
-              // TODO: to think about handle this case
+            } catch (error) {
+              final errorEvent = ErrorEventParameters(message: error.toString());
+              injector<FirebaseAnalytics>()
+                  .logEvent(name: errorEvent.name, parameters: errorEvent.toMap());
             }
           },
         ),
@@ -429,8 +438,10 @@ class _Socials extends StatelessWidget {
           onPressed: () async {
             try {
               await launchUrl(Uri.parse(state.telegram));
-            } catch (_) {
-              // TODO: to think about handle this case
+            } catch (error) {
+              final errorEvent = ErrorEventParameters(message: error.toString());
+              injector<FirebaseAnalytics>()
+                  .logEvent(name: errorEvent.name, parameters: errorEvent.toMap());
             }
           },
         ),

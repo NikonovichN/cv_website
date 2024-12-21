@@ -4,7 +4,8 @@ import 'package:equatable/equatable.dart';
 
 import 'repository.dart';
 import 'dto.dart';
-import '../../common/errors.dart';
+
+import '../../common/common.dart';
 
 class Project extends Equatable {
   final String period;
@@ -98,7 +99,7 @@ abstract class ExperienceScreenController {
   ExperienceScreenState get state;
 }
 
-class ExperienceScreenControllerImpl implements ExperienceScreenController {
+class ExperienceScreenControllerImpl with CvWebLogger implements ExperienceScreenController {
   final StreamController<ExperienceScreenState> _controller =
       StreamController<ExperienceScreenState>.broadcast();
 
@@ -138,12 +139,13 @@ class ExperienceScreenControllerImpl implements ExperienceScreenController {
           screenData: repositoryData.toScreenData,
         ),
       );
-    } catch (error) {
+    } catch (e) {
+      final errorString = e.toString();
+
+      error(errorString);
       emit(_state.copyWith(
         isLoading: false,
-        error: RepositoryError(
-          message: error.toString(),
-        ),
+        error: RepositoryError(message: errorString),
       ));
     }
   }

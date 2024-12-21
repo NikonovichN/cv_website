@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 import 'package:cv_website/src/assets/assets.gen.dart';
 
@@ -13,6 +14,7 @@ import '../languages/controller.dart';
 import '../../di/injections.dart';
 import '../../ui_kit/ui_kit.dart';
 import '../../providers/app_provider.dart';
+import '../../managers/firebase_analytics.dart';
 
 class ExperienceScreen extends StatelessWidget {
   const ExperienceScreen({super.key});
@@ -83,8 +85,10 @@ class _Download extends StatelessWidget {
               final anchor = html.AnchorElement(href: 'assets/$fileToDownload');
               anchor.download = fileToDownload.split('/').last;
               anchor.click();
-            } catch (_) {
-              // TODO: handle this case
+            } catch (error) {
+              final errorEvent = ErrorEventParameters(message: error.toString());
+              injector<FirebaseAnalytics>()
+                  .logEvent(name: errorEvent.name, parameters: errorEvent.toMap());
             }
           },
           child: Row(
