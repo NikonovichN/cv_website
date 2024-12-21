@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:cv_website/src/src.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 import 'controller.dart';
+import '../../di/injections.dart';
+import '../../ui_kit/ui_kit.dart';
+import '../../managers/firebase_analytics.dart';
 
 class ChooseLanguage extends StatelessWidget {
   const ChooseLanguage({super.key});
@@ -28,7 +31,14 @@ class ChooseLanguage extends StatelessWidget {
               constraints: _constraintsLinkButton,
               child: SvAppTextButton.link(
                 isActive: _en == lang,
-                onPressed: () => injector<CvAppLanguageController>().save(_en),
+                onPressed: () {
+                  const logButton =
+                      LogEventButtonParameters(type: LogButtonsType.language, value: _en);
+                  injector<FirebaseAnalytics>()
+                      .logEvent(name: logButton.name, parameters: logButton.toMap());
+
+                  injector<CvAppLanguageController>().save(_en);
+                },
                 child: const Text(_en),
               ),
             ),
@@ -37,7 +47,14 @@ class ChooseLanguage extends StatelessWidget {
               constraints: _constraintsLinkButton,
               child: SvAppTextButton.link(
                 isActive: _ru == lang,
-                onPressed: () => injector<CvAppLanguageController>().save(_ru),
+                onPressed: () {
+                  const logButton =
+                      LogEventButtonParameters(type: LogButtonsType.language, value: _ru);
+                  injector<FirebaseAnalytics>()
+                      .logEvent(name: logButton.name, parameters: logButton.toMap());
+
+                  injector<CvAppLanguageController>().save(_ru);
+                },
                 child: const Text(_ru),
               ),
             ),

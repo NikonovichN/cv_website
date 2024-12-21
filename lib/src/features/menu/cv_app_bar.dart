@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 
 import 'package:go_router/go_router.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 import 'controller.dart';
 import '../../providers/app_provider.dart';
@@ -11,6 +12,7 @@ import '../languages/widget.dart';
 import '../../di/injections.dart';
 import '../../common/values.dart';
 import '../../navigation/paths.dart';
+import '../../managers/firebase_analytics.dart';
 import '../../providers/go_router_state_provider.dart';
 import '../../ui_kit/molecules/molecules.dart';
 import '../../ui_kit/atoms/colors.dart';
@@ -166,21 +168,42 @@ class __MouseRegionState extends State<_MouseRegion> {
             children: [
               SvAppTextButton.menu(
                 key: _welcomeKey,
-                onPressed: () => context.go(RouterPath.welcome.path),
+                onPressed: () {
+                  final logButton = LogEventButtonParameters(
+                      type: LogButtonsType.menu, value: RouterPath.welcome.name);
+                  injector<FirebaseAnalytics>()
+                      .logEvent(name: logButton.name, parameters: logButton.toMap());
+
+                  context.go(RouterPath.welcome.path);
+                },
                 isActive: goRouterState.fullPath == RouterPath.welcome.path,
                 child: Text(items.welcome),
               ),
               const Spacer(),
               SvAppTextButton.menu(
                 key: _skillsKey,
-                onPressed: () => context.go(RouterPath.skills.path),
+                onPressed: () {
+                  final logButton = LogEventButtonParameters(
+                      type: LogButtonsType.menu, value: RouterPath.skills.name);
+                  injector<FirebaseAnalytics>()
+                      .logEvent(name: logButton.name, parameters: logButton.toMap());
+
+                  context.go(RouterPath.skills.path);
+                },
                 isActive: goRouterState.fullPath == RouterPath.skills.path,
                 child: Text(items.skills),
               ),
               const SizedBox(width: 36.0),
               SvAppTextButton.menu(
                 key: _experienceKey,
-                onPressed: () => context.go(RouterPath.experience.path),
+                onPressed: () {
+                  final logButton = LogEventButtonParameters(
+                      type: LogButtonsType.menu, value: RouterPath.experience.name);
+                  injector<FirebaseAnalytics>()
+                      .logEvent(name: logButton.name, parameters: logButton.toMap());
+
+                  context.go(RouterPath.experience.path);
+                },
                 isActive: goRouterState.fullPath == RouterPath.experience.path,
                 child: Text(items.experience),
               ),

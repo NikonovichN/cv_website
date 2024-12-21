@@ -239,6 +239,7 @@ class _Heart extends StatefulWidget {
 }
 
 class __HeartState extends State<_Heart> {
+  static const _heartAction = 'heart';
   static const _durationHeartAnimation = Duration(milliseconds: 100);
   static const sizeHeart = 60.0;
   static const _sizeHeartPressed = 52.0;
@@ -324,7 +325,14 @@ class __HeartState extends State<_Heart> {
             bottom: 0.0,
             right: 0.0,
             child: GestureDetector(
-              onTap: _addHeart,
+              onTap: () {
+                const logButton =
+                    LogEventButtonParameters(type: LogButtonsType.action, value: _heartAction);
+                injector<FirebaseAnalytics>()
+                    .logEvent(name: logButton.name, parameters: logButton.toMap());
+
+                _addHeart();
+              },
               onTapDown: (_) => _setIsPressed(true),
               onTapUp: (_) => _setIsPressed(false),
               onPanDown: (_) => _setIsPressed(true),
@@ -364,6 +372,10 @@ class _PhoneText extends StatelessWidget {
     return GestureDetector(
       onTap: () async {
         try {
+          final logButton = LogEventButtonParameters(type: LogButtonsType.social, value: phone);
+          injector<FirebaseAnalytics>()
+              .logEvent(name: logButton.name, parameters: logButton.toMap());
+
           await launchUrl(Uri.parse('tel:$phone'));
         } catch (error) {
           final errorEvent = ErrorEventParameters(message: error.toString());
@@ -401,6 +413,11 @@ class _Socials extends StatelessWidget {
           iconPath: Assets.icons.svg.mail,
           onPressed: () async {
             try {
+              final logButton =
+                  LogEventButtonParameters(type: LogButtonsType.social, value: state.gmail);
+              injector<FirebaseAnalytics>()
+                  .logEvent(name: logButton.name, parameters: logButton.toMap());
+
               await launchUrl(Uri.parse(state.gmail));
             } catch (error) {
               final errorEvent = ErrorEventParameters(message: error.toString());
@@ -413,6 +430,11 @@ class _Socials extends StatelessWidget {
           iconPath: Assets.icons.svg.git,
           onPressed: () async {
             try {
+              final logButton =
+                  LogEventButtonParameters(type: LogButtonsType.social, value: state.gitHub);
+              injector<FirebaseAnalytics>()
+                  .logEvent(name: logButton.name, parameters: logButton.toMap());
+
               await launchUrl(Uri.parse(state.gitHub));
             } catch (error) {
               final errorEvent = ErrorEventParameters(message: error.toString());
@@ -425,6 +447,11 @@ class _Socials extends StatelessWidget {
           iconPath: Assets.icons.svg.linkedIn,
           onPressed: () async {
             try {
+              final logButton =
+                  LogEventButtonParameters(type: LogButtonsType.social, value: state.linkedIn);
+              injector<FirebaseAnalytics>()
+                  .logEvent(name: logButton.name, parameters: logButton.toMap());
+
               await launchUrl(Uri.parse(state.linkedIn));
             } catch (error) {
               final errorEvent = ErrorEventParameters(message: error.toString());
@@ -437,6 +464,11 @@ class _Socials extends StatelessWidget {
           iconPath: Assets.icons.svg.telegram,
           onPressed: () async {
             try {
+              final logButton =
+                  LogEventButtonParameters(type: LogButtonsType.social, value: state.telegram);
+              injector<FirebaseAnalytics>()
+                  .logEvent(name: logButton.name, parameters: logButton.toMap());
+
               await launchUrl(Uri.parse(state.telegram));
             } catch (error) {
               final errorEvent = ErrorEventParameters(message: error.toString());
