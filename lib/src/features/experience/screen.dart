@@ -82,6 +82,11 @@ class _Download extends StatelessWidget {
         CvAppButton.secondary(
           onPressed: () {
             try {
+              final logButton =
+                  LogEventButtonParameters(type: LogButtonsType.action, value: fileToDownload);
+              injector<FirebaseAnalytics>()
+                  .logEvent(name: logButton.name, parameters: logButton.toMap());
+
               final anchor = html.AnchorElement(href: 'assets/$fileToDownload');
               anchor.download = fileToDownload.split('/').last;
               anchor.click();
@@ -128,6 +133,12 @@ class _AccordionSection extends StatelessWidget {
             (el) => AccordionSection<int>(
               uniqueId: ValueKey(el.title).hashCode,
               header: Text(el.period, style: CvAppFonts.oswaldMedium),
+              onTap: (uniqueId) {
+                final logButton =
+                    LogEventButtonParameters(type: LogButtonsType.action, value: el.title);
+                injector<FirebaseAnalytics>()
+                    .logEvent(name: logButton.name, parameters: logButton.toMap());
+              },
               title: Text(
                 el.title,
                 maxLines: 2,

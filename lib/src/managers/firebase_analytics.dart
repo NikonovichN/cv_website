@@ -25,6 +25,27 @@ class LogEventBaseParameters implements LogEventParameters {
       };
 }
 
+enum LogButtonsType { language, menu, action, social }
+
+class LogEventButtonParameters implements LogEventParameters {
+  final bool isDebugMode;
+  final LogButtonsType type;
+  final String? value;
+
+  const LogEventButtonParameters({this.isDebugMode = kDebugMode, required this.type, this.value});
+
+  @override
+  String get name => 'event';
+
+  @override
+  Map<String, Object> toMap() => {
+        'event': name,
+        'isDebugMode': isDebugMode.toString(),
+        'type': type.name,
+        'value': value.toString(),
+      };
+}
+
 class ErrorEventParameters implements LogEventParameters, Error {
   final bool isDebugMode;
   final String message;
