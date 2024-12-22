@@ -12,10 +12,10 @@ class CvAppBasicColors {
   static const softGrey = Color.fromRGBO(221, 222, 222, 1.0);
   static const acid = Color.fromRGBO(175, 206, 17, 1.0);
 
-  static const smallHeartRed = Color.fromRGBO(220, 40, 40, 1.0);
+  static const smallHeartPink = Color.fromRGBO(206, 91, 91, 1);
   static const smallHeartYellow = Color.fromRGBO(218, 218, 28, 1.0);
-  static const smallHeartBlue = Color.fromRGBO(63, 28, 218, 1.0);
-  static const smallHeartTurquoise = Color.fromRGBO(175, 206, 17, 1.0);
+  static const smallHeartTurquoise = Color.fromRGBO(182, 202, 84, 1);
+  static const smallHeartWhite = Color.fromRGBO(244, 245, 241, 1);
 
   static const buttonBackgroundPrimaryEnabled = buttercup;
   static const buttonBackgroundPrimaryPressed = buttercupLight;

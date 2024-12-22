@@ -250,15 +250,9 @@ class __HeartState extends State<_Heart> {
 
   final List<Color> _smallHeartColors = [
     CvAppBasicColors.buttercup,
-    CvAppBasicColors.acid,
-    CvAppBasicColors.buttercupLight,
-    CvAppBasicColors.green,
-    CvAppBasicColors.greenLight,
-    CvAppBasicColors.softGrey,
-    CvAppBasicColors.smallHeartBlue,
-    CvAppBasicColors.smallHeartRed,
+    CvAppBasicColors.smallHeartWhite,
+    CvAppBasicColors.smallHeartPink,
     CvAppBasicColors.smallHeartTurquoise,
-    CvAppBasicColors.smallHeartYellow,
   ];
 
   final List<String> _smallHeartPaths = [
