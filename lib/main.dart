@@ -22,14 +22,14 @@ void main() async {
     );
 
     FlutterError.onError = (FlutterErrorDetails details) {
-      catchUnhandledExceptions(details.exception, details.stack);
+      catchUnhandledErrors(details.exception, details.stack);
     };
 
     runApp(const CvApp());
-  }, catchUnhandledExceptions);
+  }, catchUnhandledErrors);
 }
 
-void catchUnhandledExceptions(Object error, StackTrace? stack) {
+void catchUnhandledErrors(Object error, StackTrace? stack) {
   final errorEvent = ErrorEventParameters(message: error.toString());
   injector<FirebaseAnalytics>().logEvent(name: errorEvent.name, parameters: errorEvent.toMap());
 }

@@ -1,5 +1,5 @@
 // ignore: avoid_web_libraries_in_flutter
-import 'dart:html' as html;
+import 'package:web/web.dart' as web;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -250,7 +250,7 @@ class _Error extends StatelessWidget {
       message: skillsScreenError != null ? Text(skillsScreenError.message) : null,
       onPressed: () {
         if (kIsWeb) {
-          html.window.location.reload();
+          web.window.location.reload();
         } else {
           skillsScreenController.loadData(
             languageController.value.cvAppLanguage.code,

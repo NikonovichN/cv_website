@@ -1,7 +1,7 @@
 import 'dart:async';
 
 // ignore: avoid_web_libraries_in_flutter
-import 'dart:html' as html;
+import 'package:web/web.dart' as web;
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
@@ -72,7 +72,7 @@ class _Error extends StatelessWidget {
       message: welcomeScreenError != null ? Text(welcomeScreenError.message) : null,
       onPressed: () {
         if (kIsWeb) {
-          html.window.location.reload();
+          web.window.location.reload();
         } else {
           welcomeScreenController.loadData(
             languageController.value.cvAppLanguage.code,

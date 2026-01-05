@@ -1,5 +1,4 @@
-// ignore: avoid_web_libraries_in_flutter
-import 'dart:html' as html;
+import 'package:web/web.dart' as web;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
@@ -87,7 +86,8 @@ class _Download extends StatelessWidget {
               injector<FirebaseAnalytics>()
                   .logEvent(name: logButton.name, parameters: logButton.toMap());
 
-              final anchor = html.AnchorElement(href: 'assets/$fileToDownload');
+              final anchor = (web.document.createElement("a") as web.HTMLAnchorElement)
+                ..href = 'assets/$fileToDownload';
               anchor.download = fileToDownload.split('/').last;
               anchor.click();
             } catch (error) {
@@ -283,7 +283,7 @@ class _Error extends StatelessWidget {
       message: experienceScreenError != null ? Text(experienceScreenError.message) : null,
       onPressed: () {
         if (kIsWeb) {
-          html.window.location.reload();
+          web.window.location.reload();
         } else {
           experienceScreenController.loadData(
             languageController.value.cvAppLanguage.code,
