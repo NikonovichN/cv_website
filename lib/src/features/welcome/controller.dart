@@ -25,7 +25,7 @@ class SocialLinks extends Equatable {
   });
 
   @override
-  List<Object?> get props => [telegram];
+  List<Object?> get props => [telegram, linkedIn, gmail, gitHub];
 }
 
 class WelcomeScreenData extends Equatable {
@@ -48,7 +48,7 @@ class WelcomeScreenData extends Equatable {
   });
 
   @override
-  List<Object?> get props => [title, description, tryAgainLabel, phone1, phone2];
+  List<Object?> get props => [title, description, tryAgainLabel, phone1, phone2, socialLinks];
 }
 
 class WelcomeScreenState extends Equatable {

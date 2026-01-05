@@ -414,9 +414,7 @@ class _Socials extends StatelessWidget {
 
               await launchUrl(Uri.parse(state.gmail));
             } catch (error) {
-              final errorEvent = ErrorEventParameters(message: error.toString());
-              injector<FirebaseAnalytics>()
-                  .logEvent(name: errorEvent.name, parameters: errorEvent.toMap());
+              logAnalyticsError(error);
             }
           },
         ),
@@ -431,9 +429,7 @@ class _Socials extends StatelessWidget {
 
               await launchUrl(Uri.parse(state.gitHub));
             } catch (error) {
-              final errorEvent = ErrorEventParameters(message: error.toString());
-              injector<FirebaseAnalytics>()
-                  .logEvent(name: errorEvent.name, parameters: errorEvent.toMap());
+              logAnalyticsError(error);
             }
           },
         ),
@@ -448,9 +444,7 @@ class _Socials extends StatelessWidget {
 
               await launchUrl(Uri.parse(state.linkedIn));
             } catch (error) {
-              final errorEvent = ErrorEventParameters(message: error.toString());
-              injector<FirebaseAnalytics>()
-                  .logEvent(name: errorEvent.name, parameters: errorEvent.toMap());
+              logAnalyticsError(error);
             }
           },
         ),
@@ -465,9 +459,7 @@ class _Socials extends StatelessWidget {
 
               await launchUrl(Uri.parse(state.telegram));
             } catch (error) {
-              final errorEvent = ErrorEventParameters(message: error.toString());
-              injector<FirebaseAnalytics>()
-                  .logEvent(name: errorEvent.name, parameters: errorEvent.toMap());
+              logAnalyticsError(error);
             }
           },
         ),

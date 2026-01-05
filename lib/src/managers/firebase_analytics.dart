@@ -1,3 +1,4 @@
+import 'package:cv_website/src/di/injections.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -64,4 +65,10 @@ class ErrorEventParameters implements LogEventParameters, Error {
 
   @override
   StackTrace? get stackTrace => StackTrace.fromString(message);
+}
+
+Future<void> logAnalyticsError(Object error) async {
+  final errorEvent = ErrorEventParameters(message: error.toString());
+  await injector<FirebaseAnalytics>()
+      .logEvent(name: errorEvent.name, parameters: errorEvent.toMap());
 }

@@ -91,9 +91,7 @@ class _Download extends StatelessWidget {
               anchor.download = fileToDownload.split('/').last;
               anchor.click();
             } catch (error) {
-              final errorEvent = ErrorEventParameters(message: error.toString());
-              injector<FirebaseAnalytics>()
-                  .logEvent(name: errorEvent.name, parameters: errorEvent.toMap());
+              logAnalyticsError(error);
             }
           },
           child: Row(
